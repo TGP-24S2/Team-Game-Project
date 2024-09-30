@@ -11,12 +11,15 @@ SceneFFGame::SceneFFGame()
 	, m_fTimeSinceInput(0.0f)
 	, m_pCursorSprite(nullptr)
 	, m_pPlayerSprite(nullptr)
+	, m_pTestBall(nullptr)
 {
 }
 
 SceneFFGame::~SceneFFGame()
 {
 	delete m_pTestBall;
+	delete m_pPlayerSprite;
+	delete m_pCursorSprite;
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
