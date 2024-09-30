@@ -50,6 +50,7 @@
     <ClCompile Include="texturemanager.cpp" />
     <ClCompile Include="vector2.cpp" />
     <ClCompile Include="vertexarray.cpp" />
+    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="xboxcontroller.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,7 @@
     <ClInclude Include="inputsystem.h" />
     <ClInclude Include="logmanager.h" />
     <ClInclude Include="matrix4.h" />
+    <ClInclude Include="melee.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleemitter.h" />
     <ClInclude Include="renderer.h" />
@@ -86,6 +88,7 @@
     <ClInclude Include="texturemanager.h" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="vertexarray.h" />
+    <ClInclude Include="weapon.h" />
     <ClInclude Include="xboxcontroller.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

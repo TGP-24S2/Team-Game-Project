@@ -7,6 +7,7 @@
 
 ParticleEmitter::ParticleEmitter()
     : m_pSharedSprite(nullptr)
+    , m_pSelfSprite(nullptr)
     , m_fTimeElapsed(0.0f)
     , m_iSpawnBatchSize(10)
     , m_fEmitRate(1.0f)
@@ -119,11 +120,16 @@ void ParticleEmitter::DebugDraw()
 
     ImGui::SliderFloat("Emit Rate", &m_fEmitRate, 0.0f, 100.0f);
     ImGui::SliderFloat("Max Lifespan", &m_fMaxLifespan, 0.0f, 10.0f);
-    ImGui::SliderFloat("Acceleration Scalar", &m_fAccelerationScalar, 0.0f, 5.0f);
+    ImGui::SliderFloat("Acceleration Scalar", &m_fAccelerationScalar, 0.0f, 500.0f);
     ImGui::SliderFloat2("Position", &m_fX, -100.0f, 100.0f);
-    ImGui::SliderFloat2("Min/Max Angle", &m_fMinAngle, -360.0f, 360.0f);
+
+    // Control angle ranges
+    ImGui::SliderFloat("Min Angle", &m_fMinAngle, -360.0f, 360.0f);
+    ImGui::SliderFloat("Max Angle", &m_fMaxAngle, -360.0f, 360.0f);
+
     ImGui::ColorEdit3("Particle Color", m_fColour);
 }
+
 
 void ParticleEmitter::SetXY(float x, float y) {
     m_fX = x;
@@ -142,4 +148,9 @@ void ParticleEmitter::SetActive(bool active) {
 
 void ParticleEmitter::SetAccelerationScalar(float scalar) {
     m_fAccelerationScalar = scalar;
+}
+
+void ParticleEmitter::SetEmitAngle(float minAngle, float maxAngle) {
+    m_fMinAngle = minAngle;
+    m_fMaxAngle = maxAngle;
 }

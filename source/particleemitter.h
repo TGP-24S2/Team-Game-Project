@@ -4,6 +4,7 @@
 
 // Library includes:
 #include <vector>
+#include "weapon.h"
 
 // Forward declarations:
 class Renderer;
@@ -11,7 +12,7 @@ class Sprite;
 class Particle;
 
 // Class declaration:
-class ParticleEmitter
+class ParticleEmitter : public Weapon
 {
     // Member methods:
 public:
@@ -33,6 +34,9 @@ public:
     void SetActive(bool active);
 
     void SetAccelerationScalar(float scalar);
+
+    void SetEmitAngle(float minAngle, float maxAngle);
+
 protected:
 
 private:
@@ -44,6 +48,9 @@ public:
 
 protected:
     Sprite* m_pSharedSprite;
+
+    Sprite* m_pSelfSprite;
+
     std::vector<Particle*> m_particles;
 
     float m_fTimeElapsed;
