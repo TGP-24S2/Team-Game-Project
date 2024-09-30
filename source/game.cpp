@@ -102,8 +102,13 @@ Game::Initialise()
 	pScene1 = new SceneFMODSplash();
 	pScene1->Initialise(*m_pRenderer, m_pSoundSystem);
 	m_scenes.push_back(pScene1);
+
+	Scene* pScene2 = 0;
+	pScene2 = new SceneFFGame();
+	pScene2->Initialise(*m_pRenderer, m_pSoundSystem);
+	m_scenes.push_back(pScene2);
 	
-	m_iCurrentScene = 0;
+	m_iCurrentScene = 2;
 
 	return true;
 }

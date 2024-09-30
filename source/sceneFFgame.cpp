@@ -18,6 +18,9 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pPlayerSprite = renderer.CreateSprite("sprites\\ball.png");
 	m_pCursorSprite = renderer.CreateSprite("sprites\\ball.png");
 
+	m_pPlayerSprite->SetScale(0.3f);
+	m_pCursorSprite->SetScale(0.3f);
+
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
 
@@ -38,7 +41,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_cursorPosition = inputSystem.GetMousePosition();
 	m_pCursorSprite->SetX(static_cast<int>(m_cursorPosition.x));
 	m_pCursorSprite->SetY(static_cast<int>(m_cursorPosition.y));
-
 
 	//Player self:
 	ButtonState leftArrowState = (inputSystem.GetKeyState(SDL_SCANCODE_LEFT));
@@ -66,7 +68,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		if (m_velocity.y < 0) //do not decelerate past 0
 			m_velocity.y = 0;
 	}
-	else if (m_velocity.x < 0)
+	else if (m_velocity.y < 0)
 	{
 		m_velocity.y += m_fDecelerationRate * m_fSpeedScale;
 		if (m_velocity.y > 0) //do not decelerate past 0
@@ -87,13 +89,13 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 
 	if (upArrowState == BS_HELD)
 	{
-		m_velocity.y += m_fAccelerationRate * m_fSpeedScale;
+		m_velocity.y -= m_fAccelerationRate * m_fSpeedScale;
 		m_fTimeSinceInput = 0;
 	}
 
 	if (downArrowState == BS_HELD)
 	{
-		m_velocity.x -= m_fAccelerationRate * m_fSpeedScale;
+		m_velocity.y += m_fAccelerationRate * m_fSpeedScale;
 		m_fTimeSinceInput = 0;
 	}
 
@@ -111,11 +113,14 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_pPlayerSprite->SetX(static_cast<int>(m_position.x));
 	m_pPlayerSprite->SetY(static_cast<int>(m_position.y));
 	m_pPlayerSprite->Process(m_fLocalDeltaTime);
+
+	m_pCursorSprite->Process(m_fLocalDeltaTime);
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
 {
 	m_pPlayerSprite->Draw(renderer);
+	m_pCursorSprite->Draw(renderer);
 }
 
 void SceneFFGame::ComputeBounds(int width, int height)
@@ -133,9 +138,20 @@ void SceneFFGame::CapSpeed()
 	{
 		m_velocity.x = m_fMaxSpeed;
 	}
+	else if (m_velocity.x < (0-m_fMaxSpeed)) {
+		m_velocity.x = (0 - m_fMaxSpeed);
+	}
 
 	if (m_velocity.y > m_fMaxSpeed)
 	{
 		m_velocity.y = m_fMaxSpeed;
 	}
+	else if (m_velocity.y < (0 - m_fMaxSpeed)) {
+		m_velocity.y = (0 - m_fMaxSpeed);
+	}
+}
+
+
+void SceneFFGame::DebugDraw()
+{
 }
