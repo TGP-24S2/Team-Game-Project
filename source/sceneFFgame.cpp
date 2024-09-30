@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "sprite.h"
 #include "inputsystem.h"
+#include "ball.h"
 
 SceneFFGame::SceneFFGame()
 {
@@ -11,10 +12,14 @@ SceneFFGame::SceneFFGame()
 
 SceneFFGame::~SceneFFGame()
 {
+	delete m_pTestBall;
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
+	m_pTestBall = new Ball();
+	m_pTestBall->Initialise(renderer);
+
 	m_pPlayerSprite = renderer.CreateSprite("sprites\\ball.png");
 	m_pCursorSprite = renderer.CreateSprite("sprites\\ball.png");
 
@@ -110,18 +115,41 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_fLocalDeltaTime = deltaTime * ratio;
 	//m_fLocalDeltaTime = deltaTime;
 
+	if (m_position.x < m_boundaryLow.x) {
+		m_position.x = m_boundaryLow.x;
+		m_velocity.x *= -1;
+		m_velocity.x *= m_fWallBounceDecay;
+	}
+	if (m_position.x > m_boundaryHigh.x) {
+		m_position.x = m_boundaryHigh.x;
+		m_velocity.x *= -1;
+		m_velocity.x *= m_fWallBounceDecay;
+	}
+	if (m_position.y < m_boundaryLow.y) {
+		m_position.y = m_boundaryLow.y;
+		m_velocity.y *= -1;
+		m_velocity.x *= m_fWallBounceDecay;
+	}
+	if (m_position.y > m_boundaryHigh.y) {
+		m_position.y = m_boundaryHigh.y;
+		m_velocity.y *= -1;
+		m_velocity.x *= m_fWallBounceDecay;
+	}
 	m_position += m_velocity * m_fLocalDeltaTime;
 	m_pPlayerSprite->SetX(static_cast<int>(m_position.x));
 	m_pPlayerSprite->SetY(static_cast<int>(m_position.y));
 	m_pPlayerSprite->Process(m_fLocalDeltaTime);
 
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
+
+	m_pTestBall->Process(m_fLocalDeltaTime);
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
 {
 	m_pPlayerSprite->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
+	m_pTestBall->Draw(renderer);
 }
 
 void SceneFFGame::ComputeBounds(int width, int height)

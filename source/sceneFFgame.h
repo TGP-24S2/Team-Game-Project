@@ -8,6 +8,7 @@
 
 // Forward declarations:
 class Sprite;
+class Ball;
 
 class SceneFFGame : public Scene
 {
@@ -32,6 +33,9 @@ private:
 
 	// Member data:
 public:
+	//TESTING
+	Ball* m_pTestBall;
+
 	// game
 	float m_fLocalDeltaTime;
 	float m_fTimeSinceInput;
@@ -47,6 +51,7 @@ public:
 	float m_fDecelerationRate = 0.3f;
 	float m_fSpeedScale = 1.0f;
 	float m_fMaxSpeed = 1000.0f;
+	float m_fWallBounceDecay = 0.8f;
 
 	Vector2 m_boundaryLow;
 	Vector2 m_boundaryHigh;
