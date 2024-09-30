@@ -50,16 +50,6 @@ void Entity::Draw(Renderer& renderer)
     }
 }
 
-bool Entity::IsAlive() const
-{
-    return m_bAlive;
-}
-
-void Entity::SetDead()
-{
-    m_bAlive = false;
-}
-
 Vector2& Entity::GetPosition()
 {
     return m_position;
@@ -96,4 +86,26 @@ float Entity::GetRadius()
 
 AnimatedSprite* Entity::GetSprite() {
     return m_pSprite;
+}
+
+void Entity::Kill()
+{
+    m_bAlive = false;
+}
+
+bool Entity::IsAlive()
+{
+    return m_bAlive;
+}
+
+void Entity::ComputeBounds(int width, int height)
+{
+    int w = m_pSprite->GetWidth();
+    int h = m_pSprite->GetHeight();
+
+    m_boundaryLow.x = w / 2.0f;
+    m_boundaryLow.y = h / 2.0f;
+
+    m_boundaryHigh.x = width - w / 2.0f;
+    m_boundaryHigh.y = height - h / 2.0f;
 }

@@ -26,6 +26,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
 	m_pTestBall = new Ball();
 	m_pTestBall->Initialise(renderer);
+	m_pTestBall->SetGood();
 
 	m_pPlayerSprite = renderer.CreateSprite("sprites\\ball.png");
 	m_pCursorSprite = renderer.CreateSprite("sprites\\ball.png");

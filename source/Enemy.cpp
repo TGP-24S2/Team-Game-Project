@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-#include "sprite.h"
+#include "animatedsprite.h"
 
 Enemy::Enemy()
 	: Entity()
@@ -11,7 +11,7 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(int health, int damage)
-	: Enemy()
+	: Enemy() // call default constructor
 {
 	m_iHealth = health;
 	m_iDamage = damage;
@@ -24,6 +24,11 @@ Enemy::~Enemy()
 void Enemy::SetSprite(AnimatedSprite* pSprite)
 {
 	m_pSprite = pSprite;
+
+	// set bad
+	m_pSprite->SetRedTint(1.0f);
+	m_pSprite->SetBlueTint(0.0f);
+	m_pSprite->SetGreenTint(0.0f);
 }
 
 int Enemy::GetHealth()

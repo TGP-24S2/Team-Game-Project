@@ -21,16 +21,16 @@ public:
 	bool Initialise(Renderer& renderer, const char* spritePath); 
 	void Process(float deltaTime);
 	void Draw(Renderer& renderer);
-	bool IsAlive() const;
-	void SetDead();
+	AnimatedSprite* GetSprite();
 	float GetRadius();
 	void SetPosition(int x, int y);
-
 	Vector2& GetPosition(); 
 	Vector2& GetVelocity();
 	void SetVelocity(int x, int y);
 	bool IsCollidingWith(Entity* toCheck); 
-	AnimatedSprite* GetSprite();
+	bool IsAlive();
+	void Kill();
+	void ComputeBounds(int width, int height);
 protected:
 
 private:
@@ -45,6 +45,10 @@ protected:
 	Vector2 m_position; 
 	Vector2 m_velocity; 
 	bool m_bAlive;
+	Vector2 m_boundaryLow;
+	Vector2 m_boundaryHigh;
+	static float sm_fBoundaryWidth;
+	static float sm_fBoundaryHeight;
 
 private:
 
