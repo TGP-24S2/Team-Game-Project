@@ -7,6 +7,10 @@
 #include "ball.h"
 
 SceneFFGame::SceneFFGame()
+	: m_fLocalDeltaTime(0.0f)
+	, m_fTimeSinceInput(0.0f)
+	, m_pCursorSprite(nullptr)
+	, m_pPlayerSprite(nullptr)
 {
 }
 
@@ -29,8 +33,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
 
-	m_position.x = SCREEN_WIDTH / 2;
-	m_position.y = SCREEN_HEIGHT / 2;
+	m_position.x = SCREEN_WIDTH / 2.0f;
+	m_position.y = SCREEN_HEIGHT / 2.0f;
 
 	ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
 
