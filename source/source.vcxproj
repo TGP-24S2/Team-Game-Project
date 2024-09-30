@@ -28,6 +28,7 @@
     <ClCompile Include="..\lib\imgui\imgui_widgets.cpp" />
     <ClCompile Include="animatedsprite.cpp" />
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="iniparser.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="..\lib\imgui\imstb_truetype.h" />
     <ClInclude Include="animatedsprite.h" />
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="iniparser.h" />
