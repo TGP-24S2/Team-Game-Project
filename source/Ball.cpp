@@ -181,8 +181,8 @@ float Ball::GetRadius()
 
 void Ball::SetPosition(int new_x, int new_y)
 {
-	m_position.x = new_x;
-	m_position.y = new_y;
+	m_position.x = (float) new_x;
+	m_position.y = (float) new_y;
 	m_pSprite->SetX(static_cast<int>(m_position.x));
 	m_pSprite->SetY(static_cast<int>(m_position.y));
 }
