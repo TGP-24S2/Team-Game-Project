@@ -38,6 +38,7 @@
     <ClCompile Include="particleemitter.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="sceneFFgame.cpp" />
     <ClCompile Include="scenefmodsplash.cpp" />
     <ClCompile Include="scenesplashaut.cpp" />
     <ClCompile Include="shader.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="particleemitter.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="sceneFFgame.h" />
     <ClInclude Include="scenefmodsplash.h" />
     <ClInclude Include="scenesplashaut.h" />
     <ClInclude Include="shader.h" />

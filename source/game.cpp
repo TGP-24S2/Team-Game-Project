@@ -12,6 +12,11 @@
 #include "xboxcontroller.h"
 #include "soundsystem.h"
 #include "iniparser.h"
+
+// the GOAT INCLUDE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#include "sceneFFgame.h"
+
+
 // Static Members:
 Game*
 Game::sm_pInstance = 0;
