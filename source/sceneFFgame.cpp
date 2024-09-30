@@ -108,6 +108,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		ratio = 0.0f; //prevent negative values
 	}
 	m_fLocalDeltaTime = deltaTime * ratio;
+	//m_fLocalDeltaTime = deltaTime;
 
 	m_position += m_velocity * m_fLocalDeltaTime;
 	m_pPlayerSprite->SetX(static_cast<int>(m_position.x));
