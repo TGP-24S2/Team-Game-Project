@@ -52,10 +52,10 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_pCursorSprite->SetY(static_cast<int>(m_cursorPosition.y));
 
 	//Player self:
-	ButtonState leftArrowState = (inputSystem.GetKeyState(SDL_SCANCODE_LEFT));
-	ButtonState rightArrowState = (inputSystem.GetKeyState(SDL_SCANCODE_RIGHT));
-	ButtonState upArrowState = (inputSystem.GetKeyState(SDL_SCANCODE_UP));
-	ButtonState downArrowState = (inputSystem.GetKeyState(SDL_SCANCODE_DOWN));
+	ButtonState leftMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_A));
+	ButtonState rightMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_D));
+	ButtonState upMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_W));
+	ButtonState downMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_S));
 
 	//deceleration
 	if (m_velocity.x > 0)
@@ -84,25 +84,25 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			m_velocity.y = 0;
 	}
 
-	if (leftArrowState == BS_HELD)
+	if (leftMoveState == BS_HELD)
 	{
 		m_velocity.x -= m_fAccelerationRate * m_fSpeedScale;
 		m_fTimeSinceInput = 0;
 	}
 
-	if (rightArrowState == BS_HELD)
+	if (rightMoveState == BS_HELD)
 	{
 		m_velocity.x += m_fAccelerationRate * m_fSpeedScale;
 		m_fTimeSinceInput = 0;
 	}
 
-	if (upArrowState == BS_HELD)
+	if (upMoveState == BS_HELD)
 	{
 		m_velocity.y -= m_fAccelerationRate * m_fSpeedScale;
 		m_fTimeSinceInput = 0;
 	}
 
-	if (downArrowState == BS_HELD)
+	if (downMoveState == BS_HELD)
 	{
 		m_velocity.y += m_fAccelerationRate * m_fSpeedScale;
 		m_fTimeSinceInput = 0;
