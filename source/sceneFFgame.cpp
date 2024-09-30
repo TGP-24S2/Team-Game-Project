@@ -6,6 +6,10 @@
 #include "inputsystem.h"
 
 SceneFFGame::SceneFFGame()
+	: m_fLocalDeltaTime(0.0f)
+	, m_fTimeSinceInput(0.0f)
+	, m_pCursorSprite(nullptr)
+	, m_pPlayerSprite(nullptr)
 {
 }
 
