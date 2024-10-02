@@ -44,8 +44,7 @@ void Enemy::Initialise(Renderer& renderer, const char* spritePath)
 
 void Enemy::Process(float deltaTime)
 {
-	if (!m_bAlive)
-		return;
+	Entity::Process(deltaTime);
 
 	m_velocity.x += GetRandomPercentage();
 	m_velocity.y += GetRandomPercentage();

@@ -55,9 +55,8 @@ Ball::Initialise(Renderer& renderer)
 void
 Ball::Process(float deltaTime)
 {
-	CheckBounds();
+	Entity::Process(deltaTime);
 
-	m_position += m_velocity * deltaTime;
 	m_pSprite->SetX(static_cast<int>(m_position.x));
 	m_pSprite->SetY(static_cast<int>(m_position.y));
 	m_pSprite->Process(deltaTime);

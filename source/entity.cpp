@@ -42,8 +42,10 @@ void Entity::Process(float deltaTime)
     if (!m_bAlive)
         return;
 
+    CheckBounds();
+
     m_pSprite->Process(deltaTime);
-    m_position += m_velocity;
+    m_position += m_velocity * deltaTime;
 }
 
 void Entity::Draw(Renderer& renderer)
