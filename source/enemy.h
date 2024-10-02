@@ -19,13 +19,13 @@ public:
 	void SetDamage(int damage);
 	void SetToAngry();
 	void SetToNotAngry();
+	bool IsTargetingPlayer();
 protected:
 private:
 
 	// vars:
 public:
 protected:
-	int m_iHealth;
 	int m_iDamage;
 	bool m_bTargetingPlayer;
 

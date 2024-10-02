@@ -6,7 +6,6 @@
 
 Enemy::Enemy()
 	: Entity()
-	, m_iHealth(0)
 	, m_iDamage(0)
 	, m_bTargetingPlayer(false)
 {
@@ -46,8 +45,8 @@ void Enemy::Process(float deltaTime)
 {
 	Entity::Process(deltaTime);
 
-	m_velocity.x += GetRandomPercentage();
-	m_velocity.y += GetRandomPercentage();
+	m_velocity.x = GetRandomPercentage();
+	m_velocity.y = GetRandomPercentage();
 }
 
 int Enemy::GetHealth()
@@ -73,4 +72,9 @@ void Enemy::SetToAngry()
 void Enemy::SetToNotAngry()
 {
 	m_bTargetingPlayer = false;
+}
+
+bool Enemy::IsTargetingPlayer()
+{
+	return m_bTargetingPlayer;
 }

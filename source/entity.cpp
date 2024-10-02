@@ -12,6 +12,7 @@ float Entity::sm_fBoundaryHeight = 0.0f;
 
 Entity::Entity()
     : m_pSprite(nullptr)
+    , m_iHealth(100)
     , m_bAlive(true)
     , m_position(0, 0)
     , m_velocity(0, 0)
@@ -93,6 +94,11 @@ float Entity::GetRadius()
 
 AnimatedSprite* Entity::GetSprite() {
     return m_pSprite;
+}
+
+int Entity::GetHealth()
+{
+    return m_iHealth;
 }
 
 void Entity::Kill()
