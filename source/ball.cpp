@@ -27,27 +27,10 @@ Ball::~Ball()
 bool
 Ball::Initialise(Renderer& renderer)
 {
-	m_pSprite = renderer.CreateAnimatedSprite("sprites\\ballAnimated.png");
-	m_pSprite->SetFrameDuration(2.0f);
-	m_pSprite->SetLooping(true);
-	m_pSprite->SetupFrames(307, 307);
+	Entity::Initialise(renderer, "sprites\\ballAnimated.png"); // super()
 
-	RandomiseSize();
-
-	const float MAX_SPEED = 250.0f;
-	const int EDGE_LIMIT = m_pSprite->GetWidth();
-	const int SCREEN_WIDTH = renderer.GetWidth();
-	const int SCREEN_HEIGHT = renderer.GetHeight();
-
-	sm_fBoundaryWidth = static_cast<float>(SCREEN_WIDTH);
-	sm_fBoundaryHeight = static_cast<float>(SCREEN_HEIGHT);
-
-	m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_WIDTH - EDGE_LIMIT));
-	m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_HEIGHT - EDGE_LIMIT));
-
-	m_velocity.x = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
-	m_velocity.y = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
-	ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
+	float scale = GetRandomPercentage();
+	m_pSprite->SetScale(scale);
 	
 	return true;
 }
@@ -110,14 +93,6 @@ Ball::RandomiseColour()
 	m_pSprite->SetRedTint(GetRandomPercentage());
 	m_pSprite->SetGreenTint(GetRandomPercentage());
 	m_pSprite->SetBlueTint(GetRandomPercentage());
-}
-
-void
-Ball::RandomiseSize()
-{
-	float scale = GetRandomPercentage();
-	scale *= 1.25f;
-	m_pSprite->SetScale(scale);
 }
 
 void Ball::SetAsPlayer()

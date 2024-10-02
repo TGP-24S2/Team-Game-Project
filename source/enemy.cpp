@@ -32,21 +32,6 @@ void Enemy::Initialise(Renderer& renderer, const char* spritePath)
 	m_pSprite->SetBlueTint(0.0f);
 	m_pSprite->SetGreenTint(0.0f);
 
-	const float MAX_SPEED = 250.0f;
-	const int EDGE_LIMIT = m_pSprite->GetWidth();
-	const int SCREEN_WIDTH = renderer.GetWidth();
-	const int SCREEN_HEIGHT = renderer.GetHeight();
-
-	sm_fBoundaryWidth = static_cast<float>(SCREEN_WIDTH);
-	sm_fBoundaryHeight = static_cast<float>(SCREEN_HEIGHT);
-
-	m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_WIDTH - EDGE_LIMIT));
-	m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_HEIGHT - EDGE_LIMIT));
-
-	m_velocity.x = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
-	m_velocity.y = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
-	ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
-
 }
 
 void Enemy::Process(float deltaTime)

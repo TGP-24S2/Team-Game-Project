@@ -33,6 +33,7 @@ public:
 	void Kill();
 	void ComputeBounds(int width, int height);
 	void CheckBounds();
+	void RandomStartPlace(Renderer& renderer);
 protected:
 
 private:

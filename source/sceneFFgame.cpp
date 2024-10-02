@@ -13,6 +13,7 @@ SceneFFGame::SceneFFGame()
 	, m_pCursorSprite(nullptr)
 	, m_pPlayerSprite(nullptr)
 	, m_pTestBall(nullptr)
+	, m_pTestEnemy(nullptr)
 {
 }
 

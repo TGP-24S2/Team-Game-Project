@@ -23,7 +23,6 @@ public:
 	void Draw(Renderer& renderer);
 
 	void RandomiseColour();
-	void RandomiseSize();
 
 	Vector2& Position();
 
