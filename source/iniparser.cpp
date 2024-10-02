@@ -100,3 +100,64 @@ bool IniParser::GetValueAsBoolean(const std::string& iniSection, const std::stri
 std::string IniParser::CreateMapKey(const std::string& section, const std::string& key) {
     return section + "|" + key;
 }
+
+
+bool IniParser::IsWeaponSection(const std::string& section) {
+    try {
+        // Check for some common weapon-related keys to classify a section as a weapon
+        std::string weaponSprite = GetValueAsString(section, "weaponSprite");
+        std::string type = GetValueAsString(section, "type");
+        return true;  // If these keys exist, it's a weapon
+    }
+    catch (const std::exception&) {
+        // If the section doesn't have weapon-related keys, it's not a weapon section
+        return false;
+    }
+}
+
+std::map<std::string, std::map<std::string, std::string>> IniParser::GetWeaponData() {
+    std::map<std::string, std::map<std::string, std::string>> weaponData;
+
+    // Iterate through all the key-value pairs stored in the data map
+    for (const auto& entry : data) {
+        // Extract the section from the "section|key" format
+        std::size_t delimiterPos = entry.first.find('|');
+        if (delimiterPos != std::string::npos) {
+            std::string section = entry.first.substr(0, delimiterPos);
+
+            // Check if the section is a weapon section
+            if (IsWeaponSection(section)) {
+                // Dynamically add all the key-value pairs from this section
+                std::map<std::string, std::string> sectionData;
+
+                for (const auto& secEntry : data) {
+                    std::string mapKey = secEntry.first;
+                    std::string sectionKey = section + "|";
+                    if (mapKey.find(sectionKey) == 0) {
+                        std::string key = mapKey.substr(sectionKey.length());
+                        sectionData[key] = secEntry.second;
+                    }
+                }
+
+                weaponData[section] = sectionData;
+            }
+        }
+    }
+
+    return weaponData;
+}
+
+/*
+std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
+    if (LoadIniFile(filename)) {
+        auto weaponData = GetWeaponData();
+
+        for (const auto& [section, values] : weaponData) {
+            std::cout << "[" << section << "]" << std::endl;
+            for (const auto& [key, value] : values) {
+                std::cout << key << " = " << value << std::endl;
+            }
+            std::cout << std::endl;
+        }
+    }
+}*/

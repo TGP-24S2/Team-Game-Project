@@ -3,6 +3,9 @@
 
 #include <string>
 #include <map>
+#include "vector"
+
+class Weapon;
 
 class IniParser {
 public:
@@ -14,11 +17,11 @@ public:
     float GetValueAsFloat(const std::string& iniSection, const std::string& key);
     bool GetValueAsBoolean(const std::string& iniSection, const std::string& key);
 
-    std::map<std::string, std::map<std::string, std::string>> GetWeaponData();
-    bool IsWeaponSection(const std::string& section);
-
+    std::vector<Weapon*> GetWeapons(const std::string& filename);
 protected:
 private:
+    std::map<std::string, std::map<std::string, std::string>> GetWeaponData();
+    bool IsWeaponSection(const std::string& section);
 public:
     static IniParser* sm_pInstance;
 protected:
