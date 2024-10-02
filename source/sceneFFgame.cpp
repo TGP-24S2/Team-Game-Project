@@ -5,31 +5,24 @@
 #include "sprite.h"
 #include "enemy.h"
 #include "inputsystem.h"
-#include "ball.h"
 
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
 	, m_fTimeSinceInput(0.0f)
 	, m_pCursorSprite(nullptr)
 	, m_pPlayerSprite(nullptr)
-	, m_pTestBall(nullptr)
 	, m_pTestEnemy(nullptr)
 {
 }
 
 SceneFFGame::~SceneFFGame()
 {
-	delete m_pTestBall;
 	delete m_pPlayerSprite;
 	delete m_pCursorSprite;
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
-	m_pTestBall = new Ball();
-	m_pTestBall->Initialise(renderer);
-	m_pTestBall->SetGood();
-
 	m_pTestEnemy = new Enemy();
 	m_pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
 
@@ -155,8 +148,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
 
-	m_pTestBall->Process(m_fLocalDeltaTime);
-
 	m_pTestEnemy->Process(m_fLocalDeltaTime);
 }
 
@@ -164,7 +155,6 @@ void SceneFFGame::Draw(Renderer& renderer)
 {
 	m_pPlayerSprite->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
-	m_pTestBall->Draw(renderer);
 	m_pTestEnemy->Draw(renderer);
 }
 
