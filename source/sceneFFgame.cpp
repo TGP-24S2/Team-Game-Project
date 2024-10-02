@@ -32,7 +32,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pCursorSprite = renderer.CreateSprite("sprites\\ball.png");
 
 	m_pPlayerSprite->SetScale(0.3f);
-	m_pCursorSprite->SetScale(0.3f);
+	m_pCursorSprite->SetScale(0.05f);
 
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
