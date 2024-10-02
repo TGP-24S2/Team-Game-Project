@@ -147,7 +147,7 @@ std::map<std::string, std::map<std::string, std::string>> IniParser::GetWeaponDa
     return weaponData;
 }
 
-/*
+/* work in progress broken code. cba doing it rn kys
 std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
     if (LoadIniFile(filename)) {
         auto weaponData = GetWeaponData();
