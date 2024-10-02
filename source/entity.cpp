@@ -39,11 +39,11 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath)
 
 void Entity::Process(float deltaTime)
 {
-    if (m_bAlive) {
-        // Move the entity according to its velocity, but this is grid-based (no floating-point delta time)
-        m_pSprite->Process(deltaTime);
-        m_position += m_velocity;  // Move in grid steps
-    }
+    if (!m_bAlive)
+        return;
+
+    m_pSprite->Process(deltaTime);
+    m_position += m_velocity;
 }
 
 void Entity::Draw(Renderer& renderer)
@@ -113,4 +113,29 @@ void Entity::ComputeBounds(int width, int height)
 
     m_boundaryHigh.x = width - w / 2.0f;
     m_boundaryHigh.y = height - h / 2.0f;
+}
+
+void Entity::CheckBounds()
+{
+    if (m_position.x >= (m_boundaryHigh.x))
+    {
+        m_position.x = m_boundaryHigh.x;
+        m_velocity.x *= -1.0f;
+    }
+    else if (m_position.x <= (m_boundaryLow.x))
+    {
+        m_position.x = m_boundaryLow.x;
+        m_velocity.x *= -1.0f;
+    }
+
+    if (m_position.y >= (m_boundaryHigh.y))
+    {
+        m_position.y = m_boundaryHigh.y;
+        m_velocity.y *= -1.0f;
+    }
+    else if (m_position.y <= (m_boundaryLow.y))
+    {
+        m_position.y = m_boundaryLow.y;
+        m_velocity.y *= -1.0f;
+    }
 }

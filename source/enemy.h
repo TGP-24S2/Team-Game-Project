@@ -3,6 +3,7 @@
 #include "entity.h"
 
 class AnimatedSprite;
+class Renderer;
 
 class Enemy : public Entity {
 
@@ -11,7 +12,8 @@ public:
 	Enemy();
 	Enemy(int health, int dmg);
 	~Enemy();
-	void SetSprite(AnimatedSprite* pSprite);
+	void Initialise(Renderer& renderer, const char* spritePath);
+	void Process(float deltaTime);
 	int GetHealth();
 	int GetDamage();
 	void SetDamage(int damage);

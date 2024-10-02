@@ -31,6 +31,7 @@ public:
 	bool IsAlive();
 	void Kill();
 	void ComputeBounds(int width, int height);
+	void CheckBounds();
 protected:
 
 private:

@@ -50,11 +50,7 @@ private:
 public:
 
 protected:
-	Vector2 m_position;
-	Vector2 m_velocity;
-
-	Vector2 m_boundaryLow;
-	Vector2 m_boundaryHigh;
+	// ...inherited
 
 private:
 

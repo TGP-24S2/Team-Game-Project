@@ -3,6 +3,7 @@
 // Local includes:
 #include "renderer.h"
 #include "sprite.h"
+#include "enemy.h"
 #include "inputsystem.h"
 #include "ball.h"
 
@@ -27,6 +28,9 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pTestBall = new Ball();
 	m_pTestBall->Initialise(renderer);
 	m_pTestBall->SetGood();
+
+	m_pTestEnemy = new Enemy();
+	m_pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
 
 	m_pPlayerSprite = renderer.CreateSprite("sprites\\ball.png");
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
@@ -151,6 +155,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
 
 	m_pTestBall->Process(m_fLocalDeltaTime);
+
+	m_pTestEnemy->Process(m_fLocalDeltaTime);
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
@@ -158,6 +164,7 @@ void SceneFFGame::Draw(Renderer& renderer)
 	m_pPlayerSprite->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
 	m_pTestBall->Draw(renderer);
+	m_pTestEnemy->Draw(renderer);
 }
 
 void SceneFFGame::ComputeBounds(int width, int height)

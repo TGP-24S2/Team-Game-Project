@@ -1,5 +1,7 @@
 #include "Enemy.h"
 
+#include "inlinehelpers.h"
+#include "renderer.h"
 #include "animatedsprite.h"
 
 Enemy::Enemy()
@@ -21,14 +23,32 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::SetSprite(AnimatedSprite* pSprite)
+void Enemy::Initialise(Renderer& renderer, const char* spritePath)
 {
-	m_pSprite = pSprite;
-
+	Entity::Initialise(renderer, spritePath); //super()
+	
+	m_pSprite->SetScale(0.5f);
 	// set bad
 	m_pSprite->SetRedTint(1.0f);
 	m_pSprite->SetBlueTint(0.0f);
 	m_pSprite->SetGreenTint(0.0f);
+
+	const int EDGE_LIMIT = m_pSprite->GetWidth();
+	const int SCREEN_WIDTH = renderer.GetWidth();
+	const int SCREEN_HEIGHT = renderer.GetHeight();
+
+	m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_WIDTH - EDGE_LIMIT));
+	m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_HEIGHT - EDGE_LIMIT));
+
+}
+
+void Enemy::Process(float deltaTime)
+{
+	if (!m_bAlive)
+		return;
+
+	m_velocity.x += GetRandomPercentage();
+	m_velocity.y += GetRandomPercentage();
 }
 
 int Enemy::GetHealth()

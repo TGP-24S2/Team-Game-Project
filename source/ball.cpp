@@ -16,7 +16,6 @@
 Ball::Ball()
 	: Entity()
 {
-
 }
 
 Ball::~Ball()
@@ -56,27 +55,7 @@ Ball::Initialise(Renderer& renderer)
 void
 Ball::Process(float deltaTime)
 {
-	if (m_position.x >= (m_boundaryHigh.x))
-	{
-		m_position.x = m_boundaryHigh.x;
-		m_velocity.x *= -1.0f;
-	}
-	else if (m_position.x <= (m_boundaryLow.x))
-	{
-		m_position.x = m_boundaryLow.x;
-		m_velocity.x *= -1.0f;
-	}
-
-	if (m_position.y >= (m_boundaryHigh.y))
-	{
-		m_position.y = m_boundaryHigh.y;
-		m_velocity.y *= -1.0f;
-	}
-	else if (m_position.y <= (m_boundaryLow.y))
-	{
-		m_position.y = m_boundaryLow.y;
-		m_velocity.y *= -1.0f;
-	}
+	CheckBounds();
 
 	m_position += m_velocity * deltaTime;
 	m_pSprite->SetX(static_cast<int>(m_position.x));
