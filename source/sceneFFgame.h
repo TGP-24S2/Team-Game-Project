@@ -9,6 +9,7 @@
 // Forward declarations:
 class Sprite;
 class Ball;
+class Enemy;
 
 class SceneFFGame : public Scene
 {
@@ -35,6 +36,7 @@ private:
 public:
 	//TESTING
 	Ball* m_pTestBall;
+	Enemy* m_pTestEnemy;
 
 	// game
 	float m_fLocalDeltaTime;

@@ -27,10 +27,13 @@ public:
 	Vector2& GetPosition(); 
 	Vector2& GetVelocity();
 	void SetVelocity(int x, int y);
+	int GetHealth();
 	bool IsCollidingWith(Entity* toCheck); 
 	bool IsAlive();
 	void Kill();
 	void ComputeBounds(int width, int height);
+	void CheckBounds();
+	void RandomStartPlace(Renderer& renderer);
 protected:
 
 private:
@@ -41,6 +44,7 @@ private:
 public:
 
 protected:
+	int m_iHealth;
 	AnimatedSprite* m_pSprite; 
 	Vector2 m_position; 
 	Vector2 m_velocity; 

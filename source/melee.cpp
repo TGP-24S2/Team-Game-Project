@@ -17,6 +17,9 @@ Melee::~Melee()
 
 bool Melee::Initialise(Renderer& renderer)
 {
+    // Generated method stub
+
+    return false;
 }
 
 void Melee::Process(float deltaTime)

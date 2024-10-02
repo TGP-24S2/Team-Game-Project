@@ -1,10 +1,11 @@
 #include "Enemy.h"
 
+#include "inlinehelpers.h"
+#include "renderer.h"
 #include "animatedsprite.h"
 
 Enemy::Enemy()
 	: Entity()
-	, m_iHealth(0)
 	, m_iDamage(0)
 	, m_bTargetingPlayer(false)
 {
@@ -21,14 +22,21 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::SetSprite(AnimatedSprite* pSprite)
+void Enemy::Initialise(Renderer& renderer, const char* spritePath)
 {
-	m_pSprite = pSprite;
-
+	Entity::Initialise(renderer, spritePath); //super()
+	
+	m_pSprite->SetScale(0.5f);
 	// set bad
 	m_pSprite->SetRedTint(1.0f);
 	m_pSprite->SetBlueTint(0.0f);
 	m_pSprite->SetGreenTint(0.0f);
+
+}
+
+void Enemy::Process(float deltaTime)
+{
+	Entity::Process(deltaTime);
 }
 
 int Enemy::GetHealth()
@@ -54,4 +62,9 @@ void Enemy::SetToAngry()
 void Enemy::SetToNotAngry()
 {
 	m_bTargetingPlayer = false;
+}
+
+bool Enemy::IsTargetingPlayer()
+{
+	return m_bTargetingPlayer;
 }

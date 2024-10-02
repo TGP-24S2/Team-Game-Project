@@ -4,14 +4,18 @@
 #include "Renderer.h"
 #include <cmath>  // for std::abs
 #include "iniparser.h"
+#include "inlinehelpers.h"
 
 
 // Static members:
 float Entity::sm_fBoundaryWidth = 0.0f;
 float Entity::sm_fBoundaryHeight = 0.0f;
 
+const int BALL_PNG_SIZE_PX = 307;
+
 Entity::Entity()
     : m_pSprite(nullptr)
+    , m_iHealth(100)
     , m_bAlive(true)
     , m_position(0, 0)
     , m_velocity(0, 0)
@@ -29,21 +33,27 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath)
     m_pSprite = renderer.CreateAnimatedSprite(spritePath);  // Allow dynamic loading of sprites for different entities
     m_pSprite->SetFrameDuration(0.2f);
     m_pSprite->SetLooping(true);
-    m_pSprite->SetupFrames(307,307);
+    m_pSprite->SetupFrames(BALL_PNG_SIZE_PX, BALL_PNG_SIZE_PX);
+
     int winHeight = IniParser::GetInstance().GetValueAsInt("Window", "Height");
     float tileHeight = (float)winHeight / 24;
-    float tileScale = tileHeight / 307; //307 is the sprite height
+    float tileScale = tileHeight / BALL_PNG_SIZE_PX;
     m_pSprite->SetScale(tileScale);
+
+    RandomStartPlace(renderer);
+
     return (m_pSprite != nullptr);
 }
 
 void Entity::Process(float deltaTime)
 {
-    if (m_bAlive) {
-        // Move the entity according to its velocity, but this is grid-based (no floating-point delta time)
-        m_pSprite->Process(deltaTime);
-        m_position += m_velocity;  // Move in grid steps
-    }
+    if (!m_bAlive)
+        return;
+
+    CheckBounds();
+
+    m_pSprite->Process(deltaTime);
+    m_position += m_velocity * deltaTime;
 }
 
 void Entity::Draw(Renderer& renderer)
@@ -93,6 +103,11 @@ AnimatedSprite* Entity::GetSprite() {
     return m_pSprite;
 }
 
+int Entity::GetHealth()
+{
+    return m_iHealth;
+}
+
 void Entity::Kill()
 {
     m_bAlive = false;
@@ -113,4 +128,47 @@ void Entity::ComputeBounds(int width, int height)
 
     m_boundaryHigh.x = width - w / 2.0f;
     m_boundaryHigh.y = height - h / 2.0f;
+}
+
+void Entity::CheckBounds()
+{
+    if (m_position.x >= (m_boundaryHigh.x))
+    {
+        m_position.x = m_boundaryHigh.x;
+        m_velocity.x *= -1.0f;
+    }
+    else if (m_position.x <= (m_boundaryLow.x))
+    {
+        m_position.x = m_boundaryLow.x;
+        m_velocity.x *= -1.0f;
+    }
+
+    if (m_position.y >= (m_boundaryHigh.y))
+    {
+        m_position.y = m_boundaryHigh.y;
+        m_velocity.y *= -1.0f;
+    }
+    else if (m_position.y <= (m_boundaryLow.y))
+    {
+        m_position.y = m_boundaryLow.y;
+        m_velocity.y *= -1.0f;
+    }
+}
+
+void Entity::RandomStartPlace(Renderer& renderer)
+{
+    const int MAX_SPEED = 250;
+    const int EDGE_LIMIT = m_pSprite->GetWidth();
+    const int SCREEN_WIDTH = renderer.GetWidth();
+    const int SCREEN_HEIGHT = renderer.GetHeight();
+
+    sm_fBoundaryWidth = static_cast<float>(SCREEN_WIDTH);
+    sm_fBoundaryHeight = static_cast<float>(SCREEN_HEIGHT);
+
+    m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_WIDTH - EDGE_LIMIT));
+    m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_HEIGHT - EDGE_LIMIT));
+
+    m_velocity.x = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
+    m_velocity.y = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
+    ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
