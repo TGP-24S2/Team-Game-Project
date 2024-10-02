@@ -13,6 +13,10 @@ public:
     int GetValueAsInt(const std::string& iniSection, const std::string& key);
     float GetValueAsFloat(const std::string& iniSection, const std::string& key);
     bool GetValueAsBoolean(const std::string& iniSection, const std::string& key);
+
+    std::map<std::string, std::map<std::string, std::string>> GetWeaponData();
+    bool IsWeaponSection(const std::string& section);
+
 protected:
 private:
 public:

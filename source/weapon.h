@@ -33,8 +33,8 @@ private:
 
     // Member data:
 public:
-    bool active;
-    bool owned;
+    bool active; //holding weapon
+    bool owned; //owned weapon
 
 protected:
     Sprite* m_pSelfSprite;
