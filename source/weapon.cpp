@@ -17,6 +17,9 @@ Weapon::~Weapon()
 
 bool Weapon::Initialise(Renderer& renderer)
 {
+    // Generated method stub
+
+    return false;
 }
 
 void Weapon::Process(float deltaTime)
