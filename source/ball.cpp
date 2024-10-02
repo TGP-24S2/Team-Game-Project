@@ -5,7 +5,7 @@
 
 // Local includes:
 #include "renderer.h"
-#include "sprite.h"
+#include "animatedsprite.h"
 #include "inlinehelpers.h"
 #include "../imgui/imgui.h"
 
@@ -13,13 +13,8 @@
 #include <cassert>
 #include <cstdlib>
 
-// Static members:
-float Ball::sm_fBoundaryWidth = 0.0f;
-float Ball::sm_fBoundaryHeight = 0.0f;
-
 Ball::Ball()
-	: m_pSprite(0)
-	, m_bAlive(true)
+	: Entity()
 {
 
 }
@@ -33,7 +28,10 @@ Ball::~Ball()
 bool
 Ball::Initialise(Renderer& renderer)
 {
-	m_pSprite = renderer.CreateSprite("sprites\\ball.png");
+	m_pSprite = renderer.CreateAnimatedSprite("sprites\\ballAnimated.png");
+	m_pSprite->SetFrameDuration(2.0f);
+	m_pSprite->SetLooping(true);
+	m_pSprite->SetupFrames(307, 307);
 
 	RandomiseSize();
 

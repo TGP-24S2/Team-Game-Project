@@ -5,13 +5,13 @@
 
 // Local includes:
 #include "vector2.h"
+#include "entity.h"
 
 // Forward declarations:
 class Renderer;
-class Sprite;
 
 // Class declaration:
-class Ball
+class Ball : public Entity
 {
 	// Member methods:
 public:
@@ -55,12 +55,6 @@ protected:
 
 	Vector2 m_boundaryLow;
 	Vector2 m_boundaryHigh;
-
-	Sprite* m_pSprite;
-	bool m_bAlive;
-
-	static float sm_fBoundaryWidth;
-	static float sm_fBoundaryHeight;
 
 private:
 

@@ -5,6 +5,11 @@
 #include <cmath>  // for std::abs
 #include "iniparser.h"
 
+
+// Static members:
+float Entity::sm_fBoundaryWidth = 0.0f;
+float Entity::sm_fBoundaryHeight = 0.0f;
+
 Entity::Entity()
     : m_pSprite(nullptr)
     , m_bAlive(true)
