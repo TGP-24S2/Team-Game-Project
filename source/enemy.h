@@ -4,6 +4,7 @@
 
 class AnimatedSprite;
 class Renderer;
+class Player;
 
 class Enemy : public Entity {
 
@@ -14,6 +15,7 @@ public:
 	~Enemy();
 	void Initialise(Renderer& renderer, const char* spritePath);
 	void Process(float deltaTime);
+	void SetPlayer(Player* pPlayer);
 	int GetHealth();
 	int GetDamage();
 	void SetDamage(int damage);
@@ -27,6 +29,7 @@ private:
 public:
 protected:
 	int m_iDamage;
+	Player* m_pPlayer;
 	bool m_bTargetingPlayer;
 
 private:

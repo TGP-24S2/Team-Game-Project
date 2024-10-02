@@ -10,6 +10,7 @@
 class Sprite;
 class Ball;
 class Enemy;
+class Player;
 
 class SceneFFGame : public Scene
 {
@@ -44,7 +45,8 @@ public:
 	float m_fPostMovementTimeBuffer = 0.7f; //how long game processes after controls are released
 
 	// player
-	Sprite* m_pPlayerSprite;
+	Player* m_pPlayer;
+	Sprite* m_pPlayerSprite; // TODO move into Player?
 
 	Vector2 m_position;
 	Vector2 m_velocity;

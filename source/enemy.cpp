@@ -39,6 +39,11 @@ void Enemy::Process(float deltaTime)
 	Entity::Process(deltaTime);
 }
 
+void Enemy::SetPlayer(Player* pPlayer)
+{
+	m_pPlayer = pPlayer;
+}
+
 int Enemy::GetHealth()
 {
 	return m_iHealth;

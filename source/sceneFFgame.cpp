@@ -4,11 +4,13 @@
 #include "renderer.h"
 #include "sprite.h"
 #include "enemy.h"
+#include "player.h"
 #include "inputsystem.h"
 
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
 	, m_fTimeSinceInput(0.0f)
+	, m_pPlayer(nullptr)
 	, m_pCursorSprite(nullptr)
 	, m_pPlayerSprite(nullptr)
 	, m_pTestEnemy(nullptr)
@@ -23,8 +25,11 @@ SceneFFGame::~SceneFFGame()
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
+	m_pPlayer = new Player();
+
 	m_pTestEnemy = new Enemy();
 	m_pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
+	m_pTestEnemy->SetPlayer(m_pPlayer);
 
 	m_pPlayerSprite = renderer.CreateSprite("sprites\\ball.png");
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");

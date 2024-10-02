@@ -38,6 +38,8 @@
     <ClCompile Include="melee.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particleemitter.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="player.h" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneFFgame.cpp" />
