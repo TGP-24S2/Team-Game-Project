@@ -33,6 +33,8 @@ private:
 
     // Member data:
 public:
+    bool active;
+    bool owned;
 
 protected:
     Sprite* m_pSelfSprite;

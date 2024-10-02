@@ -29,7 +29,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pTestBall->SetGood();
 
 	m_pPlayerSprite = renderer.CreateSprite("sprites\\ball.png");
-	m_pCursorSprite = renderer.CreateSprite("sprites\\ball.png");
+	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
 
 	m_pPlayerSprite->SetScale(0.3f);
 	m_pCursorSprite->SetScale(0.05f);
