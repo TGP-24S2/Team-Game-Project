@@ -1,4 +1,5 @@
 #include "IniParser.h"
+#include "weapon.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -149,15 +150,49 @@ std::map<std::string, std::map<std::string, std::string>> IniParser::GetWeaponDa
 
 /* work in progress broken code. cba doing it rn kys
 std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
-    if (LoadIniFile(filename)) {
-        auto weaponData = GetWeaponData();
+    // Vector to hold the dynamically created weapons
+    std::vector<Weapon*> weapons;
 
-        for (const auto& [section, values] : weaponData) {
-            std::cout << "[" << section << "]" << std::endl;
-            for (const auto& [key, value] : values) {
-                std::cout << key << " = " << value << std::endl;
-            }
-            std::cout << std::endl;
-        }
+    // Load the INI file
+    if (!LoadIniFile(filename)) {
+        throw std::runtime_error("Failed to load INI file");
     }
-}*/
+
+    // Get all the weapon data from the INI file
+    auto weaponData = GetWeaponData();
+
+    // Loop over each section (weapon) in the weaponData map
+    for (const auto& weaponEntry : weaponData) {
+        const std::string& section = weaponEntry.first;  // Get the section (weapon name)
+        const std::map<std::string, std::string>& values = weaponEntry.second;  // Get key-value pairs for the section
+
+        // Create a new Weapon instance
+        Weapon* weapon = new Weapon();
+
+        // Set weapon properties based on the key-value pairs in the section
+        for (const auto& keyValue : values) {
+            const std::string& key = keyValue.first;
+            const std::string& value = keyValue.second;
+
+            if (key == "damage") {
+                weapon->SetDamage(std::stoi(value));
+            }
+            else if (key == "range") {
+                weapon->SetRange(std::stof(value));
+            }
+            else if (key == "type") {
+                weapon->SetType(value);
+            }
+            else if (key == "weaponSprite") {
+                weapon->SetWeaponSprite(value);
+            }
+            // Add other weapon properties as needed
+        }
+
+        // Add the created weapon to the vector
+        weapons.push_back(weapon);
+    }
+
+    return weapons;
+}
+*/
