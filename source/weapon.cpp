@@ -41,3 +41,7 @@ void Weapon::SetXY(float x, float y) {
     m_fX = x;
     m_fY = y;
 }
+
+void Weapon::SetWeaponName(std::string name) {
+    m_sName = name;
+}
