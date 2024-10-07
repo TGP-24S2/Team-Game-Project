@@ -40,7 +40,13 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath)
     float tileScale = tileHeight / BALL_PNG_SIZE_PX;
     m_pSprite->SetScale(tileScale);
 
-    RandomStartPlace(renderer);
+    const int SCREEN_WIDTH = renderer.GetWidth();
+    const int SCREEN_HEIGHT = renderer.GetHeight();
+    sm_fBoundaryWidth = static_cast<float>(SCREEN_WIDTH);
+    sm_fBoundaryHeight = static_cast<float>(SCREEN_HEIGHT);
+
+    ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
+    RandomStartPlace();
 
     return (m_pSprite != nullptr);
 }
@@ -52,15 +58,15 @@ void Entity::Process(float deltaTime)
 
     CheckBounds();
 
-    m_pSprite->Process(deltaTime);
     m_position += m_velocity * deltaTime;
+    m_pSprite->SetPosition(static_cast<int>(m_position.x), static_cast<int>(m_position.y));  // Set grid-based position
+    m_pSprite->Process(deltaTime);
 }
 
 void Entity::Draw(Renderer& renderer)
 {
     if (m_bAlive)
     {
-        m_pSprite->SetPosition(static_cast<int>(m_position.x), static_cast<int>(m_position.y));  // Set grid-based position
         m_pSprite->Draw(renderer);
     }
 }
@@ -155,20 +161,14 @@ void Entity::CheckBounds()
     }
 }
 
-void Entity::RandomStartPlace(Renderer& renderer)
+void Entity::RandomStartPlace()
 {
-    const int MAX_SPEED = 250;
+    const int MAX_SPEED = 250; //this is bum someone get rid of this
     const int EDGE_LIMIT = m_pSprite->GetWidth();
-    const int SCREEN_WIDTH = renderer.GetWidth();
-    const int SCREEN_HEIGHT = renderer.GetHeight();
 
-    sm_fBoundaryWidth = static_cast<float>(SCREEN_WIDTH);
-    sm_fBoundaryHeight = static_cast<float>(SCREEN_HEIGHT);
-
-    m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_WIDTH - EDGE_LIMIT));
-    m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, SCREEN_HEIGHT - EDGE_LIMIT));
+    m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, m_boundaryHigh.x - EDGE_LIMIT));
+    m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, m_boundaryHigh.y - EDGE_LIMIT));
 
     m_velocity.x = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
     m_velocity.y = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
-    ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
 }

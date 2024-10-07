@@ -48,8 +48,6 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
 	m_pCursorSprite->SetScale(1.0f);
 
-	m_pCursorSprite->SetScale(0.25f);
-
 	return true;
 }
 
@@ -71,6 +69,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	ButtonState mouse1State = (inputSystem.GetMouseButtonState(1));
 
 	// Check input for time buffer:
+	// 
+	// Note: This approach becomes unrealistic if more controls continue to be added
+	//		 Consider actively just checking if input occurs from any classes using InputSystem
 	if (leftMoveState == BS_HELD)	m_fTimeSinceInput = 0;
 	if (rightMoveState == BS_HELD)	m_fTimeSinceInput = 0;
 	if (upMoveState == BS_HELD)		m_fTimeSinceInput = 0;

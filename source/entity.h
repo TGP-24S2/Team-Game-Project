@@ -37,7 +37,7 @@ public:
 
 	void ComputeBounds(int width, int height);
 	void CheckBounds();
-	void RandomStartPlace(Renderer& renderer);
+	void RandomStartPlace();
 protected:
 
 private:
