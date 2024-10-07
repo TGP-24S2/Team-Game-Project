@@ -37,7 +37,8 @@ ParticleEmitter::~ParticleEmitter()
 
 bool ParticleEmitter::Initialise(Renderer& renderer)
 {
-    m_pSharedSprite = renderer.CreateSprite("sprites\\ball.png"); //subject to change
+    m_pRenderer = &renderer;
+    m_pSharedSprite = renderer.CreateSprite("sprites\\ball.png"); //subject to change //bullet sprite
     m_pSharedSprite->SetScale(0.05f);
     return true;
 }
@@ -72,6 +73,8 @@ void ParticleEmitter::Process(float deltaTime)
             it = m_particles.erase(it);
         }
     }
+
+    m_pSelfSprite->Process(deltaTime);
 }
 
 void ParticleEmitter::Draw(Renderer& renderer)
@@ -84,6 +87,7 @@ void ParticleEmitter::Draw(Renderer& renderer)
                 particle->Draw(renderer);
             }
         }
+        m_pSelfSprite->Draw(renderer);
     }
 }
 
@@ -150,7 +154,46 @@ void ParticleEmitter::SetAccelerationScalar(float scalar) {
     m_fAccelerationScalar = scalar;
 }
 
-void ParticleEmitter::SetEmitAngle(float minAngle, float maxAngle) {
+void ParticleEmitter::SetEmitAngle(float playerAngle) {
+    float spread = m_fMaxAngle - m_fMinAngle;
+    float halfSpread = spread / 2;
+    m_fMinAngle = playerAngle - halfSpread;
+    m_fMaxAngle = playerAngle + halfSpread;
+}
+
+
+
+//for initialization
+
+void ParticleEmitter::SetWeaponName(std::string name) {
+    m_sName = name;
+}
+
+void ParticleEmitter::SetDamage(int value) {
+    m_iDamage = value;
+}
+
+void ParticleEmitter::SetRange(float value) {
+    m_fMaxLifespan = value;
+}
+
+void ParticleEmitter::SetWeaponSprite(const char* spritePath) {
+    m_pSelfSprite = m_pRenderer->CreateSprite(spritePath);
+}
+
+void ParticleEmitter::SetBulletSprite(const char* spritePath) {
+    m_pSharedSprite = m_pRenderer->CreateSprite(spritePath);
+}
+
+void ParticleEmitter::SetMinAngle(float minAngle) { 
     m_fMinAngle = minAngle;
+}
+
+void ParticleEmitter::SetMaxAngle(float maxAngle) {
     m_fMaxAngle = maxAngle;
 }
+
+void ParticleEmitter::SetBulletCount(int bulletCount) {
+    m_iSpawnBatchSize = bulletCount;
+}
+
