@@ -46,6 +46,8 @@ protected:
     float m_fX;
     float m_fY;
 
+    Renderer* m_pRenderer;
+
 private:
 
 };

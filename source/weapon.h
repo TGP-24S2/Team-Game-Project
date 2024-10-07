@@ -16,26 +16,26 @@ class Weapon
     // Member methods:
 public:
     Weapon();
-    virtual ~Weapon();
+    ~Weapon();
 
-    virtual bool Initialise(Renderer& renderer);
-    virtual void Process(float deltaTime);
-    virtual void Draw(Renderer& renderer);
+    bool Initialise(Renderer& renderer);
+    void Process(float deltaTime);
+    void Draw(Renderer& renderer);
 
-    virtual void SetXY(float x, float y);
+    void SetXY(float x, float y);
 
-    virtual void SetWeaponName(std::string name);
+    void SetWeaponName(std::string name);
 
-    virtual void SetDamage(int value);
-    virtual void SetRange(float value);
-    virtual void SetWeaponSprite(const char* spritePath);
+    void SetDamage(int value);
+    void SetRange(float value);
+    void SetWeaponSprite(const char* spritePath);
 
-    virtual void SetBulletSprite(const char* spritePath);
-    virtual void SetMinAngle(float minAngle);
-    virtual void SetMaxAngle(float maxAngle);
-    virtual void SetBulletCount(int bulletCount);
+    void SetBulletSprite(const char* spritePath);
+    void SetMinAngle(float minAngle);
+    void SetMaxAngle(float maxAngle);
+    void SetBulletCount(int bulletCount);
 
-    virtual void DebugDraw();
+    void DebugDraw();
 
 protected:
 

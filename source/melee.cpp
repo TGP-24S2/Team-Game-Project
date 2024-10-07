@@ -18,6 +18,7 @@ Melee::~Melee()
 bool Melee::Initialise(Renderer& renderer)
 {
     // Generated method stub
+    m_pRenderer = &renderer;
 
     return false;
 }
@@ -40,4 +41,20 @@ void Melee::DebugDraw()
 void Melee::SetXY(float x, float y) {
     m_fX = x;
     m_fY = y;
+}
+
+void Melee::SetWeaponName(std::string name) {
+
+}
+
+void Melee::SetDamage(int value) {
+
+}
+
+void Melee::SetRange(float value) {
+
+}
+
+void Melee::SetWeaponSprite(const char* spritePath) {
+    m_pSelfSprite = m_pRenderer->CreateSprite(spritePath);
 }
