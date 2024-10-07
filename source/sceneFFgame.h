@@ -56,6 +56,7 @@ public:
 
 	//TESTING remove later probs
 	std::vector<Weapon*> weapons;
+	int m_iCurrentWeapon;
 
 protected:
 

@@ -22,6 +22,7 @@ bool Weapon::Initialise(Renderer& renderer)
     return false;
 }
 
+
 void Weapon::Process(float deltaTime)
 {
 }
@@ -69,5 +70,8 @@ void Weapon::SetMaxAngle(float maxAngle) {
 
 }
 void Weapon::SetBulletCount(int bulletCount) {
+
+}
+void Weapon::SetAngle(float angle) {
 
 }

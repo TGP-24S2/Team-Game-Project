@@ -22,6 +22,8 @@ class InputSystem
 {
 	// Member methods: 
 public:
+	static InputSystem& GetInstance();
+	static void DestroyInstance();
 	InputSystem();
 	~InputSystem();
 	bool Initialise(); 
@@ -64,6 +66,7 @@ protected:
 	int m_iNumAttachedControllers;
 
 private:
+	static InputSystem* sm_pInstance;
 
 };
 

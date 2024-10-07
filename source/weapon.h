@@ -36,6 +36,8 @@ public:
     virtual void SetMaxAngle(float maxAngle);
     virtual void SetBulletCount(int bulletCount);
 
+    virtual void SetAngle(float angle);
+
     virtual void DebugDraw();
 
 protected:

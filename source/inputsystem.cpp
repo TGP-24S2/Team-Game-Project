@@ -17,6 +17,24 @@
 #include <SDL.h>
 #include <iostream>
 
+InputSystem* InputSystem::sm_pInstance = 0;
+InputSystem&
+InputSystem::GetInstance()
+{
+	if (sm_pInstance ==
+		0)
+	{
+		sm_pInstance =
+			new InputSystem();
+	}return (*sm_pInstance);
+}
+void
+InputSystem::DestroyInstance()
+{
+	delete sm_pInstance;
+	sm_pInstance = 0;
+}
+
 InputSystem::InputSystem()
 	: m_pCurrentKeyboardState(0)
 	, m_previousMouseButtons(0)

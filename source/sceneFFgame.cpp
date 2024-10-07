@@ -12,6 +12,10 @@
 #include "particleemitter.h"
 #include "melee.h"
 
+#include <typeinfo>
+#include <iostream>
+#include <math.h>
+
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
 	, m_fTimeSinceInput(0.0f)
@@ -35,6 +39,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pPlayer->Initialise(renderer);
 
 	weapons = IniParser::GetInstance().GetWeapons("config.ini"); //weapon vector
+	m_iCurrentWeapon = 1;
 
 	m_pTestEnemy = new Enemy();
 	m_pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
@@ -86,6 +91,13 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
 
 	m_pTestEnemy->Process(m_fLocalDeltaTime);
+
+	float angle = (atan2(m_pPlayer->GetY() - m_pCursorSprite->GetY(), m_pPlayer->GetX() - m_pCursorSprite->GetX()) * 180 / M_PI);
+	weapons[m_iCurrentWeapon]->SetAngle(angle + 180);
+
+	weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX(), m_pPlayer->GetY());
+	//std::cout << typeid(weapons[m_iCurrentWeapon]).name();
+	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
@@ -93,6 +105,7 @@ void SceneFFGame::Draw(Renderer& renderer)
 	m_pPlayer->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
 	m_pTestEnemy->Draw(renderer);
+	weapons[m_iCurrentWeapon]->Draw(renderer);
 }
 
 void SceneFFGame::DebugDraw()
@@ -101,4 +114,6 @@ void SceneFFGame::DebugDraw()
 	for (Weapon* weapon : weapons) {
 		ImGui::Text(weapon->GetWeaponName().c_str());
 	}
+
+	weapons[m_iCurrentWeapon]->DebugDraw();
 }

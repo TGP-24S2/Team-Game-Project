@@ -23,6 +23,9 @@ public:
 	void ComputeBounds(int width, int height);
 	void CapSpeed();
 
+	float GetX();
+	float GetY();
+
 protected:
 
 private:

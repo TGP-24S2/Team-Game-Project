@@ -53,7 +53,7 @@ Particle::Draw(Renderer& renderer)
         m_pSharedSprite->SetGreenTint(m_fColour[1]);
         m_pSharedSprite->SetBlueTint(m_fColour[2]);
         float alpha = (float)(1.0f - (m_fCurrentAge / m_fMaxLifespan));
-        m_pSharedSprite->SetAlpha(alpha);
+        //m_pSharedSprite->SetAlpha(alpha);
         m_pSharedSprite->SetX((int)m_position.x);
         m_pSharedSprite->SetY((int)m_position.y);
         m_pSharedSprite->Draw(renderer);

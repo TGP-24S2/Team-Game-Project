@@ -147,3 +147,10 @@ void Player::CapSpeed()
 		m_velocity.y = (0 - m_fMaxSpeed);
 	}
 }
+
+float Player::GetX() {
+	return m_position.x;
+}
+float Player::GetY() {
+	return m_position.y;
+}

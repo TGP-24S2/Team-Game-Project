@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "sprite.h"
 #include "imgui.h"
+#include "inputsystem.h"
 
 ParticleEmitter::ParticleEmitter()
     : m_pSharedSprite(nullptr)
@@ -12,12 +13,12 @@ ParticleEmitter::ParticleEmitter()
     , m_iSpawnBatchSize(10)
     , m_fEmitRate(1.0f)
     , m_fMaxLifespan(5.0f)
-    , m_fAccelerationScalar(100.0f)
+    , m_fAccelerationScalar(1000.0f)
     , m_fX(0.0f)
     , m_fY(0.0f)
     , m_fMinAngle(0.0f)
     , m_fMaxAngle(360.0f)
-    , m_bActive(false)
+    , m_bActive(true)
 {
     m_fColour[0] = 1.0f; // Red
     m_fColour[1] = 1.0f; // Green
@@ -45,16 +46,25 @@ bool ParticleEmitter::Initialise(Renderer& renderer)
 
 void ParticleEmitter::Process(float deltaTime)
 {
-    m_fTimeElapsed += deltaTime;
+    //m_fTimeElapsed += deltaTime;
 
     // Emit particles based on the elapsed time and emit rate
-    if (m_fTimeElapsed > (1.0f / m_fEmitRate))
+    /*if (m_fTimeElapsed > (1.0f / m_fEmitRate))
     {
         for (int i = 0; i < m_iSpawnBatchSize; ++i)
         {
             Spawn();
         }
         m_fTimeElapsed = 0.0f;
+    }*/
+
+    ButtonState mouse1State = (InputSystem::GetInstance().GetMouseButtonState(1));
+
+    if (mouse1State == BS_PRESSED) {
+        for (int i = 0; i < m_iSpawnBatchSize; ++i)
+        {
+            Spawn();
+        }
     }
 
     // Process and remove dead particles
@@ -73,6 +83,8 @@ void ParticleEmitter::Process(float deltaTime)
             it = m_particles.erase(it);
         }
     }
+
+    m_pSelfSprite->SetPosition((int) m_fX, (int) m_fY);
 
     m_pSelfSprite->Process(deltaTime);
 }
@@ -154,7 +166,7 @@ void ParticleEmitter::SetAccelerationScalar(float scalar) {
     m_fAccelerationScalar = scalar;
 }
 
-void ParticleEmitter::SetEmitAngle(float playerAngle) {
+void ParticleEmitter::SetAngle(float playerAngle) {
     float spread = m_fMaxAngle - m_fMinAngle;
     float halfSpread = spread / 2;
     m_fMinAngle = playerAngle - halfSpread;
@@ -179,10 +191,12 @@ void ParticleEmitter::SetRange(float value) {
 
 void ParticleEmitter::SetWeaponSprite(const char* spritePath) {
     m_pSelfSprite = m_pRenderer->CreateSprite(spritePath);
+    m_pSelfSprite->SetScale(0.1f);
 }
 
 void ParticleEmitter::SetBulletSprite(const char* spritePath) {
     m_pSharedSprite = m_pRenderer->CreateSprite(spritePath);
+    m_pSharedSprite->SetScale(0.05f);
 }
 
 void ParticleEmitter::SetMinAngle(float minAngle) { 

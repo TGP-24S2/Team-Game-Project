@@ -89,7 +89,7 @@ Game::Initialise()
 	m_iLastTime = SDL_GetPerformanceCounter();
 	m_pRenderer->SetClearColour(0, 0, 0);
 
-	m_pInputSystem = new InputSystem();
+	m_pInputSystem = &InputSystem::GetInstance();
 	m_pInputSystem->Initialise();
 
 	m_pSoundSystem = &SoundSystem::GetInstance();
