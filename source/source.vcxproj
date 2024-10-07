@@ -40,7 +40,6 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particleemitter.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="player.h" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneFFgame.cpp" />
@@ -79,6 +78,7 @@
     <ClInclude Include="melee.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleemitter.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneFFgame.h" />

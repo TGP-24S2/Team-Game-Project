@@ -35,7 +35,7 @@ public:
 
     void SetAccelerationScalar(float scalar);
 
-    void SetEmitAngle(float minAngle, float maxAngle);
+    void SetEmitAngle(float playerAngle);
     
     void SetWeaponName(std::string name);
 
@@ -61,6 +61,8 @@ protected:
 
     Sprite* m_pSelfSprite;
 
+    Renderer* m_pRenderer;
+
     std::vector<Particle*> m_particles;
 
     float m_fTimeElapsed;
@@ -76,6 +78,9 @@ protected:
     float m_fY;
 
     bool m_bActive;
+
+    int m_iDamage;
+
 
 private:
 
