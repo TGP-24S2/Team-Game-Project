@@ -12,38 +12,31 @@ SceneFFGame::SceneFFGame()
 	, m_fTimeSinceInput(0.0f)
 	, m_pPlayer(nullptr)
 	, m_pCursorSprite(nullptr)
-	, m_pPlayerSprite(nullptr)
 	, m_pTestEnemy(nullptr)
 {
 }
 
 SceneFFGame::~SceneFFGame()
 {
-	delete m_pPlayerSprite;
+	delete m_pPlayer;
 	delete m_pCursorSprite;
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
+	renderer.SetClearColour(255, 255, 255);
+
 	m_pPlayer = new Player();
+	m_pPlayer->Initialise(renderer);
 
 	m_pTestEnemy = new Enemy();
 	m_pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
 	m_pTestEnemy->SetPlayer(m_pPlayer);
 
-	m_pPlayerSprite = renderer.CreateSprite("sprites\\ball.png");
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
+	m_pCursorSprite->SetScale(1.0f);
 
-	m_pPlayerSprite->SetScale(0.3f);
 	m_pCursorSprite->SetScale(0.05f);
-
-	const int SCREEN_WIDTH = renderer.GetWidth();
-	const int SCREEN_HEIGHT = renderer.GetHeight();
-
-	m_position.x = SCREEN_WIDTH / 2.0f;
-	m_position.y = SCREEN_HEIGHT / 2.0f;
-
-	ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	return true;
 }
@@ -63,59 +56,14 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	ButtonState rightMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_D));
 	ButtonState upMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_W));
 	ButtonState downMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_S));
+	ButtonState mouse1State = (inputSystem.GetMouseButtonState(1));
 
-	//deceleration
-	if (m_velocity.x > 0)
-	{
-		m_velocity.x -= m_fDecelerationRate * m_fSpeedScale;
-		if (m_velocity.x < 0) //do not decelerate past 0
-			m_velocity.x = 0;
-	}
-	else if (m_velocity.x < 0)
-	{
-		m_velocity.x += m_fDecelerationRate * m_fSpeedScale;
-		if (m_velocity.x > 0) //do not decelerate past 0
-			m_velocity.x = 0;
-	}
-
-	if (m_velocity.y > 0)
-	{
-		m_velocity.y -= m_fDecelerationRate * m_fSpeedScale;
-		if (m_velocity.y < 0) //do not decelerate past 0
-			m_velocity.y = 0;
-	}
-	else if (m_velocity.y < 0)
-	{
-		m_velocity.y += m_fDecelerationRate * m_fSpeedScale;
-		if (m_velocity.y > 0) //do not decelerate past 0
-			m_velocity.y = 0;
-	}
-
-	if (leftMoveState == BS_HELD)
-	{
-		m_velocity.x -= m_fAccelerationRate * m_fSpeedScale;
-		m_fTimeSinceInput = 0;
-	}
-
-	if (rightMoveState == BS_HELD)
-	{
-		m_velocity.x += m_fAccelerationRate * m_fSpeedScale;
-		m_fTimeSinceInput = 0;
-	}
-
-	if (upMoveState == BS_HELD)
-	{
-		m_velocity.y -= m_fAccelerationRate * m_fSpeedScale;
-		m_fTimeSinceInput = 0;
-	}
-
-	if (downMoveState == BS_HELD)
-	{
-		m_velocity.y += m_fAccelerationRate * m_fSpeedScale;
-		m_fTimeSinceInput = 0;
-	}
-
-	CapSpeed();
+	// Check input for time buffer:
+	if (leftMoveState == BS_HELD)	m_fTimeSinceInput = 0;
+	if (rightMoveState == BS_HELD)	m_fTimeSinceInput = 0;
+	if (upMoveState == BS_HELD)		m_fTimeSinceInput = 0;
+	if (downMoveState == BS_HELD)	m_fTimeSinceInput = 0;
+	if (mouse1State == BS_PRESSED)	m_fTimeSinceInput = 0;
 
 	//Game Logic:
 	float ratio = 1.0f - (m_fTimeSinceInput / m_fPostMovementTimeBuffer);
@@ -124,32 +72,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		ratio = 0.0f; //prevent negative values
 	}
 	m_fLocalDeltaTime = deltaTime * ratio;
-	//m_fLocalDeltaTime = deltaTime;
 
-	if (m_position.x < m_boundaryLow.x) {
-		m_position.x = m_boundaryLow.x;
-		m_velocity.x *= -1;
-		m_velocity.x *= m_fWallBounceDecay;
-	}
-	if (m_position.x > m_boundaryHigh.x) {
-		m_position.x = m_boundaryHigh.x;
-		m_velocity.x *= -1;
-		m_velocity.x *= m_fWallBounceDecay;
-	}
-	if (m_position.y < m_boundaryLow.y) {
-		m_position.y = m_boundaryLow.y;
-		m_velocity.y *= -1;
-		m_velocity.x *= m_fWallBounceDecay;
-	}
-	if (m_position.y > m_boundaryHigh.y) {
-		m_position.y = m_boundaryHigh.y;
-		m_velocity.y *= -1;
-		m_velocity.x *= m_fWallBounceDecay;
-	}
-	m_position += m_velocity * m_fLocalDeltaTime;
-	m_pPlayerSprite->SetX(static_cast<int>(m_position.x));
-	m_pPlayerSprite->SetY(static_cast<int>(m_position.y));
-	m_pPlayerSprite->Process(m_fLocalDeltaTime);
+
+	m_pPlayer->Process(m_fLocalDeltaTime, inputSystem);
 
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
 
@@ -158,39 +83,10 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 
 void SceneFFGame::Draw(Renderer& renderer)
 {
-	m_pPlayerSprite->Draw(renderer);
+	m_pPlayer->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
 	m_pTestEnemy->Draw(renderer);
 }
-
-void SceneFFGame::ComputeBounds(int width, int height)
-{
-	m_boundaryLow.x = (m_pPlayerSprite->GetWidth() / 2.0f);
-	m_boundaryLow.y = (m_pPlayerSprite->GetHeight() / 2.0f);
-
-	m_boundaryHigh.x = width - (m_pPlayerSprite->GetWidth() / 2.0f);
-	m_boundaryHigh.y = height - (m_pPlayerSprite->GetHeight() / 2.0f);
-}
-
-void SceneFFGame::CapSpeed()
-{
-	if (m_velocity.x > m_fMaxSpeed)
-	{
-		m_velocity.x = m_fMaxSpeed;
-	}
-	else if (m_velocity.x < (0-m_fMaxSpeed)) {
-		m_velocity.x = (0 - m_fMaxSpeed);
-	}
-
-	if (m_velocity.y > m_fMaxSpeed)
-	{
-		m_velocity.y = m_fMaxSpeed;
-	}
-	else if (m_velocity.y < (0 - m_fMaxSpeed)) {
-		m_velocity.y = (0 - m_fMaxSpeed);
-	}
-}
-
 
 void SceneFFGame::DebugDraw()
 {

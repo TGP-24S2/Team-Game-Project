@@ -21,16 +21,20 @@ public:
 	bool Initialise(Renderer& renderer, const char* spritePath); 
 	void Process(float deltaTime);
 	void Draw(Renderer& renderer);
+
 	AnimatedSprite* GetSprite();
+
 	float GetRadius();
 	void SetPosition(int x, int y);
 	Vector2& GetPosition(); 
 	Vector2& GetVelocity();
 	void SetVelocity(int x, int y);
 	int GetHealth();
+
 	bool IsCollidingWith(Entity* toCheck); 
 	bool IsAlive();
 	void Kill();
+
 	void ComputeBounds(int width, int height);
 	void CheckBounds();
 	void RandomStartPlace(Renderer& renderer);
@@ -44,11 +48,14 @@ private:
 public:
 
 protected:
-	int m_iHealth;
 	AnimatedSprite* m_pSprite; 
+
+	int m_iHealth;
+	bool m_bAlive;
+
 	Vector2 m_position; 
 	Vector2 m_velocity; 
-	bool m_bAlive;
+
 	Vector2 m_boundaryLow;
 	Vector2 m_boundaryHigh;
 	static float sm_fBoundaryWidth;
