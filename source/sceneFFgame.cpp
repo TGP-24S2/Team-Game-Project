@@ -94,9 +94,19 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_pTestEnemy->Process(m_fLocalDeltaTime);
 
 
-	float angle = (atan2(m_pPlayer->GetY() - m_pCursorSprite->GetY(), m_pPlayer->GetX() - m_pCursorSprite->GetX()) * 180 / M_PI); //calculate angle towards crosshair
-	weapons[m_iCurrentWeapon]->SetAngle(angle + 180); //aims towards crosshair
-	weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX(), m_pPlayer->GetY()); //ensures the weapon is attached to player location
+	//calculate angle towards crosshair
+	float angle = atan2(m_pCursorSprite->GetY() - m_pPlayer->GetY(), m_pCursorSprite->GetX() - m_pPlayer->GetX());
+	
+	//offset to player
+	float offsetX = 80 * cos(angle);
+	float offsetY = 80 * sin(angle);
+	
+	//aims towards crosshair + convert to degrees
+	weapons[m_iCurrentWeapon]->SetAngle(angle * 180 / M_PI);
+	
+	//ensures the weapon is attached to player location with offset towards cursor
+	weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
+	
 	//std::cout << typeid(weapons[m_iCurrentWeapon]).name();
 	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 }
