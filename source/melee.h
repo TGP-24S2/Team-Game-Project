@@ -1,6 +1,6 @@
 // COMP710 GP Framework
-#ifndef __PARTICLEEMITTER_H__
-#define __PARTICLEEMITTER_H__
+#ifndef __MELEE_H__
+#define __MELEE_H__
 
 // Library includes:
 #include <vector>
@@ -23,6 +23,12 @@ public:
     void Draw(Renderer& renderer);
 
     void SetXY(float x, float y);
+
+    void SetWeaponName(std::string name);
+
+    void SetDamage(int value);
+    void SetRange(float value);
+    void SetWeaponSprite(const char* spritePath);
 
     void DebugDraw();
 protected:

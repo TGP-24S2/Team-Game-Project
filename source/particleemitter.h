@@ -36,6 +36,16 @@ public:
     void SetAccelerationScalar(float scalar);
 
     void SetEmitAngle(float minAngle, float maxAngle);
+    
+    void SetWeaponName(std::string name);
+
+    void SetDamage(int value);
+    void SetRange(float value);
+    void SetWeaponSprite(const char* spritePath);
+    void SetBulletSprite(const char* spritePath);
+    void SetMinAngle(float minAngle);
+    void SetMaxAngle(float maxAngle);
+    void SetBulletCount(int bulletCount);
 
 protected:
 

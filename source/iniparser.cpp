@@ -1,4 +1,6 @@
 #include "IniParser.h"
+#include "particleemitter.h"
+#include "melee.h"
 #include "weapon.h"
 #include <fstream>
 #include <sstream>
@@ -148,7 +150,7 @@ std::map<std::string, std::map<std::string, std::string>> IniParser::GetWeaponDa
     return weaponData;
 }
 
-/* work in progress broken code. cba doing it rn kys
+
 std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
     // Vector to hold the dynamically created weapons
     std::vector<Weapon*> weapons;
@@ -166,27 +168,53 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
         const std::string& section = weaponEntry.first;  // Get the section (weapon name)
         const std::map<std::string, std::string>& values = weaponEntry.second;  // Get key-value pairs for the section
 
-        // Create a new Weapon instance
-        Weapon* weapon = new Weapon();
+        Weapon* weapon = nullptr;
+
+        // Determine the weapon type from the "type" key
+        std::string weaponType;
+        if (values.find("type") != values.end()) {
+            weaponType = values.at("type");
+
+            // Dynamically create the correct type of weapon
+            if (weaponType == "melee") {
+                weapon = new Melee();
+            } else if (weaponType == "ranged") {
+                weapon = new ParticleEmitter();
+            } else {
+                throw std::runtime_error("Unknown weapon type: " + weaponType);
+            }
+        } else {
+            throw std::runtime_error("No weapon type specified for section: " + section);
+        }
+
+        //weapon->SetWeaponName(section);
 
         // Set weapon properties based on the key-value pairs in the section
         for (const auto& keyValue : values) {
             const std::string& key = keyValue.first;
             const std::string& value = keyValue.second;
 
+            //common weapon properties
             if (key == "damage") {
-                weapon->SetDamage(std::stoi(value));
+                //weapon->SetDamage(std::stoi(value));
+            } else if (key == "range") {
+                //weapon->SetRange(std::stof(value));
+            } else if (key == "weaponSprite") {
+                //weapon->SetWeaponSprite(value.c_str());
             }
-            else if (key == "range") {
-                weapon->SetRange(std::stof(value));
+            // gun properties
+            else if (key == "bulletSprite") {
+                //weapon->SetBulletSprite(value.c_str());
             }
-            else if (key == "type") {
-                weapon->SetType(value);
+            else if (key == "minAngle") {
+                //weapon->SetMinAngle(std::stof(value));
             }
-            else if (key == "weaponSprite") {
-                weapon->SetWeaponSprite(value);
+            else if (key == "maxAngle") {
+                //weapon->SetMaxAngle(std::stof(value));
             }
-            // Add other weapon properties as needed
+            else if (key == "bulletCount") {
+                //weapon->SetBulletCount(std::stoi(value));
+            }
         }
 
         // Add the created weapon to the vector
@@ -195,4 +223,3 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
 
     return weapons;
 }
-*/

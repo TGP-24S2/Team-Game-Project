@@ -6,6 +6,8 @@
 #include "vector"
 
 class Weapon;
+class Melee;
+class ParticleEmitter;
 
 class IniParser {
 public:

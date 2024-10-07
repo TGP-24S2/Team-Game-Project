@@ -4,6 +4,7 @@
 
 // Library includes:
 #include <vector>
+#include <string>
 
 // Forward declarations:
 class Renderer;
@@ -22,6 +23,17 @@ public:
     void Draw(Renderer& renderer);
 
     void SetXY(float x, float y);
+
+    void SetWeaponName(std::string name);
+
+    void SetDamage(int value);
+    void SetRange(float value);
+    void SetWeaponSprite(const char* spritePath);
+
+    void SetBulletSprite(const char* spritePath);
+    void SetMinAngle(float minAngle);
+    void SetMaxAngle(float maxAngle);
+    void SetBulletCount(int bulletCount);
 
     void DebugDraw();
 

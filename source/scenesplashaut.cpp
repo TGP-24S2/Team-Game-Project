@@ -41,7 +41,7 @@ SceneSplashAUT::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 
 	// Load static text textures into the Texture Manager... 
-	const char* checkerBoardText = "Pac-Snake";
+	const char* checkerBoardText = "FreezeFrame";
 	renderer.CreateStaticText(checkerBoardText, 60);
 
 	// Generate sprites that use the static text textures... 
