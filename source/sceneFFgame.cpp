@@ -92,9 +92,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 
 	m_pTestEnemy->Process(m_fLocalDeltaTime);
 
+
 	float angle = (atan2(m_pPlayer->GetY() - m_pCursorSprite->GetY(), m_pPlayer->GetX() - m_pCursorSprite->GetX()) * 180 / M_PI);
 	weapons[m_iCurrentWeapon]->SetAngle(angle + 180);
-
 	weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX(), m_pPlayer->GetY());
 	//std::cout << typeid(weapons[m_iCurrentWeapon]).name();
 	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
