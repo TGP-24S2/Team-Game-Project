@@ -38,6 +38,7 @@ public:
     void SetEmitAngle(float playerAngle);
     
     void SetWeaponName(std::string name);
+    std::string GetWeaponName();
 
     void SetDamage(int value);
     void SetRange(float value);

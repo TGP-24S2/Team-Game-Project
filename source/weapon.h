@@ -25,6 +25,7 @@ public:
     virtual void SetXY(float x, float y);
 
     virtual void SetWeaponName(std::string name);
+    virtual std::string GetWeaponName();
 
     virtual void SetDamage(int value);
     virtual void SetRange(float value);

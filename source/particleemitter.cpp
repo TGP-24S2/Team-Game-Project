@@ -197,3 +197,8 @@ void ParticleEmitter::SetBulletCount(int bulletCount) {
     m_iSpawnBatchSize = bulletCount;
 }
 
+
+//for using
+std::string ParticleEmitter::GetWeaponName() {
+    return m_sName;
+}

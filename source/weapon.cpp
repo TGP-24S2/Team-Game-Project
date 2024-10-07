@@ -46,6 +46,10 @@ void Weapon::SetWeaponName(std::string name) {
     m_sName = name;
 }
 
+std::string Weapon::GetWeaponName() {
+    return m_sName;
+}
+
 void Weapon::SetDamage(int value) {
 
 }

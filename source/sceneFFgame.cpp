@@ -7,6 +7,10 @@
 #include "player.h"
 #include "inputsystem.h"
 #include "iniparser.h"
+#include "imgui.h"
+#include "weapon.h"
+#include "particleemitter.h"
+#include "melee.h"
 
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
@@ -93,4 +97,8 @@ void SceneFFGame::Draw(Renderer& renderer)
 
 void SceneFFGame::DebugDraw()
 {
+	ImGui::Text("Weapons:");
+	for (Weapon* weapon : weapons) {
+		ImGui::Text(weapon->GetWeaponName().c_str());
+	}
 }

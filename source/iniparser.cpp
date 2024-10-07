@@ -189,7 +189,7 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
             throw std::runtime_error("No weapon type specified for section: " + section);
         }
 
-        //weapon->SetWeaponName(section);
+        weapon->SetWeaponName(section);
 
         // Set weapon properties based on the key-value pairs in the section
         for (const auto& keyValue : values) {
