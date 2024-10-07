@@ -6,6 +6,7 @@
 #include "enemy.h"
 #include "player.h"
 #include "inputsystem.h"
+#include "iniparser.h"
 
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
@@ -28,6 +29,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(renderer);
+
+	weapons = IniParser::GetInstance().GetWeapons("config.ini"); //weapon vector 
 
 	m_pTestEnemy = new Enemy();
 	m_pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");

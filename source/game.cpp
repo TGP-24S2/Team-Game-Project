@@ -78,7 +78,7 @@ Game::Initialise()
 	IniParser::GetInstance().LoadIniFile("config.ini");
 	int bbWidth = IniParser::GetInstance().GetValueAsInt("Window","Width");
 	int bbHeight = IniParser::GetInstance().GetValueAsInt("Window", "Height");
-	m_pRenderer = new Renderer();
+	m_pRenderer = &Renderer::GetInstance();
 	if (!m_pRenderer -> Initialise(true, bbWidth, bbHeight))
 	{
 		LogManager::GetInstance().Log("Renderer failed to initialise!");

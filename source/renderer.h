@@ -15,6 +15,8 @@ class Renderer
 {
 	// Member methods:
 public:
+	static Renderer& GetInstance();
+	static void DestroyInstance();
 	Renderer();
 	~Renderer();
 	bool Initialise(bool windowed, int width = 0, int height = 0);
@@ -40,6 +42,7 @@ private:
 	Renderer& operator=(const Renderer& renderer);
 	// Member data:
 public:
+	static Renderer* sm_pInstance;
 protected:
 	TextureManager*	m_pTextureManager; 
 	SDL_Window*	m_pWindow; 

@@ -2,6 +2,7 @@
 #include "particleemitter.h"
 #include "melee.h"
 #include "weapon.h"
+#include "renderer.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -177,9 +178,10 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
 
             // Dynamically create the correct type of weapon
             if (weaponType == "melee") {
-                weapon = new Melee();
+                //weapon = new Melee();
             } else if (weaponType == "ranged") {
                 weapon = new ParticleEmitter();
+                weapon->Initialise(Renderer::GetInstance());
             } else {
                 throw std::runtime_error("Unknown weapon type: " + weaponType);
             }
@@ -196,24 +198,24 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
 
             //common weapon properties
             if (key == "damage") {
-                //weapon->SetDamage(std::stoi(value));
+                weapon->SetDamage(std::stoi(value));
             } else if (key == "range") {
-                //weapon->SetRange(std::stof(value));
+                weapon->SetRange(std::stof(value));
             } else if (key == "weaponSprite") {
-                //weapon->SetWeaponSprite(value.c_str());
+                weapon->SetWeaponSprite(value.c_str());
             }
             // gun properties
             else if (key == "bulletSprite") {
-                //weapon->SetBulletSprite(value.c_str());
+                weapon->SetBulletSprite(value.c_str());
             }
             else if (key == "minAngle") {
-                //weapon->SetMinAngle(std::stof(value));
+                weapon->SetMinAngle(std::stof(value));
             }
             else if (key == "maxAngle") {
-                //weapon->SetMaxAngle(std::stof(value));
+                weapon->SetMaxAngle(std::stof(value));
             }
             else if (key == "bulletCount") {
-                //weapon->SetBulletCount(std::stoi(value));
+                weapon->SetBulletCount(std::stoi(value));
             }
         }
 

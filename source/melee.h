@@ -48,6 +48,10 @@ protected:
 
     Renderer* m_pRenderer;
 
+    std::string m_sName;
+    int m_iDamage;
+    float m_fRange;
+
 private:
 
 };

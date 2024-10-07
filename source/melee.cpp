@@ -44,15 +44,15 @@ void Melee::SetXY(float x, float y) {
 }
 
 void Melee::SetWeaponName(std::string name) {
-
+    m_sName = name;
 }
 
 void Melee::SetDamage(int value) {
-
+    m_iDamage = value;
 }
 
 void Melee::SetRange(float value) {
-
+    m_fRange = value;
 }
 
 void Melee::SetWeaponSprite(const char* spritePath) {

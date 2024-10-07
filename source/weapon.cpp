@@ -45,3 +45,25 @@ void Weapon::SetXY(float x, float y) {
 void Weapon::SetWeaponName(std::string name) {
     m_sName = name;
 }
+
+void Weapon::SetDamage(int value) {
+
+}
+void Weapon::SetRange(float value) {
+
+}
+void Weapon::SetWeaponSprite(const char* spritePath) {
+
+}
+void Weapon::SetBulletSprite(const char* spritePath) {
+
+}
+void Weapon::SetMinAngle(float minAngle) {
+
+}
+void Weapon::SetMaxAngle(float maxAngle) {
+
+}
+void Weapon::SetBulletCount(int bulletCount) {
+
+}

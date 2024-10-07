@@ -20,6 +20,25 @@
 #include <glew.h>
 #include <cassert>
 #include <cmath>
+
+Renderer* Renderer::sm_pInstance = 0;
+Renderer&
+Renderer::GetInstance()
+{
+	if (sm_pInstance ==
+		0)
+	{
+		sm_pInstance =
+			new Renderer();
+	}return (*sm_pInstance);
+}
+void
+Renderer::DestroyInstance()
+{
+	delete sm_pInstance;
+	sm_pInstance = 0;
+}
+
 Renderer::Renderer()
 	: m_pTextureManager(0)
 	, m_pSpriteShader(0)

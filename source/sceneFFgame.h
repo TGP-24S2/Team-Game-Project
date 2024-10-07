@@ -5,12 +5,16 @@
 // Local includes: 
 #include "scene.h"
 #include "vector2.h"
+#include "vector"
 
 // Forward declarations:
 class Sprite;
 class Ball;
 class Enemy;
 class Player;
+
+//testing
+class Weapon;
 
 class SceneFFGame : public Scene
 {
@@ -47,6 +51,11 @@ public:
 	Sprite* m_pCursorSprite;
 
 	Vector2 m_cursorPosition;
+
+
+
+	//TESTING remove later probs
+	std::vector<Weapon*> weapons;
 
 protected:
 
