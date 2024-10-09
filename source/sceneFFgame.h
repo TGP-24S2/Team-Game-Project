@@ -12,6 +12,7 @@ class Sprite;
 class Ball;
 class Enemy;
 class Player;
+class Rectangle;
 
 //testing
 class Weapon;
@@ -58,6 +59,9 @@ public:
 	Ball* m_pTestBall;
 	std::vector<Weapon*> weapons;
 	int m_iCurrentWeapon;
+
+	Rectangle* m_pRectangle;
+
 
 protected:
 

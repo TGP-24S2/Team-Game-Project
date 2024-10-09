@@ -41,6 +41,7 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particleemitter.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="rectanglemaker.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneFFgame.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleemitter.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="rectanglemaker.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneFFgame.h" />

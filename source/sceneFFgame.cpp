@@ -12,8 +12,9 @@
 #include "weapon.h"
 #include "particleemitter.h"
 #include "melee.h"
+#include "inlinehelpers.h"
+#include "rectanglemaker.h"
 #include "collision.h"
-
 #include <typeinfo>
 #include <iostream>
 #include <math.h>
@@ -65,6 +66,14 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pGameOverSprite->SetScale(0.5f);
 	m_pGameOverSprite->SetX(600);
 	m_pGameOverSprite->SetY(200);
+
+	m_pRectangle = new Rectangle();
+	m_pRectangle->setHeight(100.0f);
+	m_pRectangle->setLength(100.0f);
+
+	m_pRectangle->setPosition(1.0f,1.0f);
+	m_pRectangle->setColor(0.0f, 0.0f, 0.0f);
+
 
 	return true;
 }
@@ -168,6 +177,7 @@ void SceneFFGame::Draw(Renderer& renderer)
 	weapons[m_iCurrentWeapon]->Draw(renderer);
 	if (!m_pPlayer->IsAlive())
 		m_pGameOverSprite->Draw(renderer);
+	m_pRectangle->draw();
 }
 
 void SceneFFGame::DebugDraw()
