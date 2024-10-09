@@ -23,8 +23,8 @@ bool Player::Initialise(Renderer& renderer)
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
 
-	m_position.x = SCREEN_WIDTH / 2.0f;
-	m_position.y = SCREEN_HEIGHT / 2.0f;
+	m_position.x = 10;
+	m_position.y = 10;
 
 	ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
 

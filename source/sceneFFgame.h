@@ -42,6 +42,7 @@ public:
 
 	// player
 	Player* m_pPlayer;
+
 	// enemies
 	Enemy** m_lpEnemies;
 	int m_iNumEnemies;

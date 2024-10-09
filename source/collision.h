@@ -1,3 +1,8 @@
+#ifndef __COLLISION_H__
+#define __COLLISION_H__
+// forward declarations
+class Sprite;
+
 class Rectangle
 {
 public:
@@ -9,5 +14,8 @@ public:
 
 class Collision
 {
-	bool CheckRectanglesColliding(Rectangle r1, Rectangle r2);
+public:
+	static bool CheckRectanglesColliding(Rectangle, Rectangle);
+	static bool CheckSizedSpritesColliding(Sprite*, int baseSize1, Sprite*, int baseSize2);
 };
+#endif // __COLLISION_H__

@@ -12,7 +12,7 @@
 #include "weapon.h"
 #include "particleemitter.h"
 #include "melee.h"
-#include "inlinehelpers.h"
+#include "collision.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -138,12 +138,14 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	for (int i = 0; i < m_iNumEnemies; i++)
 	{
 		Enemy* pEnemy = m_lpEnemies[i];
-		Vector2 enemyPos = pEnemy->GetPosition();
-		float enemySize = pEnemy->GetSprite()->GetScale() * Entity::BALL_SIZE/2;
-		// TODO box collider?
-		bool withinX = playerX > enemyPos.x - enemySize && playerX < enemyPos.x + enemySize;
-		bool withinY = playerY > enemyPos.y - enemySize && playerY < enemyPos.y + enemySize;
-		if (withinX && withinY)
+		const double circleSquareRatio = M_PI / 4.0;
+		int ballSize = (int)(Entity::BALL_SIZE * circleSquareRatio) + 1;
+		bool colliding = Collision::CheckSizedSpritesColliding
+		(
+			m_pPlayer->GetSprite(), ballSize,
+			pEnemy->GetSprite(), ballSize
+		);
+		if (colliding)
 		{
 			m_pPlayer->TakeDamage();
 		}

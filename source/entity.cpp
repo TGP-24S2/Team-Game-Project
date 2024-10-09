@@ -15,8 +15,8 @@ const int Entity::BALL_SIZE = 307;
 
 Entity::Entity()
     : m_pSprite(nullptr)
-    , m_iHealth(100)
-    , m_iMaxHealth(100)
+    , m_iHealth(1000)
+    , m_iMaxHealth(1000)
     , m_bAlive(true)
     , m_position(0, 0)
     , m_velocity(0, 0)
