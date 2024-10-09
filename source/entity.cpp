@@ -166,8 +166,8 @@ void Entity::RandomStartPlace()
     const int MAX_SPEED = 250; //this is bum someone get rid of this
     const int EDGE_LIMIT = m_pSprite->GetWidth();
 
-    m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, m_boundaryHigh.x - EDGE_LIMIT));
-    m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, m_boundaryHigh.y - EDGE_LIMIT));
+    m_position.x = static_cast<float>(GetRandom(EDGE_LIMIT, (int) m_boundaryHigh.x - EDGE_LIMIT));
+    m_position.y = static_cast<float>(GetRandom(EDGE_LIMIT, (int) m_boundaryHigh.y - EDGE_LIMIT));
 
     m_velocity.x = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
     m_velocity.y = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();

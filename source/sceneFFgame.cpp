@@ -102,7 +102,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	float offsetY = 80 * sin(angle);
 	
 	//aims towards crosshair + convert to degrees
-	weapons[m_iCurrentWeapon]->SetAngle(angle * 180 / M_PI);
+	weapons[m_iCurrentWeapon]->SetAngle(angle * 180.0f / (float)M_PI);
 	
 	//ensures the weapon is attached to player location with offset towards cursor
 	weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
