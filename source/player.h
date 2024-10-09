@@ -3,13 +3,13 @@
 
 // Local includes:
 #include "vector2.h"
+#include "entity.h"
 
 // Forward declarations:
-class Sprite;
 class Renderer;
 class InputSystem;
 
-class Player
+class Player : public Entity
 {
 	// Member methods:
 public:
@@ -20,7 +20,6 @@ public:
 	void Process(float deltaTime, InputSystem& inputSystem);
 	void Draw(Renderer& renderer);
 
-	void ComputeBounds(int width, int height);
 	void CapSpeed();
 
 	float GetX();
@@ -38,19 +37,11 @@ public:
 protected:
 
 private:
-	Sprite* m_pPlayerSprite;
-
-	Vector2 m_position;
-	Vector2 m_velocity;
-
 	float m_fAccelerationRate = 3.0f;
 	float m_fDecelerationRate = 0.3f;
 	float m_fSpeedScale = 1.0f;
 	float m_fMaxSpeed = 1000.0f;
 	float m_fWallBounceDecay = 0.8f;
-
-	Vector2 m_boundaryLow;
-	Vector2 m_boundaryHigh;
 };
 
 #endif // __PLAYER_H__
