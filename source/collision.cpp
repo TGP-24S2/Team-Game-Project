@@ -2,6 +2,7 @@
 
 // Local includes:
 #include "sprite.h"
+#include "rectangle.h"
 
 bool Collision::CheckRectanglesColliding(Rectangle r1, Rectangle r2)
 {

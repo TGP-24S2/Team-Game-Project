@@ -2,15 +2,7 @@
 #define __COLLISION_H__
 // forward declarations
 class Sprite;
-
-class Rectangle
-{
-public:
-	int x;
-	int y;
-	float w;
-	float h;
-};
+class Rectangle;
 
 class Collision
 {

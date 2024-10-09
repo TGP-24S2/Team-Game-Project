@@ -12,9 +12,10 @@
 #include "weapon.h"
 #include "particleemitter.h"
 #include "melee.h"
+#include "collision.h"
 #include "inlinehelpers.h"
 #include "rectanglemaker.h"
-#include "collision.h"
+
 #include <typeinfo>
 #include <iostream>
 #include <math.h>
