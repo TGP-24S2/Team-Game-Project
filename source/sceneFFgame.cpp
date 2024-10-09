@@ -108,16 +108,11 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		ratio = 0.0f; //prevent negative values
 	m_fLocalDeltaTime = deltaTime * ratio;
 
-<<<<<<< Updated upstream
 	// process entities
 	for (int i = 0; i < m_iNumEnemies; i++)
 		m_lpEnemies[i]->Process(m_fLocalDeltaTime);
 	m_pPlayer->Process(m_fLocalDeltaTime, inputSystem);
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
-=======
-
-
->>>>>>> Stashed changes
 
 	//calculate angle towards crosshair
 	float angle = atan2(m_pCursorSprite->GetY() - m_pPlayer->GetY(), m_pCursorSprite->GetX() - m_pPlayer->GetX());
@@ -134,7 +129,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	
 	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 
-<<<<<<< Updated upstream
 	// Hitbox processing
 	float playerX = m_pPlayer->GetX();
 	float playerY = m_pPlayer->GetY();
@@ -153,14 +147,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 	}
 
-=======
-
-	m_pPlayer->Process(m_fLocalDeltaTime, inputSystem);
-
-	m_pCursorSprite->Process(m_fLocalDeltaTime);
-
-	m_pTestEnemy->Process(m_fLocalDeltaTime);
->>>>>>> Stashed changes
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
