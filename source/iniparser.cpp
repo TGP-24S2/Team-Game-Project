@@ -8,19 +8,20 @@
 #include <stdexcept>
 #include <algorithm>
 
+typedef std::map<std::string, std::map<std::string, std::string>> WeaponData;
+
 IniParser* IniParser::sm_pInstance = 0;
-IniParser&
-IniParser::GetInstance()
+
+IniParser& IniParser::GetInstance()
 {
-    if (sm_pInstance ==
-        0)
+    if (sm_pInstance == nullptr)
     {
-        sm_pInstance =
-            new IniParser();
-    }return (*sm_pInstance);
+        sm_pInstance = new IniParser();
+    }
+    return (*sm_pInstance);
 }
-void
-IniParser::DestroyInstance()
+
+void IniParser::DestroyInstance()
 {
     delete sm_pInstance;
     sm_pInstance = 0;
@@ -119,8 +120,8 @@ bool IniParser::IsWeaponSection(const std::string& section) {
     }
 }
 
-std::map<std::string, std::map<std::string, std::string>> IniParser::GetWeaponData() {
-    std::map<std::string, std::map<std::string, std::string>> weaponData;
+WeaponData IniParser::GetWeaponData() {
+    WeaponData weaponData;
 
     // Iterate through all the key-value pairs stored in the data map
     for (const auto& entry : data) {

@@ -22,7 +22,7 @@ public:
     std::vector<Weapon*> GetWeapons(const std::string& filename);
 protected:
 private:
-    std::map<std::string, std::map<std::string, std::string>> GetWeaponData();
+    WeaponData GetWeaponData();
     bool IsWeaponSection(const std::string& section);
 public:
     static IniParser* sm_pInstance;

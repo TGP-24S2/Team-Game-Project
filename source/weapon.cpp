@@ -1,4 +1,3 @@
-// ParticleEmitter.cpp
 #include "weapon.h"
 #include "renderer.h"
 #include "sprite.h"
