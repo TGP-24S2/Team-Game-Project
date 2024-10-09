@@ -1,6 +1,8 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
+class Renderer;
+
 class Rectangle {
 public:
     float width;
@@ -8,6 +10,8 @@ public:
     float x;
     float y;
     float r, g, b; // Color components: Red, Green, Blue
+
+    float alpha;
 
 public:
     // Constructors
@@ -18,7 +22,7 @@ public:
     void setColor(float newR, float newG, float newB);
 
     // Method to draw the rectangle
-    void draw() const;
+    void Draw(Renderer& renderer);
 };
 
 #endif

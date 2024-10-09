@@ -32,6 +32,7 @@ public:
 	void DrawAnimatedSprite(AnimatedSprite& sprite, int frame);
 	void CreateStaticText(const char* pText, int pointsize);
 	void DebugDraw();
+	void DrawRectangle(float x, float y, float width, float height, float red, float green, float blue, float alpha);
 protected:
 	bool InitialiseOpenGL(int screenWidth, int screenHeight);
 	void SetFullscreen(bool fullscreen);

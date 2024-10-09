@@ -67,11 +67,11 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pGameOverSprite->SetY(200);
 
 	m_pRectangle = new Rectangle();
-	m_pRectangle->height = 100.0f;
-	m_pRectangle->width = 100.0f;
+	m_pRectangle->height = 10.0f;
+	m_pRectangle->width = 10.0f;
 
-	m_pRectangle->setPosition(1.0f,1.0f);
-	m_pRectangle->setColor(0.0f, 0.0f, 0.0f);
+	m_pRectangle->setPosition(0.0f,0.0f);
+	m_pRectangle->setColor(1.0f, 0.0f, 0.0f);
 
 
 	return true;
@@ -184,7 +184,7 @@ void SceneFFGame::Draw(Renderer& renderer)
 	weapons[m_iCurrentWeapon]->Draw(renderer);
 	if (!m_pPlayer->IsAlive())
 		m_pGameOverSprite->Draw(renderer);
-	m_pRectangle->draw();
+	m_pRectangle->Draw(renderer);
 }
 
 void SceneFFGame::DebugDraw()
