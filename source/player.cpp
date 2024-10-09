@@ -84,8 +84,8 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 
 	//gun recoil
 	if (mouse1State == BS_PRESSED) {
-		m_velocity.x -= mvRate * 200 * cos(m_fAngle);//change this
-		m_velocity.y -= mvRate * 200 * sin(m_fAngle);
+		m_velocity.x -= mvRate * 200 * cosf(m_fAngle);//change this
+		m_velocity.y -= mvRate * 200 * sinf(m_fAngle);
 	}
 
 	CapSpeed();
