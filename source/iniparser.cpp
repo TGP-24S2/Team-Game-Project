@@ -8,8 +8,6 @@
 #include <stdexcept>
 #include <algorithm>
 
-typedef std::map<std::string, std::map<std::string, std::string>> WeaponData;
-
 IniParser* IniParser::sm_pInstance = 0;
 
 IniParser& IniParser::GetInstance()

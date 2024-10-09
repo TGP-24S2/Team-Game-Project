@@ -9,6 +9,8 @@ class Weapon;
 class Melee;
 class ParticleEmitter;
 
+typedef std::map<std::string, std::map<std::string, std::string>> WeaponData;
+
 class IniParser {
 public:
     static IniParser& GetInstance();
