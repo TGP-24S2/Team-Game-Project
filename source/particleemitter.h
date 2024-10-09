@@ -30,16 +30,11 @@ public:
     void DebugDraw();
 
     void SetTint(float red, float green, float blue);
-    
     void SetActive(bool active);
-
     void SetAccelerationScalar(float scalar);
-
     void SetAngle(float playerAngle);
-    
     void SetWeaponName(std::string name);
     std::string GetWeaponName();
-
     void SetDamage(int value);
     void SetRange(float value);
     void SetWeaponSprite(const char* spritePath);
@@ -47,6 +42,7 @@ public:
     void SetMinAngle(float minAngle);
     void SetMaxAngle(float maxAngle);
     void SetBulletCount(int bulletCount);
+    std::vector<Particle*> GetParticles(void);
 
 protected:
 

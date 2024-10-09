@@ -58,8 +58,7 @@ protected:
     float m_fX;
     float m_fY;
 
-
 private:
 
 };
-#endif //__PARTICLEEMITTER_H__
+#endif //__WEAPON_H__

@@ -150,6 +150,11 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			m_pPlayer->TakeDamage();
 		}
 	}
+	// weapon processing
+	for (const Weapon* weapon : weapons)
+	{
+
+	}
 
 }
 
