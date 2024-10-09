@@ -1,5 +1,3 @@
-
-//forward declaration for demo purposes
 class Rectangle
 {
 public:

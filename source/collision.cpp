@@ -1,6 +1,4 @@
-
-#include "Collision.h"
-
+#include "collision.h"
 
 bool Collision::CheckRectanglesColliding(Rectangle r1, Rectangle r2)
 {
