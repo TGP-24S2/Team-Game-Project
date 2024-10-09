@@ -24,17 +24,17 @@ public:
 
 	AnimatedSprite* GetSprite();
 
-	float GetRadius();
 	void SetPosition(int x, int y);
 	Vector2& GetPosition(); 
 	Vector2& GetVelocity();
 	void SetVelocity(int x, int y);
 	int GetHealth();
+	int GetMaxHealth();
 
 	bool IsCollidingWith(Entity* toCheck); 
 	bool IsAlive();
 	void Kill();
-
+	void TakeDamage();
 	void ComputeBounds(int width, int height);
 	void CheckBounds();
 	void RandomStartPlace();
@@ -46,11 +46,13 @@ private:
 
 	// Member data: 
 public:
+	static const int BALL_SIZE;
 
 protected:
 	AnimatedSprite* m_pSprite; 
 
 	int m_iHealth;
+	int m_iMaxHealth;
 	bool m_bAlive;
 
 	Vector2 m_position; 

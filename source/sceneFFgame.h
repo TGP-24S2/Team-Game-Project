@@ -37,7 +37,8 @@ private:
 public:
 	//TESTING
 	Ball* m_pTestBall;
-	Enemy* m_pTestEnemy;
+	Enemy** m_lpEnemies;
+	int m_iNumEnemies;
 
 	// game
 	float m_fLocalDeltaTime;

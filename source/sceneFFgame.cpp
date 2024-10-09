@@ -3,6 +3,7 @@
 // Local includes:
 #include "renderer.h"
 #include "sprite.h"
+#include "animatedsprite.h"
 #include "enemy.h"
 #include "player.h"
 #include "inputsystem.h"
@@ -11,6 +12,7 @@
 #include "weapon.h"
 #include "particleemitter.h"
 #include "melee.h"
+#include "inlinehelpers.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -21,7 +23,8 @@ SceneFFGame::SceneFFGame()
 	, m_fTimeSinceInput(0.0f)
 	, m_pPlayer(nullptr)
 	, m_pCursorSprite(nullptr)
-	, m_pTestEnemy(nullptr)
+	, m_lpEnemies(nullptr)
+	, m_iNumEnemies(0)
 {
 }
 
@@ -41,9 +44,13 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	weapons = IniParser::GetInstance().GetWeapons("config.ini"); //weapon vector
 	m_iCurrentWeapon = 1;
 
-	m_pTestEnemy = new Enemy();
-	m_pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
-	m_pTestEnemy->SetPlayer(m_pPlayer);
+	m_lpEnemies = new Enemy*[10];
+	m_iNumEnemies = 0;
+
+	Enemy* pTestEnemy = new Enemy();
+	pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
+	pTestEnemy->SetPlayer(m_pPlayer);
+	m_lpEnemies[m_iNumEnemies++] = pTestEnemy;
 
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
 	m_pCursorSprite->SetScale(1.0f);
@@ -55,6 +62,12 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 {
 	//update timer
 	m_fTimeSinceInput += deltaTime;
+
+	//End game if player dies
+	if (!m_pPlayer->IsAlive())
+	{
+		return;
+	}
 
 	//Player aim:
 	m_cursorPosition = inputSystem.GetMousePosition();
@@ -81,18 +94,14 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	//Game Logic:
 	float ratio = 1.0f - (m_fTimeSinceInput / m_fPostMovementTimeBuffer);
 	if (ratio < 0.0f)
-	{
 		ratio = 0.0f; //prevent negative values
-	}
 	m_fLocalDeltaTime = deltaTime * ratio;
 
-
+	// process entities
+	for (int i = 0; i < m_iNumEnemies; i++)
+		m_lpEnemies[i]->Process(m_fLocalDeltaTime);
 	m_pPlayer->Process(m_fLocalDeltaTime, inputSystem);
-
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
-
-	m_pTestEnemy->Process(m_fLocalDeltaTime);
-
 
 	//calculate angle towards crosshair
 	float angle = atan2(m_pCursorSprite->GetY() - m_pPlayer->GetY(), m_pCursorSprite->GetX() - m_pPlayer->GetX());
@@ -107,15 +116,35 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	//ensures the weapon is attached to player location with offset towards cursor
 	weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
 	
-	//std::cout << typeid(weapons[m_iCurrentWeapon]).name();
 	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
+
+	// Hitbox processing
+	float playerX = m_pPlayer->GetX();
+	float playerY = m_pPlayer->GetY();
+	// process player vs enemy collision
+	for (int i = 0; i < m_iNumEnemies; i++)
+	{
+		Enemy* pEnemy = m_lpEnemies[i];
+		Vector2 enemyPos = pEnemy->GetPosition();
+		float enemySize = pEnemy->GetSprite()->GetScale() * Entity::BALL_SIZE/2;
+		// TODO box collider?
+		bool withinX = playerX > enemyPos.x - enemySize && playerX < enemyPos.x + enemySize;
+		bool withinY = playerY > enemyPos.y - enemySize && playerY < enemyPos.y + enemySize;
+		if (withinX && withinY)
+		{
+			m_pPlayer->TakeDamage();
+		}
+	}
+
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
 {
+	// draw all entities (order matters)
+	for (int i = 0; i < m_iNumEnemies; i++)
+		m_lpEnemies[i]->Draw(renderer);
 	m_pPlayer->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
-	m_pTestEnemy->Draw(renderer);
 	weapons[m_iCurrentWeapon]->Draw(renderer);
 }
 

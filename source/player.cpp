@@ -18,7 +18,7 @@ bool Player::Initialise(Renderer& renderer)
 {
 	Entity::Initialise(renderer, "sprites\\ball.png"); // super();
 
-	m_pSprite->SetScale(0.3f);
+	m_pSprite->SetScale(m_fInitialScale);
 
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
@@ -34,6 +34,8 @@ bool Player::Initialise(Renderer& renderer)
 void Player::Process(float deltaTime, InputSystem& inputSystem)
 {
 	Entity::Process(deltaTime); // super()
+
+	m_pSprite->SetScale((float) m_iHealth / m_iMaxHealth * m_fInitialScale);
 
 	//Player self:
 	ButtonState leftMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_A));

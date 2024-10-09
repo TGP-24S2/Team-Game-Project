@@ -42,6 +42,7 @@ private:
 	float m_fSpeedScale = 1.0f;
 	float m_fMaxSpeed = 1000.0f;
 	float m_fWallBounceDecay = 0.8f;
+	float m_fInitialScale = 0.3f;
 };
 
 #endif // __PLAYER_H__

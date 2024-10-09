@@ -11,11 +11,12 @@
 float Entity::sm_fBoundaryWidth = 0.0f;
 float Entity::sm_fBoundaryHeight = 0.0f;
 
-const int BALL_PNG_SIZE_PX = 307;
+const int Entity::BALL_SIZE = 307;
 
 Entity::Entity()
     : m_pSprite(nullptr)
     , m_iHealth(100)
+    , m_iMaxHealth(100)
     , m_bAlive(true)
     , m_position(0, 0)
     , m_velocity(0, 0)
@@ -33,11 +34,11 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath)
     m_pSprite = renderer.CreateAnimatedSprite(spritePath);  // Allow dynamic loading of sprites for different entities
     m_pSprite->SetFrameDuration(0.2f);
     m_pSprite->SetLooping(true);
-    m_pSprite->SetupFrames(BALL_PNG_SIZE_PX, BALL_PNG_SIZE_PX);
+    m_pSprite->SetupFrames(BALL_SIZE, BALL_SIZE);
 
     int winHeight = IniParser::GetInstance().GetValueAsInt("Window", "Height");
     float tileHeight = (float)winHeight / 24;
-    float tileScale = tileHeight / BALL_PNG_SIZE_PX;
+    float tileScale = tileHeight / BALL_SIZE;
     m_pSprite->SetScale(tileScale);
 
     const int SCREEN_WIDTH = renderer.GetWidth();
@@ -56,11 +57,16 @@ void Entity::Process(float deltaTime)
     if (!m_bAlive)
         return;
 
+    // process movement
     CheckBounds();
 
     m_position += m_velocity * deltaTime;
     m_pSprite->SetPosition(static_cast<int>(m_position.x), static_cast<int>(m_position.y));  // Set grid-based position
     m_pSprite->Process(deltaTime);
+
+    // process health
+    if (m_iHealth <= 0)
+        m_bAlive = false;
 }
 
 void Entity::Draw(Renderer& renderer)
@@ -99,12 +105,6 @@ bool Entity::IsCollidingWith(Entity* toCheck)
     return (m_position.x == toCheck->m_position.x && m_position.y == toCheck->m_position.y);
 }
 
-float Entity::GetRadius()
-{
-    // Radius is irrelevant for a grid-based snake game, return a placeholder or remove it
-    return 0.0f;
-}
-
 AnimatedSprite* Entity::GetSprite() {
     return m_pSprite;
 }
@@ -112,6 +112,11 @@ AnimatedSprite* Entity::GetSprite() {
 int Entity::GetHealth()
 {
     return m_iHealth;
+}
+
+int Entity::GetMaxHealth()
+{
+    return m_iMaxHealth;
 }
 
 void Entity::Kill()
@@ -122,6 +127,11 @@ void Entity::Kill()
 bool Entity::IsAlive()
 {
     return m_bAlive;
+}
+
+void Entity::TakeDamage()
+{
+    m_iHealth--;
 }
 
 void Entity::ComputeBounds(int width, int height)

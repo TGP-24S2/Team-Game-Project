@@ -32,6 +32,8 @@ void Enemy::Initialise(Renderer& renderer, const char* spritePath)
 	m_pSprite->SetBlueTint(0.0f);
 	m_pSprite->SetGreenTint(0.0f);
 
+	RandomStartPlace();
+
 }
 
 void Enemy::Process(float deltaTime)
