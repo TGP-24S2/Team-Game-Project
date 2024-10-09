@@ -6,10 +6,9 @@
 #include "vector"
 
 class Weapon;
-class Melee;
-class ParticleEmitter;
 
-typedef std::map<std::string, std::map<std::string, std::string>> WeaponData;
+typedef std::map<std::string, std::string> Dict;
+typedef std::map<std::string, Dict> WeaponData;
 
 class IniParser {
 public:
@@ -30,7 +29,7 @@ public:
     static IniParser* sm_pInstance;
 protected:
 private:
-    std::map<std::string, std::string> data;
+    Dict data;
     std::string CreateMapKey(const std::string& section, const std::string& key);
 };
 

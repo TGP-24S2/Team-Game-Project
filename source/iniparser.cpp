@@ -131,7 +131,7 @@ WeaponData IniParser::GetWeaponData() {
             // Check if the section is a weapon section
             if (IsWeaponSection(section)) {
                 // Dynamically add all the key-value pairs from this section
-                std::map<std::string, std::string> sectionData;
+                Dict sectionData;
 
                 for (const auto& secEntry : data) {
                     std::string mapKey = secEntry.first;
