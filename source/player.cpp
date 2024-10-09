@@ -82,6 +82,10 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 	if (downMoveState == BS_HELD)
 		m_velocity.y += mvRate;
 
+	//gun recoil
+	if (mouse1State == BS_PRESSED)
+		m_velocity.y += mvRate*200;//change this
+
 	CapSpeed();
 }
 
