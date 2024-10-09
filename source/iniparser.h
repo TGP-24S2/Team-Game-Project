@@ -4,8 +4,7 @@
 #include <string>
 #include <map>
 #include "vector"
-
-class Weapon;
+#include "particleemitter.h"
 
 typedef std::map<std::string, std::string> Dict;
 typedef std::map<std::string, Dict> WeaponData;
@@ -20,7 +19,7 @@ public:
     float GetValueAsFloat(const std::string& iniSection, const std::string& key);
     bool GetValueAsBoolean(const std::string& iniSection, const std::string& key);
 
-    std::vector<Weapon*> GetWeapons(const std::string& filename);
+    std::vector<ParticleEmitter*> GetWeapons(const std::string& filename);
 protected:
 private:
     WeaponData GetWeaponData();

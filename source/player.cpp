@@ -82,10 +82,12 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 	if (downMoveState == BS_HELD)
 		m_velocity.y += mvRate;
 
-	//gun recoil
+	//gun recoil //need to change to detect melee to not have knockback for melee.
 	if (mouse1State == BS_PRESSED) {
-		m_velocity.x -= mvRate * 200 * cosf(m_fAngle);//change this
-		m_velocity.y -= mvRate * 200 * sinf(m_fAngle);
+		if (m_iWeaponType == 0) {
+			m_velocity.x -= mvRate * 200 * cosf(m_fAngle);//change this
+			m_velocity.y -= mvRate * 200 * sinf(m_fAngle);
+		}
 	}
 
 	CapSpeed();
@@ -122,4 +124,8 @@ float Player::GetY() {
 
 void Player::SetAimAngle(float angle) {
 	m_fAngle = angle;
+}
+
+void Player::SetWeaponType(int weaponType) {
+	m_iWeaponType = weaponType;
 }

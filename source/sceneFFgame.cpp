@@ -9,12 +9,10 @@
 #include "inputsystem.h"
 #include "iniparser.h"
 #include "imgui.h"
-#include "weapon.h"
 #include "particleemitter.h"
-#include "melee.h"
 #include "collision.h"
 #include "inlinehelpers.h"
-#include "rectanglemaker.h"
+#include "rectangle.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -50,7 +48,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pPlayer->Initialise(renderer);
 
 	weapons = IniParser::GetInstance().GetWeapons("config.ini"); //weapon vector
-	m_iCurrentWeapon = 1;
+	m_iCurrentWeapon = 0;
 
 	m_lpEnemies = new Enemy*[10];
 	m_iNumEnemies = 0;
@@ -69,8 +67,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pGameOverSprite->SetY(200);
 
 	m_pRectangle = new Rectangle();
-	m_pRectangle->setHeight(100.0f);
-	m_pRectangle->setLength(100.0f);
+	m_pRectangle->height = 100.0f;
+	m_pRectangle->width = 100.0f;
 
 	m_pRectangle->setPosition(1.0f,1.0f);
 	m_pRectangle->setColor(0.0f, 0.0f, 0.0f);
@@ -137,7 +135,15 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	weapons[m_iCurrentWeapon]->SetAngle(angle * 180.0f / (float)M_PI);
 	
 	//ensures the weapon is attached to player location with offset towards cursor
-	weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
+	if (weapons[m_iCurrentWeapon]->GetWeaponType() == 0) { //gun
+		weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
+	}
+	else if (weapons[m_iCurrentWeapon]->GetWeaponType() == 1) { //melee
+		weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX(), m_pPlayer->GetY());
+	}
+
+	m_pPlayer->SetWeaponType(weapons[m_iCurrentWeapon]->GetWeaponType());
+	
 	
 	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 
@@ -161,7 +167,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 	}
 	// weapon processing
-	for (const Weapon* weapon : weapons)
+	for (const ParticleEmitter* weapon : weapons)
 	{
 
 	}
@@ -184,7 +190,7 @@ void SceneFFGame::Draw(Renderer& renderer)
 void SceneFFGame::DebugDraw()
 {
 	ImGui::Text("Weapons:");
-	for (Weapon* weapon : weapons) {
+	for (ParticleEmitter* weapon : weapons) {
 		ImGui::Text(weapon->GetWeaponName().c_str());
 	}
 

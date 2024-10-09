@@ -1,10 +1,11 @@
+#pragma once
 // COMP710 GP Framework
 #ifndef __PARTICLEEMITTER_H__
 #define __PARTICLEEMITTER_H__
 
 // Library includes:
 #include <vector>
-#include "weapon.h"
+#include "string"
 
 // Forward declarations:
 class Renderer;
@@ -12,7 +13,7 @@ class Sprite;
 class Particle;
 
 // Class declaration:
-class ParticleEmitter : public Weapon
+class ParticleEmitter
 {
     // Member methods:
 public:
@@ -33,6 +34,8 @@ public:
     void SetActive(bool active);
     void SetAccelerationScalar(float scalar);
     void SetAngle(float playerAngle);
+
+
     void SetWeaponName(std::string name);
     std::string GetWeaponName();
     void SetDamage(int value);
@@ -44,6 +47,13 @@ public:
     void SetBulletCount(int bulletCount);
     std::vector<Particle*> GetParticles(void);
 
+    void SetMelee();
+    void SetGun();
+
+    void SpawnMeleeSwing();
+    void UpdateMeleeSwing(Particle* particle, float deltaTime);
+
+    int GetWeaponType();
 protected:
 
 private:
@@ -78,7 +88,11 @@ protected:
 
     int m_iDamage;
 
+    bool m_bOwned; //owned weapon
 
+    int m_iWeaponType;
+
+    std::string m_sName;
 private:
 
 };

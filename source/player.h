@@ -26,7 +26,7 @@ public:
 	float GetY();
 
 	void SetAimAngle(float angle);
-
+	void SetWeaponType(int weaponType);
 protected:
 
 private:
@@ -46,6 +46,8 @@ private:
 	float m_fWallBounceDecay = 0.8f;
 	float m_fInitialScale = 0.3f;
 	float m_fAngle = 0.0f;
+
+	int m_iWeaponType;
 };
 
 #endif // __PLAYER_H__

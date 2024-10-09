@@ -15,7 +15,7 @@ class Player;
 class Rectangle;
 
 //testing
-class Weapon;
+class ParticleEmitter;
 
 class SceneFFGame : public Scene
 {
@@ -57,7 +57,7 @@ public:
 
 	//TESTING remove later probs
 	Ball* m_pTestBall;
-	std::vector<Weapon*> weapons;
+	std::vector<ParticleEmitter*> weapons;
 	int m_iCurrentWeapon;
 
 	Rectangle* m_pRectangle;

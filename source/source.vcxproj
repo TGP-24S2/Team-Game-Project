@@ -37,11 +37,10 @@
     <ClCompile Include="logmanager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
-    <ClCompile Include="melee.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particleemitter.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="rectanglemaker.cpp" />
+    <ClCompile Include="rectangle.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneFFgame.cpp" />
@@ -54,7 +53,6 @@
     <ClCompile Include="texturemanager.cpp" />
     <ClCompile Include="vector2.cpp" />
     <ClCompile Include="vertexarray.cpp" />
-    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="xboxcontroller.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -78,11 +76,10 @@
     <ClInclude Include="inputsystem.h" />
     <ClInclude Include="logmanager.h" />
     <ClInclude Include="matrix4.h" />
-    <ClInclude Include="melee.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleemitter.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="rectanglemaker.h" />
+    <ClInclude Include="rectangle.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneFFgame.h" />
@@ -95,7 +92,6 @@
     <ClInclude Include="texturemanager.h" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="vertexarray.h" />
-    <ClInclude Include="weapon.h" />
     <ClInclude Include="xboxcontroller.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

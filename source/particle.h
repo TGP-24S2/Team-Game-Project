@@ -37,6 +37,8 @@ public:
     float m_fColour[3];
     bool m_bAlive;
 
+    float m_fCurrentAngle;
+
 protected:
 
 
