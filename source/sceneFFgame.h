@@ -35,11 +35,6 @@ private:
 
 	// Member data:
 public:
-	//TESTING
-	Ball* m_pTestBall;
-	Enemy** m_lpEnemies;
-	int m_iNumEnemies;
-
 	// game
 	float m_fLocalDeltaTime;
 	float m_fTimeSinceInput;
@@ -47,15 +42,19 @@ public:
 
 	// player
 	Player* m_pPlayer;
+	// enemies
+	Enemy** m_lpEnemies;
+	int m_iNumEnemies;
+
+	// text sprites
+	Sprite* m_pGameOverSprite;
 
 	// cursor
 	Sprite* m_pCursorSprite;
-
 	Vector2 m_cursorPosition;
 
-
-
 	//TESTING remove later probs
+	Ball* m_pTestBall;
 	std::vector<Weapon*> weapons;
 	int m_iCurrentWeapon;
 

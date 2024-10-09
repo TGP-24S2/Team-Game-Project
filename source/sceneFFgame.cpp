@@ -22,9 +22,10 @@ SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
 	, m_fTimeSinceInput(0.0f)
 	, m_pPlayer(nullptr)
-	, m_pCursorSprite(nullptr)
 	, m_lpEnemies(nullptr)
 	, m_iNumEnemies(0)
+	, m_pCursorSprite(nullptr)
+	, m_pGameOverSprite(nullptr)
 {
 }
 
@@ -32,6 +33,11 @@ SceneFFGame::~SceneFFGame()
 {
 	delete m_pPlayer;
 	delete m_pCursorSprite;
+	delete m_pGameOverSprite;
+	for (int i = 0; i < m_iNumEnemies; i++)
+	{
+		delete m_lpEnemies[i];
+	}
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
@@ -54,6 +60,11 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
 	m_pCursorSprite->SetScale(1.0f);
+
+	m_pGameOverSprite = renderer.CreateSprite("sprites\\gameover.png");
+	m_pGameOverSprite->SetScale(0.5f);
+	m_pGameOverSprite->SetX(600);
+	m_pGameOverSprite->SetY(200);
 
 	return true;
 }
@@ -146,6 +157,8 @@ void SceneFFGame::Draw(Renderer& renderer)
 	m_pPlayer->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
 	weapons[m_iCurrentWeapon]->Draw(renderer);
+	if (!m_pPlayer->IsAlive())
+		m_pGameOverSprite->Draw(renderer);
 }
 
 void SceneFFGame::DebugDraw()
