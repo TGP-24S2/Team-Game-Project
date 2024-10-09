@@ -25,6 +25,8 @@ public:
 	float GetX();
 	float GetY();
 
+	void SetAimAngle(float angle);
+
 protected:
 
 private:
@@ -43,6 +45,7 @@ private:
 	float m_fMaxSpeed = 1000.0f;
 	float m_fWallBounceDecay = 0.8f;
 	float m_fInitialScale = 0.3f;
+	float m_fAngle = 0.0f;
 };
 
 #endif // __PLAYER_H__

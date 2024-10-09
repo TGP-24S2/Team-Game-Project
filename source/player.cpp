@@ -83,8 +83,10 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 		m_velocity.y += mvRate;
 
 	//gun recoil
-	if (mouse1State == BS_PRESSED)
-		m_velocity.y += mvRate*200;//change this
+	if (mouse1State == BS_PRESSED) {
+		m_velocity.x -= mvRate * 200 * cos(m_fAngle);//change this
+		m_velocity.y -= mvRate * 200 * sin(m_fAngle);
+	}
 
 	CapSpeed();
 }
@@ -116,4 +118,8 @@ float Player::GetX() {
 }
 float Player::GetY() {
 	return m_position.y;
+}
+
+void Player::SetAimAngle(float angle) {
+	m_fAngle = angle;
 }

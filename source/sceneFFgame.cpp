@@ -120,6 +120,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	//offset to player
 	float offsetX = 80 * cos(angle);
 	float offsetY = 80 * sin(angle);
+
+	m_pPlayer->SetAimAngle(angle);
 	
 	//aims towards crosshair + convert to degrees
 	weapons[m_iCurrentWeapon]->SetAngle(angle * 180.0f / (float)M_PI);
