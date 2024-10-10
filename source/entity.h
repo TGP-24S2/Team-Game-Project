@@ -34,7 +34,7 @@ public:
 	bool IsCollidingWith(Entity* toCheck); 
 	bool IsAlive();
 	void Kill();
-	void TakeDamage();
+	void TakeDamage(int);
 	void ComputeBounds(int width, int height);
 	void CheckBounds();
 	void RandomStartPlace();

@@ -129,9 +129,9 @@ bool Entity::IsAlive()
     return m_bAlive;
 }
 
-void Entity::TakeDamage()
+void Entity::TakeDamage(int damage)
 {
-    m_iHealth--;
+    m_iHealth -= damage;
 }
 
 void Entity::ComputeBounds(int width, int height)

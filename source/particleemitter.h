@@ -38,6 +38,7 @@ public:
     void SetWeaponName(std::string name);
     std::string GetWeaponName();
     void SetDamage(int value);
+    int GetDamage(void);
     void SetRange(float value);
     void SetWeaponSprite(const char* spritePath);
     void SetBulletSprite(const char* spritePath);

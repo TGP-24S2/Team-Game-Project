@@ -159,20 +159,21 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		// check collision with player
 		if (Collision::CheckBallCollision(m_pPlayer->GetSprite(), pEnemy->GetSprite()))
 		{
-			m_pPlayer->TakeDamage();
+			m_pPlayer->TakeDamage(pEnemy->GetDamage());
 		}
 
 		// check weapon->bullet collision
 		for (const auto weapon : weapons)
 		{
 			auto bullets = weapon->GetParticles();
+			auto damage = weapon->GetDamage();
 			// check hitbox of each bullet
 			for (const auto bullet : bullets)
 			{
 				if (Collision::CheckBallCollision(bullet->GetSprite(), pEnemy->GetSprite()))
 				{
 					// enemy damage when hit
-					pEnemy->TakeDamage();
+					pEnemy->TakeDamage(damage);
 				}
 			}
 		}

@@ -199,6 +199,10 @@ void ParticleEmitter::SetDamage(int value) {
     m_iDamage = value;
 }
 
+int ParticleEmitter::GetDamage(void){
+    return m_iDamage;
+}
+
 void ParticleEmitter::SetRange(float value) {
     m_fMaxLifespan = value;
 }

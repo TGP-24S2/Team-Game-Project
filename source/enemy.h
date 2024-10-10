@@ -30,6 +30,7 @@ private:
 
 	// vars:
 public:
+
 protected:
 	int m_iDamage;
 	float m_fInitialScale;
