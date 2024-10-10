@@ -9,7 +9,7 @@
 #include "inputsystem.h"
 #include "iniparser.h"
 #include "imgui.h"
-#include "particle.h"
+#include "particle.h" 
 #include "particleemitter.h"
 #include "collision.h"
 #include "inlinehelpers.h"
@@ -162,11 +162,26 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 	}
 	// weapon processing
-	/*
 	for (const auto weapon : weapons)
 	{
+		auto bullets = weapon->GetParticles();
+		// check hitbox of each bullet
+		for (const auto bullet : bullets)
+		{
+			// check if bullet hits any enemy
+			for (int i = 0; i < m_iNumEnemies; i++)
+			{
+				Enemy* pEnemy = m_lpEnemies[i];
+
+				bool colliding = Collision::CheckBallCollision(bullet->m_pSharedSprite, pEnemy->GetSprite());
+				if (colliding)
+				{
+					// enemy damage when hit
+					pEnemy->TakeDamage();
+				}
+			}
+		}
 	}
-	*/
 
 }
 
