@@ -32,6 +32,7 @@ private:
 public:
 protected:
 	int m_iDamage;
+	float m_fInitialScale;
 	Player* m_pPlayer;
 	bool m_bTargetingPlayer;
 

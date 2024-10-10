@@ -151,30 +151,25 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	// Hitbox processing
 	float playerX = m_pPlayer->GetX();
 	float playerY = m_pPlayer->GetY();
-	// process player vs enemy collision
+	// process collision with enemies
 	for (int i = 0; i < m_iNumEnemies; i++)
 	{
 		Enemy* pEnemy = m_lpEnemies[i];
-		bool colliding = Collision::CheckBallCollision(m_pPlayer->GetSprite(), pEnemy->GetSprite());
-		if (colliding)
+
+		// check collision with player
+		if (Collision::CheckBallCollision(m_pPlayer->GetSprite(), pEnemy->GetSprite()))
 		{
 			m_pPlayer->TakeDamage();
 		}
-	}
-	// weapon processing
-	for (const auto weapon : weapons)
-	{
-		auto bullets = weapon->GetParticles();
-		// check hitbox of each bullet
-		for (const auto bullet : bullets)
-		{
-			// check if bullet hits any enemy
-			for (int i = 0; i < m_iNumEnemies; i++)
-			{
-				Enemy* pEnemy = m_lpEnemies[i];
 
-				bool colliding = Collision::CheckBallCollision(bullet->GetSprite(), pEnemy->GetSprite());
-				if (colliding)
+		// check weapon->bullet collision
+		for (const auto weapon : weapons)
+		{
+			auto bullets = weapon->GetParticles();
+			// check hitbox of each bullet
+			for (const auto bullet : bullets)
+			{
+				if (Collision::CheckBallCollision(bullet->GetSprite(), pEnemy->GetSprite()))
 				{
 					// enemy damage when hit
 					pEnemy->TakeDamage();

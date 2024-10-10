@@ -7,6 +7,7 @@
 Enemy::Enemy()
 	: Entity()
 	, m_iDamage(0)
+	, m_fInitialScale(0.5f)
 	, m_bTargetingPlayer(false)
 {
 }
@@ -26,7 +27,8 @@ void Enemy::Initialise(Renderer& renderer, const char* spritePath)
 {
 	Entity::Initialise(renderer, spritePath); //super()
 	
-	m_pSprite->SetScale(0.5f);
+	m_pSprite->SetScale(m_fInitialScale);
+
 	// set bad
 	m_pSprite->SetRedTint(1.0f);
 	m_pSprite->SetBlueTint(0.0f);
@@ -38,7 +40,9 @@ void Enemy::Initialise(Renderer& renderer, const char* spritePath)
 
 void Enemy::Process(float deltaTime)
 {
-	Entity::Process(deltaTime);
+	Entity::Process(deltaTime); // super
+
+	m_pSprite->SetScale((float)m_iHealth / m_iMaxHealth * m_fInitialScale);
 }
 
 void Enemy::SetPlayer(Player* pPlayer)
