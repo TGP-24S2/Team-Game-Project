@@ -173,7 +173,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			{
 				Enemy* pEnemy = m_lpEnemies[i];
 
-				bool colliding = Collision::CheckBallCollision(bullet->m_pSharedSprite, pEnemy->GetSprite());
+				bool colliding = Collision::CheckBallCollision(bullet->GetSprite(), pEnemy->GetSprite());
 				if (colliding)
 				{
 					// enemy damage when hit

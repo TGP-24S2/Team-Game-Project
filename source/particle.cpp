@@ -7,8 +7,9 @@
 #include "sprite.h"
 
 Particle::Particle()
-    : m_bAlive(false)
+    : Entity()
     , m_fCurrentAge(0.0f)
+    , m_fCurrentAngle(0.0f)
     , m_fColour{ 0.0f, 0.0f, 0.0f }
     , m_fMaxLifespan(0.0f)
     , m_pSharedSprite(nullptr)
@@ -58,4 +59,29 @@ Particle::Draw(Renderer& renderer)
         m_pSharedSprite->SetY((int)m_position.y);
         m_pSharedSprite->Draw(renderer);
     }
+}
+
+Sprite* Particle::GetSprite(void)
+{
+    return m_pSharedSprite;
+}
+
+void Particle::SetPosition(float x, float y)
+{
+    m_position = Vector2(x, y);
+}
+
+void Particle::SetVelocity(float x, float y)
+{
+    m_velocity = Vector2(x, y);
+}
+
+void Particle::SetAlive(void)
+{
+    m_bAlive = true;
+}
+
+void Particle::SetUnalive(void)
+{
+    m_bAlive = false;
 }

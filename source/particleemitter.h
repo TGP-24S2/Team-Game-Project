@@ -35,7 +35,6 @@ public:
     void SetAccelerationScalar(float scalar);
     void SetAngle(float playerAngle);
 
-
     void SetWeaponName(std::string name);
     std::string GetWeaponName();
     void SetDamage(int value);

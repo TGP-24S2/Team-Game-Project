@@ -73,7 +73,7 @@ void ParticleEmitter::Process(float deltaTime)
     for (auto it = m_particles.begin(); it != m_particles.end(); )
     {
         Particle* particle = *it;
-        if (particle->m_bAlive)
+        if (particle->IsAlive())
         {
             // Update the melee swing position if it's a melee weapon
             if (m_iWeaponType == MELEE) {
@@ -105,7 +105,7 @@ void ParticleEmitter::Draw(Renderer& renderer)
     if (m_bActive) {
         for (Particle* particle : m_particles)
         {
-            if (particle->m_bAlive)
+            if (particle->IsAlive())
             {
                 particle->Draw(renderer);
             }
@@ -125,13 +125,14 @@ void ParticleEmitter::Spawn()
 
     if (particle->Initialise(*m_pSharedSprite))
     {
-        particle->m_bAlive = true;
+        particle->SetAlive();
         particle->m_fMaxLifespan = m_fMaxLifespan;
-        particle->m_position = Vector2(m_fX, m_fY);
+        particle->SetPosition(m_fX, m_fY);
 
         float angle = m_fMinAngle + (rand() / (float)RAND_MAX) * (m_fMaxAngle - m_fMinAngle);
         float radians = angle * (3.14159f / 180.0f);
-        particle->m_velocity = Vector2(cosf(radians), sinf(radians)) * m_fAccelerationScalar;
+        Vector2 vel = Vector2(cosf(radians), sinf(radians)) * m_fAccelerationScalar;
+        particle->SetVelocity(vel.x, vel.y);
 
         particle->m_fColour[0] = m_fColour[0];
         particle->m_fColour[1] = m_fColour[1];
@@ -256,9 +257,9 @@ void ParticleEmitter::SpawnMeleeSwing()
 
     if (particle->Initialise(*m_pSharedSprite))
     {
-        particle->m_bAlive = true;
+        particle->SetAlive();
         particle->m_fMaxLifespan = m_fMaxLifespan;  // Set lifespan as needed
-        particle->m_position = Vector2(m_fX, m_fY); // Initial position is at the player
+        particle->SetPosition(m_fX, m_fY); // Initial position is at the player
 
         // Initialize swing angle
         particle->m_fCurrentAngle = m_fMinAngle;
@@ -285,7 +286,7 @@ void ParticleEmitter::UpdateMeleeSwing(Particle* particle, float deltaTime)
 
     // Clamp angle between minAngle and maxAngle
     if (particle->m_fCurrentAngle > m_fMaxAngle) {
-        particle->m_bAlive = false; // End the swing when maxAngle is reached
+        particle->SetUnalive(); // End the swing when maxAngle is reached
         return;
     }
 
@@ -298,7 +299,7 @@ void ParticleEmitter::UpdateMeleeSwing(Particle* particle, float deltaTime)
     float y = m_fY + sinf(radians) * radius;
 
     // Update the particle's position
-    particle->m_position = Vector2(x, y);
+    particle->SetPosition(x, y);
 }
 
 int ParticleEmitter::GetWeaponType() {

@@ -4,13 +4,14 @@
 
 // Local includes:
 #include "Vector2.h"
+#include "entity.h"
 
 // Forward declarations:
 class Renderer;
 class Sprite;
 
 // Class declaration:
-class Particle
+class Particle : public Entity
 {
     // Member methods:
 public:
@@ -19,6 +20,12 @@ public:
     bool Initialise(Sprite& sprite);
     void Process(float deltaTime);
     void Draw(Renderer& renderer);
+
+    Sprite* GetSprite(void);
+    void SetPosition(float, float);
+    void SetVelocity(float, float);
+    void SetAlive(void);
+    void SetUnalive(void);
 
 protected:
 
@@ -29,19 +36,13 @@ private:
     // Member data:
 public:
     Sprite* m_pSharedSprite;
-    Vector2 m_position;
-    Vector2 m_velocity;
-    Vector2 m_acceleration;
     float m_fMaxLifespan;
     float m_fCurrentAge;
     float m_fColour[3];
-    bool m_bAlive;
-
     float m_fCurrentAngle;
 
 protected:
-
-
+    Vector2 m_acceleration;
 private:
 };
 
