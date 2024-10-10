@@ -39,7 +39,7 @@ public:
 protected:
 
 private:
-	float m_fAccelerationRate = 3.0f;
+	float m_fAccelerationRate = 1.0f;
 	float m_fDecelerationRate = 0.3f;
 	float m_fSpeedScale = 1.0f;
 	float m_fMaxSpeed = 1000.0f;
