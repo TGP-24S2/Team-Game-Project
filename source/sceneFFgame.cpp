@@ -9,6 +9,7 @@
 #include "inputsystem.h"
 #include "iniparser.h"
 #include "imgui.h"
+#include "particle.h"
 #include "particleemitter.h"
 #include "collision.h"
 #include "inlinehelpers.h"
@@ -154,23 +155,18 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	for (int i = 0; i < m_iNumEnemies; i++)
 	{
 		Enemy* pEnemy = m_lpEnemies[i];
-		const double circleSquareRatio = M_PI / 4.0;
-		int ballSize = (int)(Entity::BALL_SIZE * circleSquareRatio) + 1;
-		bool colliding = Collision::CheckSizedSpritesColliding
-		(
-			m_pPlayer->GetSprite(), ballSize,
-			pEnemy->GetSprite(), ballSize
-		);
+		bool colliding = Collision::CheckBallCollision(m_pPlayer->GetSprite(), pEnemy->GetSprite());
 		if (colliding)
 		{
 			m_pPlayer->TakeDamage();
 		}
 	}
 	// weapon processing
-	for (const ParticleEmitter* weapon : weapons)
+	/*
+	for (const auto weapon : weapons)
 	{
-
 	}
+	*/
 
 }
 

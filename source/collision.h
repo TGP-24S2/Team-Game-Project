@@ -7,7 +7,8 @@ class Rectangle;
 class Collision
 {
 public:
-	static bool CheckRectanglesColliding(Rectangle, Rectangle);
-	static bool CheckSizedSpritesColliding(Sprite*, int baseSize1, Sprite*, int baseSize2);
+	static bool CheckRectangleCollision(Rectangle, Rectangle);
+	static bool CheckSpriteCollision(Sprite*, int baseSize1, Sprite*, int baseSize2);
+	static bool CheckBallCollision(Sprite*, Sprite*);
 };
 #endif // __COLLISION_H__
