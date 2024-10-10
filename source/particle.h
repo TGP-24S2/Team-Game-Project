@@ -24,8 +24,11 @@ public:
     Sprite* GetSprite(void);
     void SetPosition(float, float);
     void SetVelocity(float, float);
-    void SetAlive(void);
-    void SetUnalive(void);
+    void SetEnabled(void);
+    void SetDisabled(void);
+    void SetMaxLifespan(float);
+    void SetColour(float rgb[3]);
+    void SetColour(float, float, float);
 
 protected:
 
@@ -35,14 +38,15 @@ private:
 
     // Member data:
 public:
-    Sprite* m_pSharedSprite;
-    float m_fMaxLifespan;
-    float m_fCurrentAge;
-    float m_fColour[3];
     float m_fCurrentAngle;
 
 protected:
+    Sprite* m_pSprite;
+    float m_fMaxLifespan;
+    float m_fCurrentAge;
+    float m_fColour[3];
     Vector2 m_acceleration;
+
 private:
 };
 

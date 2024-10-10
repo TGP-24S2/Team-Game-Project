@@ -125,8 +125,8 @@ void ParticleEmitter::Spawn()
 
     if (particle->Initialise(*m_pSharedSprite))
     {
-        particle->SetAlive();
-        particle->m_fMaxLifespan = m_fMaxLifespan;
+        particle->SetEnabled();
+        particle->SetMaxLifespan(m_fMaxLifespan);
         particle->SetPosition(m_fX, m_fY);
 
         float angle = m_fMinAngle + (rand() / (float)RAND_MAX) * (m_fMaxAngle - m_fMinAngle);
@@ -134,9 +134,7 @@ void ParticleEmitter::Spawn()
         Vector2 vel = Vector2(cosf(radians), sinf(radians)) * m_fAccelerationScalar;
         particle->SetVelocity(vel.x, vel.y);
 
-        particle->m_fColour[0] = m_fColour[0];
-        particle->m_fColour[1] = m_fColour[1];
-        particle->m_fColour[2] = m_fColour[2];
+        particle->SetColour(m_fColour);
 
         m_particles.push_back(particle);
     }
@@ -189,7 +187,6 @@ void ParticleEmitter::SetAngle(float playerAngle) {
     m_fMinAngle = playerAngle - halfSpread;
     m_fMaxAngle = playerAngle + halfSpread;
 }
-
 
 
 //for initialization
@@ -257,17 +254,15 @@ void ParticleEmitter::SpawnMeleeSwing()
 
     if (particle->Initialise(*m_pSharedSprite))
     {
-        particle->SetAlive();
-        particle->m_fMaxLifespan = m_fMaxLifespan;  // Set lifespan as needed
+        particle->SetEnabled();
+        particle->SetMaxLifespan(m_fMaxLifespan);  // Set lifespan as needed
         particle->SetPosition(m_fX, m_fY); // Initial position is at the player
 
         // Initialize swing angle
-        particle->m_fCurrentAngle = m_fMinAngle;
+        particle->m_fCurrentAngle = (m_fMinAngle);
 
         // Set melee weapon properties
-        particle->m_fColour[0] = m_fColour[0];
-        particle->m_fColour[1] = m_fColour[1];
-        particle->m_fColour[2] = m_fColour[2];
+        particle->SetColour(m_fColour);
 
         m_particles.push_back(particle);  // Add this particle to the emitter
     }
@@ -286,7 +281,7 @@ void ParticleEmitter::UpdateMeleeSwing(Particle* particle, float deltaTime)
 
     // Clamp angle between minAngle and maxAngle
     if (particle->m_fCurrentAngle > m_fMaxAngle) {
-        particle->SetUnalive(); // End the swing when maxAngle is reached
+        particle->SetDisabled(); // End the swing when maxAngle is reached
         return;
     }
 

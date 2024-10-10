@@ -12,20 +12,20 @@ Particle::Particle()
     , m_fCurrentAngle(0.0f)
     , m_fColour{ 0.0f, 0.0f, 0.0f }
     , m_fMaxLifespan(0.0f)
-    , m_pSharedSprite(nullptr)
+    , m_pSprite(nullptr)
 {
 }
 
 Particle::~Particle()
 {
-    //delete m_pSharedSprite;
-    m_pSharedSprite = nullptr;
+    //delete m_pSprite;
+    m_pSprite = nullptr;
 }
 
 bool
 Particle::Initialise(Sprite& sprite)
 {
-    m_pSharedSprite = &sprite;
+    m_pSprite = &sprite;
     return true;
 }
 
@@ -50,20 +50,20 @@ Particle::Draw(Renderer& renderer)
 {
     if (m_bAlive)
     {
-        m_pSharedSprite->SetRedTint(m_fColour[0]);
-        m_pSharedSprite->SetGreenTint(m_fColour[1]);
-        m_pSharedSprite->SetBlueTint(m_fColour[2]);
+        m_pSprite->SetRedTint(m_fColour[0]);
+        m_pSprite->SetGreenTint(m_fColour[1]);
+        m_pSprite->SetBlueTint(m_fColour[2]);
         //float alpha = (float)(1.0f - (m_fCurrentAge / m_fMaxLifespan));
-        //m_pSharedSprite->SetAlpha(alpha);
-        m_pSharedSprite->SetX((int)m_position.x);
-        m_pSharedSprite->SetY((int)m_position.y);
-        m_pSharedSprite->Draw(renderer);
+        //m_pSprite->SetAlpha(alpha);
+        m_pSprite->SetX((int)m_position.x);
+        m_pSprite->SetY((int)m_position.y);
+        m_pSprite->Draw(renderer);
     }
 }
 
 Sprite* Particle::GetSprite(void)
 {
-    return m_pSharedSprite;
+    return m_pSprite;
 }
 
 void Particle::SetPosition(float x, float y)
@@ -76,12 +76,31 @@ void Particle::SetVelocity(float x, float y)
     m_velocity = Vector2(x, y);
 }
 
-void Particle::SetAlive(void)
+void Particle::SetEnabled(void)
 {
     m_bAlive = true;
 }
 
-void Particle::SetUnalive(void)
+void Particle::SetDisabled(void)
 {
     m_bAlive = false;
+}
+
+void Particle::SetMaxLifespan(float n)
+{
+    m_fMaxLifespan = n;
+}
+
+void Particle::SetColour(float rgb[3])
+{
+    m_fColour[0] = rgb[0];
+    m_fColour[1] = rgb[1];
+    m_fColour[2] = rgb[2];
+}
+
+void Particle::SetColour(float r, float g, float b)
+{
+    m_fColour[0] = r;
+    m_fColour[1] = g;
+    m_fColour[2] = b;
 }
