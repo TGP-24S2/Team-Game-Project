@@ -29,6 +29,7 @@ SceneFFGame::SceneFFGame()
 	, m_pCursorSprite(nullptr)
 	, m_pGameOverSprite(nullptr)
 	, m_pYouWinSprite(nullptr)
+	, m_bRunning(false)
 {
 }
 
@@ -63,6 +64,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
 	m_pRenderer = &renderer;
 	m_pSoundSystem = soundSystem;
+
+	m_bRunning = true;
 
 	renderer.SetClearColour(255, 255, 255);
 
@@ -133,23 +136,25 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (upMoveState == BS_HELD)		m_fTimeSinceInput = 0;
 	if (downMoveState == BS_HELD)	m_fTimeSinceInput = 0;
 	if (mouse1State == BS_PRESSED)	m_fTimeSinceInput = 0;
+
 	// restart on keypress
 	if (gameRestartState == BS_RELEASED)
 	{
 		WipeScene();
 		Initialise(*m_pRenderer, m_pSoundSystem);
 	}
+
+	//Exit here if game is paused
+	if (!m_bRunning)
+		return;
+
 	// sound when attacking
 	if (mouse1State == BS_PRESSED) {
 		m_pSoundSystem->PlaySound("sounds\\SE-LaserHit.wav");
 	}
 
-	//Before getting to game logic:
-	//End game if player is dead
-	if (!m_pPlayer->IsAlive())
-		return;
-
 	//Game Logic:
+
 	float ratio = 1.0f - (m_fTimeSinceInput / m_fPostMovementTimeBuffer);
 	if (ratio < 0.0f)
 		ratio = 0.0f; //prevent negative values
@@ -238,9 +243,15 @@ void SceneFFGame::Draw(Renderer& renderer)
 	weapons[m_iCurrentWeapon]->Draw(renderer);
 
 	if (!m_pPlayer->IsAlive())
+	{
 		m_pGameOverSprite->Draw(renderer);
+		m_bRunning = false;
+	}
 	if (numAliveEnemies == 0)
+	{
 		m_pYouWinSprite->Draw(renderer);
+		m_bRunning = false;
+	}
 
 	m_pRectangle->Draw(renderer);
 }
