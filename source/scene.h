@@ -15,6 +15,7 @@ class Scene
 public:
 	Scene();
 	virtual ~Scene();
+	virtual void WipeScene() {}
 	virtual bool Initialise(Renderer& renderer, SoundSystem* soundSystem) = 0;
 	virtual void Process(float deltaTime, InputSystem& inputSystem) = 0;
 	virtual void Draw(Renderer& renderer) = 0;

@@ -15,8 +15,7 @@ class Ball;
 class Enemy;
 class Player;
 class Rectangle;
-
-//testing
+class SoundSystem;
 class ParticleEmitter;
 
 class SceneFFGame : public Scene
@@ -29,6 +28,7 @@ public:
 	 bool Initialise(Renderer& renderer, SoundSystem* soundSystem);
 	 void Process(float deltaTime, InputSystem& inputSystem);
 	 void Draw(Renderer& renderer);
+	 void WipeScene();
 
 	 void DebugDraw();
 
@@ -70,6 +70,8 @@ public:
 protected:
 
 private:
+	Renderer* m_pRenderer;
+	SoundSystem* m_pSoundSystem2;
 
 	FMOD::System* m_pSoundSystem;
 	FMOD::Sound* m_pLaserSound;

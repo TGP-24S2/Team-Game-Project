@@ -33,6 +33,11 @@ SceneFFGame::SceneFFGame()
 
 SceneFFGame::~SceneFFGame()
 {
+	WipeScene();
+}
+
+void SceneFFGame::WipeScene()
+{
 	delete m_pPlayer;
 	delete m_pCursorSprite;
 	delete m_pGameOverSprite;
@@ -41,10 +46,23 @@ SceneFFGame::~SceneFFGame()
 	{
 		delete m_lpEnemies[i];
 	}
+
+	m_pPlayer = nullptr;
+	m_pCursorSprite = nullptr;
+	m_pGameOverSprite = nullptr;
+	m_pYouWinSprite = nullptr;
+	for (int i = 0; i < m_iNumEnemies; i++)
+	{
+		m_lpEnemies[i] = nullptr;
+	}
+	m_iNumEnemies = 0;
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
+	m_pRenderer = &renderer;
+	m_pSoundSystem2 = soundSystem;
+
 	renderer.SetClearColour(255, 255, 255);
 
 	m_pPlayer = new Player();
@@ -81,7 +99,6 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pRectangle->setPosition(0.0f,0.0f);
 	m_pRectangle->setColor(1.0f, 0.0f, 0.0f);
 
-
 	return true;
 }
 
@@ -96,12 +113,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	//update timer
 	m_fTimeSinceInput += deltaTime;
 
-	//End game if player dies
-	if (!m_pPlayer->IsAlive())
-	{
-		return;
-	}
-
 	//Player aim:
 	m_cursorPosition = inputSystem.GetMousePosition();
 	m_pCursorSprite->SetX(static_cast<int>(m_cursorPosition.x));
@@ -112,6 +123,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	ButtonState rightMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_D));
 	ButtonState upMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_W));
 	ButtonState downMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_S));
+	ButtonState gameRestartState = (inputSystem.GetKeyState(SDL_SCANCODE_RETURN));
 	ButtonState mouse1State = (inputSystem.GetMouseButtonState(1));
 
 	// Check input for time buffer:
@@ -123,12 +135,22 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (upMoveState == BS_HELD)		m_fTimeSinceInput = 0;
 	if (downMoveState == BS_HELD)	m_fTimeSinceInput = 0;
 	if (mouse1State == BS_PRESSED)	m_fTimeSinceInput = 0;
-
+	// restart on keypress
+	if (gameRestartState == BS_RELEASED)
+	{
+		WipeScene();
+		Initialise(*m_pRenderer, m_pSoundSystem2);
+	}
 	// sound when attacking
 	if (mouse1State == BS_PRESSED) {
 		FMOD::Channel* channel = 0;
 		m_pSoundSystem->playSound(m_pLaserSound, 0, false, &channel);
 	}
+
+	//Before getting to game logic:
+	//End game if player is dead
+	if (!m_pPlayer->IsAlive())
+		return;
 
 	//Game Logic:
 	float ratio = 1.0f - (m_fTimeSinceInput / m_fPostMovementTimeBuffer);
@@ -196,6 +218,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			}
 		}
 	}
+
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
