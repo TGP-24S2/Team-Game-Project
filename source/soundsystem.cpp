@@ -7,12 +7,12 @@ SoundSystem* SoundSystem::sm_pInstance = 0;
 SoundSystem&
 SoundSystem::GetInstance()
 {
-    if (sm_pInstance ==
-        0)
+    if (sm_pInstance == nullptr)
     {
-        sm_pInstance =
-            new SoundSystem();
-    }return (*sm_pInstance);
+        sm_pInstance = new SoundSystem();
+    }
+    
+    return (*sm_pInstance);
 }
 void
 SoundSystem::DestroyInstance()

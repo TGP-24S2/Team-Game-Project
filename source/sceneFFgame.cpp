@@ -14,6 +14,7 @@
 #include "collision.h"
 #include "inlinehelpers.h"
 #include "rectangle.h"
+#include "soundsystem.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -61,7 +62,7 @@ void SceneFFGame::WipeScene()
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
 	m_pRenderer = &renderer;
-	m_pSoundSystem2 = soundSystem;
+	m_pSoundSystem = soundSystem;
 
 	renderer.SetClearColour(255, 255, 255);
 
@@ -99,13 +100,10 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pRectangle->setPosition(0.0f,0.0f);
 	m_pRectangle->setColor(1.0f, 0.0f, 0.0f);
 
-	return true;
-}
+	//sounds
+	soundSystem->LoadSound("sounds\\SE-LaserHit.wav");
 
-void SceneFFGame::SetupAudio(FMOD::System* audio)
-{
-	m_pSoundSystem = audio;
-	audio->createSound("sounds\\SE-LaserHit.wav", FMOD_DEFAULT, 0, &m_pLaserSound);
+	return true;
 }
 
 void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
@@ -139,12 +137,11 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (gameRestartState == BS_RELEASED)
 	{
 		WipeScene();
-		Initialise(*m_pRenderer, m_pSoundSystem2);
+		Initialise(*m_pRenderer, m_pSoundSystem);
 	}
 	// sound when attacking
 	if (mouse1State == BS_PRESSED) {
-		FMOD::Channel* channel = 0;
-		m_pSoundSystem->playSound(m_pLaserSound, 0, false, &channel);
+		m_pSoundSystem->PlaySound("sounds\\SE-LaserHit.wav");
 	}
 
 	//Before getting to game logic:

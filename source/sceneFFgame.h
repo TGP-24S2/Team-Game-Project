@@ -29,10 +29,7 @@ public:
 	 void Process(float deltaTime, InputSystem& inputSystem);
 	 void Draw(Renderer& renderer);
 	 void WipeScene();
-
 	 void DebugDraw();
-
-	 void SetupAudio(FMOD::System* audio);
 protected:
 
 private:
@@ -71,10 +68,7 @@ protected:
 
 private:
 	Renderer* m_pRenderer;
-	SoundSystem* m_pSoundSystem2;
-
-	FMOD::System* m_pSoundSystem;
-	FMOD::Sound* m_pLaserSound;
+	SoundSystem* m_pSoundSystem;
 };
 
 #endif // __SCENEFFGAME_H__

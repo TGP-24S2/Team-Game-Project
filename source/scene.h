@@ -20,7 +20,6 @@ public:
 	virtual void Process(float deltaTime, InputSystem& inputSystem) = 0;
 	virtual void Draw(Renderer& renderer) = 0;
 	virtual void DebugDraw() = 0;
-	virtual void SetupAudio(FMOD::System* audio) {}
 protected:
 private:
 	Scene(const Scene& scene);
