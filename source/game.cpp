@@ -17,6 +17,7 @@
 //?
 #include "sceneFFgame.h"
 
+#include <fmod.hpp>
 
 // Static Members:
 Game*
@@ -95,6 +96,9 @@ Game::Initialise()
 	m_pSoundSystem = &SoundSystem::GetInstance();
 	m_pSoundSystem->Initialise();
 
+	FMOD::System_Create(&m_soundSystem);
+	m_soundSystem->init(512, FMOD_INIT_NORMAL, 0);
+
 	Scene* pScene0 = 0;
 	pScene0 = new SceneSplashAUT(); //CHECKERBOARDS!!!!!!!
 	pScene0->Initialise(*m_pRenderer, m_pSoundSystem);
@@ -108,7 +112,9 @@ Game::Initialise()
 	pScene2 = new SceneFFGame();
 	pScene2->Initialise(*m_pRenderer, m_pSoundSystem);
 	m_scenes.push_back(pScene2);
-	
+	pScene2->SetupAudio(m_soundSystem);
+
+
 	m_iCurrentScene = 2;
 
 	return true;

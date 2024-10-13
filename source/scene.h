@@ -2,6 +2,8 @@
 #ifndef __SCENE_H 
 #define __SCENE_H 
 
+#include <fmod.hpp>
+
 // Forward declarations: 
 class Renderer;
 class InputSystem;
@@ -17,6 +19,7 @@ public:
 	virtual void Process(float deltaTime, InputSystem& inputSystem) = 0;
 	virtual void Draw(Renderer& renderer) = 0;
 	virtual void DebugDraw() = 0;
+	virtual void SetupAudio(FMOD::System* audio) {}
 protected:
 private:
 	Scene(const Scene& scene);

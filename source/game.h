@@ -4,6 +4,7 @@
 
 //Library Includes
 #include <vector>
+#include <fmod.hpp>
 
 // Forward declarations: 
 class Renderer;
@@ -55,6 +56,8 @@ protected:
 	int m_iUpdateCount;
 #endif // USE_LAG
 	bool m_bLooping;
+
+	FMOD::System* m_soundSystem;
 private:
 
 };

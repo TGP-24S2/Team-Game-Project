@@ -85,6 +85,12 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	return true;
 }
 
+void SceneFFGame::SetupAudio(FMOD::System* audio)
+{
+	m_pSoundSystem = audio;
+	audio->createSound("sounds\\SE-LaserHit.wav", FMOD_DEFAULT, 0, &m_pLaserSound);
+}
+
 void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 {
 	//update timer
@@ -117,6 +123,12 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (upMoveState == BS_HELD)		m_fTimeSinceInput = 0;
 	if (downMoveState == BS_HELD)	m_fTimeSinceInput = 0;
 	if (mouse1State == BS_PRESSED)	m_fTimeSinceInput = 0;
+
+	// sound when attacking
+	if (mouse1State == BS_PRESSED) {
+		FMOD::Channel* channel = 0;
+		m_pSoundSystem->playSound(m_pLaserSound, 0, false, &channel);
+	}
 
 	//Game Logic:
 	float ratio = 1.0f - (m_fTimeSinceInput / m_fPostMovementTimeBuffer);
@@ -184,7 +196,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			}
 		}
 	}
-
 }
 
 void SceneFFGame::Draw(Renderer& renderer)

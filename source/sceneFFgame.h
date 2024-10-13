@@ -7,6 +7,8 @@
 #include "vector2.h"
 #include "vector"
 
+#include <fmod.hpp>
+
 // Forward declarations:
 class Sprite;
 class Ball;
@@ -30,6 +32,7 @@ public:
 
 	 void DebugDraw();
 
+	 void SetupAudio(FMOD::System* audio);
 protected:
 
 private:
@@ -68,6 +71,8 @@ protected:
 
 private:
 
+	FMOD::System* m_pSoundSystem;
+	FMOD::Sound* m_pLaserSound;
 };
 
 #endif // __SCENEFFGAME_H__
