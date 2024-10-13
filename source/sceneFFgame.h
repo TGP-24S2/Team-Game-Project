@@ -18,6 +18,13 @@ class Rectangle;
 class SoundSystem;
 class ParticleEmitter;
 
+enum GameStatus
+{
+	GS_RUNNING,
+	GS_WIN,
+	GS_LOSS
+};
+
 class SceneFFGame : public Scene
 {
 	// Member methods:
@@ -37,7 +44,7 @@ private:
 	// Member data:
 public:
 	// game
-	bool m_bRunning;
+	enum GameStatus m_eStatus;
 	float m_fLocalDeltaTime;
 	float m_fTimeSinceInput;
 	float m_fPostMovementTimeBuffer = 0.7f; //how long game processes after controls are released

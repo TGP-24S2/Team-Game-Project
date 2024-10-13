@@ -29,7 +29,7 @@ SceneFFGame::SceneFFGame()
 	, m_pCursorSprite(nullptr)
 	, m_pGameOverSprite(nullptr)
 	, m_pYouWinSprite(nullptr)
-	, m_bRunning(false)
+	, m_eStatus()
 {
 }
 
@@ -65,7 +65,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pRenderer = &renderer;
 	m_pSoundSystem = soundSystem;
 
-	m_bRunning = true;
+	m_eStatus = GS_RUNNING;
 
 	renderer.SetClearColour(255, 255, 255);
 
@@ -114,6 +114,16 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	//update timer
 	m_fTimeSinceInput += deltaTime;
 
+	// set game status
+	if (!m_pPlayer->IsAlive())
+		m_eStatus = GS_LOSS;
+	int numEnemies = 0;
+	for (int i = 0; i < m_iNumEnemies; i++)
+		if (m_lpEnemies[i]->IsAlive())
+			numEnemies++;
+	if (numEnemies == 0)
+		m_eStatus = GS_WIN;
+
 	//Player aim:
 	m_cursorPosition = inputSystem.GetMousePosition();
 	m_pCursorSprite->SetX(static_cast<int>(m_cursorPosition.x));
@@ -144,8 +154,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		Initialise(*m_pRenderer, m_pSoundSystem);
 	}
 
-	//Exit here if game is paused
-	if (!m_bRunning)
+	//Exit here if game is complete
+	if (m_eStatus != GS_RUNNING)
 		return;
 
 	// sound when attacking
@@ -226,15 +236,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 void SceneFFGame::Draw(Renderer& renderer)
 {
 	// draw all entities (order matters)
-	int numAliveEnemies = 0;
 	for (int i = 0; i < m_iNumEnemies; i++)
 	{
-		// skip if the enemy is dead
-		if (!m_lpEnemies[i]->IsAlive())
-			continue;
-
 		m_lpEnemies[i]->Draw(renderer);
-		numAliveEnemies++;
 	}
 
 	m_pPlayer->Draw(renderer);
@@ -242,16 +246,10 @@ void SceneFFGame::Draw(Renderer& renderer)
 
 	weapons[m_iCurrentWeapon]->Draw(renderer);
 
-	if (!m_pPlayer->IsAlive())
-	{
-		m_pGameOverSprite->Draw(renderer);
-		m_bRunning = false;
-	}
-	if (numAliveEnemies == 0)
-	{
+	if (m_eStatus == GS_WIN)
 		m_pYouWinSprite->Draw(renderer);
-		m_bRunning = false;
-	}
+	if (m_eStatus == GS_LOSS)
+		m_pGameOverSprite->Draw(renderer);
 
 	m_pRectangle->Draw(renderer);
 }
