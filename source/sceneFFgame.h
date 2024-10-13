@@ -50,6 +50,7 @@ public:
 
 	// text sprites
 	Sprite* m_pGameOverSprite;
+	Sprite* m_pYouWinSprite;
 
 	// cursor
 	Sprite* m_pCursorSprite;

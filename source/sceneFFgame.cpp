@@ -27,6 +27,7 @@ SceneFFGame::SceneFFGame()
 	, m_iNumEnemies(0)
 	, m_pCursorSprite(nullptr)
 	, m_pGameOverSprite(nullptr)
+	, m_pYouWinSprite(nullptr)
 {
 }
 
@@ -35,6 +36,7 @@ SceneFFGame::~SceneFFGame()
 	delete m_pPlayer;
 	delete m_pCursorSprite;
 	delete m_pGameOverSprite;
+	delete m_pYouWinSprite;
 	for (int i = 0; i < m_iNumEnemies; i++)
 	{
 		delete m_lpEnemies[i];
@@ -66,6 +68,11 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pGameOverSprite->SetScale(0.5f);
 	m_pGameOverSprite->SetX(600);
 	m_pGameOverSprite->SetY(200);
+
+	m_pYouWinSprite = renderer.CreateSprite("sprites\\victory.png");
+	m_pYouWinSprite->SetScale(0.5f);
+	m_pYouWinSprite->SetX(600);
+	m_pYouWinSprite->SetY(200);
 
 	m_pRectangle = new Rectangle();
 	m_pRectangle->height = 10.0f;
@@ -145,7 +152,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 
 	m_pPlayer->SetWeaponType(weapons[m_iCurrentWeapon]->GetWeaponType());
 	
-	
 	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 
 	// Hitbox processing
@@ -184,13 +190,27 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 void SceneFFGame::Draw(Renderer& renderer)
 {
 	// draw all entities (order matters)
+	int numAliveEnemies = 0;
 	for (int i = 0; i < m_iNumEnemies; i++)
+	{
+		// skip if the enemy is dead
+		if (!m_lpEnemies[i]->IsAlive())
+			continue;
+
 		m_lpEnemies[i]->Draw(renderer);
+		numAliveEnemies++;
+	}
+
 	m_pPlayer->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
+
 	weapons[m_iCurrentWeapon]->Draw(renderer);
+
 	if (!m_pPlayer->IsAlive())
 		m_pGameOverSprite->Draw(renderer);
+	if (numAliveEnemies == 0)
+		m_pYouWinSprite->Draw(renderer);
+
 	m_pRectangle->Draw(renderer);
 }
 
