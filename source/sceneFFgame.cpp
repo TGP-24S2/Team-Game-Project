@@ -107,7 +107,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	soundSystem->LoadSound("sounds\\BM_GameLoopMusic4.mp3", false, true);
 	soundSystem->PlaySound("sounds\\BM_GameLoopMusic4.mp3");
 	soundSystem->LoadSound("sounds\\SE-LaserHit.wav");
-	soundSystem->LoadSound("sounds\\SE-ShipSpawn.wav");
+	soundSystem->LoadSound("sounds\\SE-EnemyExplosion.wav");
 
 	return true;
 }
@@ -116,6 +116,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 {
 	//update timer
 	m_fTimeSinceInput += deltaTime;
+
+	GameStatus lastStatus = m_eStatus;
 
 	// set game status
 	if (!m_pPlayer->IsAlive())
@@ -128,8 +130,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		m_eStatus = GS_WIN;
 
 	if (m_eStatus == GS_WIN || m_eStatus == GS_LOSS)
+	if (lastStatus == GS_RUNNING)
 	{
-		m_pSoundSystem->PlaySound("sounds\\SE-ShipSpawn.wav");
+		m_pSoundSystem->PlaySound("sounds\\SE-EnemyExplosion.wav");
 	}
 
 	//Player aim:
