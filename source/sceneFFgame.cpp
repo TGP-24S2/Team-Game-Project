@@ -129,8 +129,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (numEnemies == 0)
 		m_eStatus = GS_WIN;
 
-	if (m_eStatus == GS_WIN || m_eStatus == GS_LOSS)
-	if (lastStatus == GS_RUNNING)
+	if ((m_eStatus == GS_WIN || m_eStatus == GS_LOSS)
+		&&lastStatus == GS_RUNNING)
 	{
 		m_pSoundSystem->PlaySound("sounds\\SE-EnemyExplosion.wav");
 	}
