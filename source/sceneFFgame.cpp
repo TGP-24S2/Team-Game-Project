@@ -104,7 +104,10 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pRectangle->setColor(1.0f, 0.0f, 0.0f);
 
 	//sounds
+	soundSystem->LoadSound("sounds\\BM_GameLoopMusic4.mp3", false, true);
+	soundSystem->PlaySound("sounds\\BM_GameLoopMusic4.mp3");
 	soundSystem->LoadSound("sounds\\SE-LaserHit.wav");
+	soundSystem->LoadSound("sounds\\SE-ShipSpawn.wav");
 
 	return true;
 }
@@ -123,6 +126,11 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			numEnemies++;
 	if (numEnemies == 0)
 		m_eStatus = GS_WIN;
+
+	if (m_eStatus == GS_WIN || m_eStatus == GS_LOSS)
+	{
+		m_pSoundSystem->PlaySound("sounds\\SE-ShipSpawn.wav");
+	}
 
 	//Player aim:
 	m_cursorPosition = inputSystem.GetMousePosition();
