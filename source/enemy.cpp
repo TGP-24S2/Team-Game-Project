@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include "enemy.h"
 
 #include "inlinehelpers.h"
 #include "renderer.h"
@@ -26,14 +26,9 @@ Enemy::~Enemy()
 
 void Enemy::Initialise(Renderer& renderer)
 {
-	Entity::Initialise(renderer, "sprites\\ballAnimated.png", 307); //super()
+	Entity::Initialise(renderer, "sprites\\enemy.png", 307); //super()
 	
 	m_pSprite->SetScale(m_fInitialScale);
-
-	// set bad
-	m_pSprite->SetRedTint(1.0f);
-	m_pSprite->SetBlueTint(0.0f);
-	m_pSprite->SetGreenTint(0.0f);
 
 	RandomStartPlace();
 
@@ -42,6 +37,7 @@ void Enemy::Initialise(Renderer& renderer)
 void Enemy::Process(float deltaTime)
 {
 	Entity::Process(deltaTime); // super
+	m_pSprite->Process(deltaTime);
 
 	m_pSprite->SetScale((float)m_iHealth / m_iMaxHealth * m_fInitialScale);
 }

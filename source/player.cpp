@@ -17,7 +17,7 @@ Player::~Player()
 
 bool Player::Initialise(Renderer& renderer)
 {
-	Entity::Initialise(renderer, "sprites\\ball.png", 307); // super();
+	Entity::Initialise(renderer, "sprites\\player.png", 300); // super();
 
 	m_pSprite->SetScale(m_fInitialScale);
 
@@ -34,6 +34,7 @@ bool Player::Initialise(Renderer& renderer)
 void Player::Process(float deltaTime, InputSystem& inputSystem)
 {
 	Entity::Process(deltaTime); // super()
+	m_pSprite->Process(deltaTime);
 
 	m_pSprite->SetScale((float) m_iHealth / m_iMaxHealth * m_fInitialScale);
 
