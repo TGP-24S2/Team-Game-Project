@@ -43,19 +43,22 @@ bool Weapon::Initialise(Renderer &renderer)
 void Weapon::Process(float deltaTime)
 {
     ButtonState mouse1State = (InputSystem::GetInstance().GetMouseButtonState(1));
+    ButtonState reloadButtonState = (InputSystem::GetInstance().GetKeyState(SDL_SCANCODE_R));
 
     if (mouse1State == BS_PRESSED)
     {
         if (m_iWeaponType == GUN)
         {
             // Fire bullets
-            for (int i = 0; i < m_iSpawnBatchSize; ++i)
-            {
-                Spawn(); // spawn bullets
-            }
+            if (m_iAmmoCount >= m_iSpawnBatchSize) {
+                for (int i = 0; i < m_iSpawnBatchSize; ++i)
+                {
+                    Spawn(); // spawn bullets
+                }
+                m_iAmmoCount = m_iAmmoCount - m_iSpawnBatchSize;
+            }            
         }
-        else if (m_iWeaponType == MELEE)
-        {
+        else if (m_iWeaponType == MELEE) {
             // Start the melee swing
             if (m_particles.empty())
             {
@@ -64,6 +67,12 @@ void Weapon::Process(float deltaTime)
         }
     }
 
+    if (reloadButtonState == BS_PRESSED) {
+        if (m_iAmmoCount<m_iMaxAmmoCount) { //reload only if bullet is shot. otherwise dont.
+            ReloadWeapon();
+        }
+    }
+    
     // Process particles
     for (auto it = m_particles.begin(); it != m_particles.end();)
     {
@@ -333,4 +342,35 @@ void Weapon::UpdateMeleeSwing(Particle *particle, float deltaTime)
 int Weapon::GetWeaponType()
 {
     return m_iWeaponType;
+}
+
+void Weapon::SetMagSize(int magSize) {
+    m_iMagSize = magSize;
+}
+
+int Weapon::GetMagSize() {
+    return m_iMagSize;
+}
+
+int Weapon::GetAmmoCount() {
+    return m_iAmmoCount;
+}
+
+void Weapon::ReloadWeapon() {
+    if (m_iMagCount > 0) {
+        m_iAmmoCount = m_iMagSize * m_iSpawnBatchSize;
+        m_iMagCount--;
+    }    
+}
+
+void Weapon::InitialiseAmmoCount() {
+    m_iAmmoCount, m_iMaxAmmoCount = m_iMagSize * m_iSpawnBatchSize;
+}
+
+int Weapon::GetMagCount() {
+    return m_iMagCount;
+}
+
+void Weapon::SetMagCount(int magCount) {
+    m_iMagCount = magCount;
 }
