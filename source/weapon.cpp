@@ -68,7 +68,7 @@ void Weapon::Process(float deltaTime)
     }
 
     if (reloadButtonState == BS_PRESSED) {
-        if (m_iAmmoCount<m_iMaxAmmoCount) { //reload only if bullet is shot. otherwise dont.
+        if (m_iAmmoCount<m_iSpawnBatchSize) { //reload only if bullet is shot. otherwise dont.
             ReloadWeapon();
         }
     }
@@ -154,7 +154,7 @@ void Weapon::Spawn()
 
 void Weapon::DebugDraw()
 {
-    ImGui::Text("Particle Emitter Settings");
+    ImGui::Text("Weapon Settings");
 
     ImGui::SliderFloat("Emit Rate", &m_fEmitRate, 0.0f, 100.0f);
     ImGui::SliderFloat("Max Lifespan", &m_fMaxLifespan, 0.0f, 10.0f);
@@ -166,6 +166,10 @@ void Weapon::DebugDraw()
     ImGui::SliderFloat("Max Angle", &m_fMaxAngle, -360.0f, 360.0f);
 
     ImGui::ColorEdit3("Particle Color", m_fColour);
+
+    ImGui::SliderInt("AmmoCount: ", &m_iAmmoCount, 0, 100);
+    ImGui::SliderInt("MagCount: ", &m_iMagCount, 0, 100);
+    ImGui::SliderInt("MagSize: ", &m_iMagSize, 0, 100);
 }
 
 void Weapon::SetXY(float x, float y)
@@ -364,7 +368,7 @@ void Weapon::ReloadWeapon() {
 }
 
 void Weapon::InitialiseAmmoCount() {
-    m_iAmmoCount, m_iMaxAmmoCount = m_iMagSize * m_iSpawnBatchSize;
+    m_iAmmoCount = m_iMagSize * m_iSpawnBatchSize;
 }
 
 int Weapon::GetMagCount() {
@@ -374,3 +378,4 @@ int Weapon::GetMagCount() {
 void Weapon::SetMagCount(int magCount) {
     m_iMagCount = magCount;
 }
+

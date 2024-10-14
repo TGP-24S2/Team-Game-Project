@@ -102,7 +102,6 @@ protected:
     int m_iMagSize; //constant size of mag/clip of weapon. irrelevant for melee
     int m_iAmmoCount; //variable ammo count. min 0, max magsize * bulletcount(spawnbatchsize).
     int m_iMagCount; //practically the number of reloads
-    int m_iMaxAmmoCount;
 
     std::string m_sName;
 
