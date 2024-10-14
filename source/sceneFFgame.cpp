@@ -23,13 +23,18 @@
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
 	, m_fTimeSinceInput(0.0f)
+	, m_pRenderer(nullptr)
+	, m_pSoundSystem(nullptr)
 	, m_pPlayer(nullptr)
 	, m_lpEnemies(nullptr)
 	, m_iNumEnemies(0)
 	, m_pCursorSprite(nullptr)
+	, m_pTestBall(nullptr)
 	, m_pGameOverSprite(nullptr)
 	, m_pYouWinSprite(nullptr)
+	, m_pRectangle(nullptr)
 	, m_eStatus()
+	, m_iCurrentWeapon(0)
 {
 }
 

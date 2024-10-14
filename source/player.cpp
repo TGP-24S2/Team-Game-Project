@@ -7,6 +7,7 @@
 #include "inputsystem.h"
 
 Player::Player()
+	: m_iWeaponType(0)
 {
 }
 

@@ -9,6 +9,7 @@ Enemy::Enemy()
 	, m_iDamage(5)
 	, m_fInitialScale(0.5f)
 	, m_bTargetingPlayer(false)
+	, m_pPlayer(nullptr)
 {
 }
 
