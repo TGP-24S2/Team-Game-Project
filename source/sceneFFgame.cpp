@@ -147,6 +147,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	ButtonState downMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_S));
 	ButtonState gameRestartState = (inputSystem.GetKeyState(SDL_SCANCODE_RETURN));
 	ButtonState mouse1State = (inputSystem.GetMouseButtonState(1));
+	ButtonState weaponOneState = (inputSystem.GetKeyState(SDL_SCANCODE_1));
+	ButtonState weaponTwoState = (inputSystem.GetKeyState(SDL_SCANCODE_2));
+	ButtonState weaponThreeState = (inputSystem.GetKeyState(SDL_SCANCODE_3));
 
 	// Check input for time buffer:
 	// 
@@ -157,6 +160,10 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (upMoveState == BS_HELD)		m_fTimeSinceInput = 0;
 	if (downMoveState == BS_HELD)	m_fTimeSinceInput = 0;
 	if (mouse1State == BS_PRESSED)	m_fTimeSinceInput = 0;
+
+	if (weaponOneState == BS_PRESSED) m_iCurrentWeapon = 0;
+	if (weaponTwoState == BS_PRESSED) m_iCurrentWeapon = 1;
+	if (weaponThreeState == BS_PRESSED) m_iCurrentWeapon = 2;
 
 	// restart on keypress
 	if (gameRestartState == BS_RELEASED)
