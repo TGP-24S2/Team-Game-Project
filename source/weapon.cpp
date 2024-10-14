@@ -201,6 +201,7 @@ void Weapon::SetAngle(float playerAngle)
     float halfSpread = spread / 2;
     m_fMinAngle = playerAngle - halfSpread;
     m_fMaxAngle = playerAngle + halfSpread;
+    m_pSelfSprite->SetAngle(-playerAngle);
 }
 
 // for initialization
