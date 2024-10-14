@@ -8,6 +8,7 @@
 #include "vector"
 
 #include <fmod.hpp>
+#include <map.>
 
 // Forward declarations:
 class Sprite;
@@ -66,8 +67,11 @@ public:
 
 	//TESTING remove later probs
 	Ball* m_pTestBall;
-	std::vector<Weapon*> weapons;
+
+	// weapons
 	int m_iCurrentWeapon;
+	std::vector<Weapon*> m_vpWeapons;
+	std::vector<Sprite*> m_vpWeaponSprites;
 
 	Rectangle* m_pRectangle;
 
