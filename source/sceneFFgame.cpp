@@ -19,6 +19,7 @@
 #include <typeinfo>
 #include <iostream>
 #include <math.h>
+#include <map>
 
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
@@ -77,8 +78,26 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(renderer);
 
-	weapons = IniParser::GetInstance().GetWeapons("config.ini"); //weapon vector
+	m_vpWeapons = IniParser::GetInstance().GetWeapons("config.ini"); //weapon vector
 	m_iCurrentWeapon = 0;
+	for (auto weapon : m_vpWeapons)
+	{
+		auto name = weapon->GetWeaponName();
+		const char* path;
+		if (name == "Melee")
+			path = "sprites\\melee.png";
+		else if (name == "Pistol")
+			path = "sprites\\bullet.png";
+		else if (name == "Shotgun")
+			path = "sprites\\shell.png";
+		else continue;
+		
+		Sprite* pSprite = renderer.CreateSprite(path);
+		pSprite->SetScale(0.4f);
+		pSprite->SetX(50);
+		pSprite->SetY(50);
+		m_vpWeaponSprites.push_back(pSprite);
+	}
 
 	m_lpEnemies = new Enemy*[10];
 	m_iNumEnemies = 0;
@@ -187,7 +206,6 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	}
 
 	//Game Logic:
-
 	float ratio = 1.0f - (m_fTimeSinceInput / m_fPostMovementTimeBuffer);
 	if (ratio < 0.0f)
 		ratio = 0.0f; //prevent negative values
@@ -209,19 +227,20 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_pPlayer->SetAimAngle(angle);
 	
 	//aims towards crosshair + convert to degrees
-	weapons[m_iCurrentWeapon]->SetAngle(angle * 180.0f / (float)M_PI);
+	m_vpWeapons[m_iCurrentWeapon]->SetAngle(angle * 180.0f / (float)M_PI);
 	
 	//ensures the weapon is attached to player location with offset towards cursor
-	if (weapons[m_iCurrentWeapon]->GetWeaponType() == 0) { //gun
-		weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
+	if (m_vpWeapons[m_iCurrentWeapon]->GetWeaponType() == 0) { //gun
+		m_vpWeapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
 	}
-	else if (weapons[m_iCurrentWeapon]->GetWeaponType() == 1) { //melee
-		weapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX(), m_pPlayer->GetY());
+	else if (m_vpWeapons[m_iCurrentWeapon]->GetWeaponType() == 1) { //melee
+		m_vpWeapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX(), m_pPlayer->GetY());
 	}
 
-	m_pPlayer->SetWeaponType(weapons[m_iCurrentWeapon]->GetWeaponType());
-	
-	weapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
+	// Weapons:
+	m_pPlayer->SetWeaponType(m_vpWeapons[m_iCurrentWeapon]->GetWeaponType());
+	m_vpWeapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
+	m_vpWeaponSprites[m_iCurrentWeapon]->Process(deltaTime);
 
 	// Hitbox processing
 	float playerX = m_pPlayer->GetX();
@@ -238,7 +257,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 
 		// check weapon->bullet collision
-		for (const auto weapon : weapons)
+		for (const auto weapon : m_vpWeapons)
 		{
 			auto bullets = weapon->GetParticles();
 			auto damage = weapon->GetDamage();
@@ -267,7 +286,8 @@ void SceneFFGame::Draw(Renderer& renderer)
 	m_pPlayer->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
 
-	weapons[m_iCurrentWeapon]->Draw(renderer);
+	m_vpWeapons[m_iCurrentWeapon]->Draw(renderer);
+	m_vpWeaponSprites[m_iCurrentWeapon]->Draw(renderer);
 
 	if (m_eStatus == GS_WIN)
 		m_pYouWinSprite->Draw(renderer);
@@ -280,10 +300,10 @@ void SceneFFGame::Draw(Renderer& renderer)
 void SceneFFGame::DebugDraw()
 {
 	ImGui::Text("Weapons:");
-	for (Weapon *weapon : weapons)
+	for (Weapon *weapon : m_vpWeapons)
 	{
 		ImGui::Text(weapon->GetWeaponName().c_str());
 	}
 
-	weapons[m_iCurrentWeapon]->DebugDraw();
+	m_vpWeapons[m_iCurrentWeapon]->DebugDraw();
 }
