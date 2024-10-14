@@ -26,26 +26,21 @@ bool Collision::CheckRectangleCollision(Rectangle r1, Rectangle r2)
 }
 
 /// Checks if the first sprite is within the second sprite.
-bool Collision::CheckSpriteCollision(Sprite* pSprite1, int size1, Sprite* pSprite2, int size2)
+bool Collision::CheckSpriteCollision(Sprite* pSprite1, Sprite* pSprite2)
 {
-	float scale1 = pSprite1->GetScale() * size1;
-	Rectangle r1 = Rectangle();
-	r1.x = pSprite1->GetX() - scale1 / 2;
-	r1.y = pSprite1->GetY() - scale1 / 2;
-	r1.width = r1.height = scale1;
+	// const float factor = 1 + (float)M_PI / 4.0f;
 
-	float scale2 = pSprite2->GetScale() * size2;
+	int size1 = pSprite1->GetHeight();
+	Rectangle r1 = Rectangle();
+	r1.x = (float)pSprite1->GetX();
+	r1.y = (float)pSprite1->GetY();
+	r1.width = r1.height = (float)size1;
+
+	int size2 = pSprite2->GetHeight();
 	Rectangle r2 = Rectangle();
-	r2.x = pSprite2->GetX() - scale2 / 2;
-	r2.y = pSprite2->GetY() - scale2 / 2;
-	r2.width = r2.height = scale2;
+	r2.x = (float)pSprite2->GetX();
+	r2.y = (float)pSprite2->GetY();
+	r2.width = r2.height = (float)size2;
 
 	return CheckRectangleCollision(r1, r2);
-}
-
-bool Collision::CheckBallCollision(Sprite* sprite1, Sprite* sprite2)
-{
-	int sprite1size = (int)sprite1->GetWidth() + 1;
-	int sprite2size = (int)sprite2->GetWidth() + 1;
-	return CheckSpriteCollision(sprite1, sprite1size, sprite2, sprite2size);
 }
