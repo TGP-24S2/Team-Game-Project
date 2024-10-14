@@ -24,10 +24,9 @@ bool Player::Initialise(Renderer& renderer)
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
 
-	m_position.x = 10;
-	m_position.y = 10;
-
 	ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	RandomStartPlace();
 
 	return true;
 }
