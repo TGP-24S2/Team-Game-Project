@@ -217,6 +217,13 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
             else if (key == "bulletCount") {
                 weapon->SetBulletCount(std::stoi(value));
             }
+            else if (key == "magSize") {
+                weapon->SetMagSize(std::stoi(value));
+            }
+            else if (key == "magCount") {
+                weapon->SetMagCount(std::stoi(value)); //sets initial mag count
+                weapon->InitialiseAmmoCount();
+            }
         }
 
         // Add the created weapon to the vector

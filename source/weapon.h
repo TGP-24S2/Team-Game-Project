@@ -54,7 +54,13 @@ public:
     void UpdateMeleeSwing(Particle *particle, float deltaTime);
 
     int GetWeaponType();
-
+    void SetMagSize(int magSize);
+    int GetMagSize();
+    int GetAmmoCount();
+    void ReloadWeapon();
+    int GetMagCount();
+    void SetMagCount(int magCount);
+    void InitialiseAmmoCount();
 protected:
 private:
     Weapon(const Weapon &weapon);
@@ -90,6 +96,11 @@ protected:
     bool m_bOwned; // owned weapon
 
     int m_iWeaponType;
+
+    int m_iMagSize; //constant size of mag/clip of weapon. irrelevant for melee
+    int m_iAmmoCount; //variable ammo count. min 0, max magsize * bulletcount(spawnbatchsize).
+    int m_iMagCount; //practically the number of reloads
+    int m_iMaxAmmoCount;
 
     std::string m_sName;
 
