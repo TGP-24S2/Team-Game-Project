@@ -14,7 +14,7 @@ public:
 	Enemy(int health, int dmg);
 	~Enemy();
 
-	void Initialise(Renderer& renderer, const char* spritePath);
+	void Initialise(Renderer& renderer);
 	void Process(float deltaTime);
 
 	void SetPlayer(Player* pPlayer);

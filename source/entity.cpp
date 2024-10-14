@@ -11,8 +11,6 @@
 float Entity::sm_fBoundaryWidth = 0.0f;
 float Entity::sm_fBoundaryHeight = 0.0f;
 
-const int Entity::BALL_SIZE = 307;
-
 Entity::Entity()
     : m_pSprite(nullptr)
     , m_iHealth(1000)
@@ -29,16 +27,16 @@ Entity::~Entity()
     m_pSprite = nullptr;
 }
 
-bool Entity::Initialise(Renderer& renderer, const char* spritePath)
+bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSize)
 {
     m_pSprite = renderer.CreateAnimatedSprite(spritePath);  // Allow dynamic loading of sprites for different entities
     m_pSprite->SetFrameDuration(0.2f);
     m_pSprite->SetLooping(true);
-    m_pSprite->SetupFrames(BALL_SIZE, BALL_SIZE);
+    m_pSprite->SetupFrames(spriteSize, spriteSize);
 
     int winHeight = IniParser::GetInstance().GetValueAsInt("Window", "Height");
     float tileHeight = (float)winHeight / 24;
-    float tileScale = tileHeight / BALL_SIZE;
+    float tileScale = tileHeight / spriteSize;
     m_pSprite->SetScale(tileScale);
 
     const int SCREEN_WIDTH = renderer.GetWidth();

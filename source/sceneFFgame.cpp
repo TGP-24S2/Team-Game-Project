@@ -79,7 +79,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_iNumEnemies = 0;
 
 	Enemy* pTestEnemy = new Enemy();
-	pTestEnemy->Initialise(renderer, "sprites\\ballAnimated.png");
+	pTestEnemy->Initialise(renderer);
 	pTestEnemy->SetPlayer(m_pPlayer);
 	m_lpEnemies[m_iNumEnemies++] = pTestEnemy;
 

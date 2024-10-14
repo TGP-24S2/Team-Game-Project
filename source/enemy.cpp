@@ -23,9 +23,9 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Initialise(Renderer& renderer, const char* spritePath)
+void Enemy::Initialise(Renderer& renderer)
 {
-	Entity::Initialise(renderer, spritePath); //super()
+	Entity::Initialise(renderer, "sprites\\ballAnimated.png", 307); //super()
 	
 	m_pSprite->SetScale(m_fInitialScale);
 

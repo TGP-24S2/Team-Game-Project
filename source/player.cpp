@@ -16,7 +16,7 @@ Player::~Player()
 
 bool Player::Initialise(Renderer& renderer)
 {
-	Entity::Initialise(renderer, "sprites\\ball.png"); // super();
+	Entity::Initialise(renderer, "sprites\\ball.png", 307); // super();
 
 	m_pSprite->SetScale(m_fInitialScale);
 

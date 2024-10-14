@@ -18,7 +18,7 @@ public:
 	Entity();
 	~Entity();
 
-	bool Initialise(Renderer& renderer, const char* spritePath); 
+	bool Initialise(Renderer& renderer, const char* spritePath, int spriteSize); 
 	void Process(float deltaTime);
 	void Draw(Renderer& renderer);
 
@@ -46,7 +46,6 @@ private:
 
 	// Member data: 
 public:
-	static const int BALL_SIZE;
 
 protected:
 	AnimatedSprite* m_pSprite; 
