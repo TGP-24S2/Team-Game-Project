@@ -229,7 +229,14 @@ void Weapon::SetRange(float value)
 void Weapon::SetWeaponSprite(const char *spritePath)
 {
     m_pSelfSprite = m_pRenderer->CreateSprite(spritePath);
-    m_pSelfSprite->SetScale(0.1f);
+    if (m_iWeaponType == GUN)
+    {
+        m_pSharedSprite->SetScale(0.08f);
+    }
+    else if (m_iWeaponType == MELEE)
+    {
+        m_pSharedSprite->SetScale(0.5f);
+    }
 }
 
 void Weapon::SetIconSprite(const char* spritePath)
@@ -298,7 +305,7 @@ void Weapon::SpawnMeleeSwing()
 {
     Particle *particle = new Particle();
 
-    if (particle->Initialise(*m_pSharedSprite))
+    if (particle->Initialise(*m_pSelfSprite))
     {
         particle->SetEnabled();
         particle->SetMaxLifespan(m_fMaxLifespan); // Set lifespan as needed

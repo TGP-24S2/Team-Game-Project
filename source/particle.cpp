@@ -55,6 +55,7 @@ Particle::Draw(Renderer& renderer)
         m_pSprite->SetBlueTint(m_fColour[2]);
         //float alpha = (float)(1.0f - (m_fCurrentAge / m_fMaxLifespan));
         //m_pSprite->SetAlpha(alpha);
+        m_pSprite->SetAngle(-m_fCurrentAngle-90);
         m_pSprite->SetX((int)m_position.x);
         m_pSprite->SetY((int)m_position.y);
         m_pSprite->Draw(renderer);
