@@ -33,7 +33,6 @@ private:
 
 
 	// Member data:
-
 public:
 
 protected:
