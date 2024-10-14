@@ -9,8 +9,8 @@
 #include "inputsystem.h"
 #include "iniparser.h"
 #include "imgui.h"
-#include "particle.h" 
-#include "particleemitter.h"
+#include "particle.h"
+#include "weapon.h"
 #include "collision.h"
 #include "inlinehelpers.h"
 #include "rectangle.h"
@@ -280,7 +280,8 @@ void SceneFFGame::Draw(Renderer& renderer)
 void SceneFFGame::DebugDraw()
 {
 	ImGui::Text("Weapons:");
-	for (ParticleEmitter* weapon : weapons) {
+	for (Weapon *weapon : weapons)
+	{
 		ImGui::Text(weapon->GetWeaponName().c_str());
 	}
 

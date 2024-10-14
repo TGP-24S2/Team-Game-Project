@@ -1,39 +1,30 @@
-// ParticleEmitter.cpp
-#include "particleemitter.h"
+// weapon.cpp
+#include "weapon.h"
 #include "particle.h"
 #include "renderer.h"
 #include "sprite.h"
 #include "imgui.h"
 #include "inputsystem.h"
 
-enum {
+enum
+{
     GUN,
     MELEE
-}weaponType;
+} weaponType;
 
-ParticleEmitter::ParticleEmitter()
-    : m_pSharedSprite(nullptr)
-    , m_pSelfSprite(nullptr)
-    , m_fTimeElapsed(0.0f)
-    , m_iSpawnBatchSize(10)
-    , m_fEmitRate(1.0f)
-    , m_fMaxLifespan(5.0f)
-    , m_fAccelerationScalar(1000.0f)
-    , m_fX(0.0f)
-    , m_fY(0.0f)
-    , m_fMinAngle(0.0f)
-    , m_fMaxAngle(360.0f)
-    , m_bActive(true)
+Weapon::Weapon()
+    : m_pSharedSprite(nullptr), m_pSelfSprite(nullptr), m_fTimeElapsed(0.0f), m_iSpawnBatchSize(10), m_fEmitRate(1.0f), m_fMaxLifespan(5.0f), m_fAccelerationScalar(1000.0f), m_fX(0.0f), m_fY(0.0f), m_fMinAngle(0.0f), m_fMaxAngle(360.0f), m_bActive(true)
 {
     m_fColour[0] = 1.0f; // Red
     m_fColour[1] = 1.0f; // Green
     m_fColour[2] = 1.0f; // Blue
 }
 
-ParticleEmitter::~ParticleEmitter()
+Weapon::~Weapon()
 {
-    for (auto it = begin(m_particles); it != end(m_particles); ++it) {
-        delete* it;
+    for (auto it = begin(m_particles); it != end(m_particles); ++it)
+    {
+        delete *it;
         *it = nullptr;
     }
     m_particles.clear();
@@ -41,47 +32,53 @@ ParticleEmitter::~ParticleEmitter()
     m_pSharedSprite = nullptr;
 }
 
-bool ParticleEmitter::Initialise(Renderer& renderer)
+bool Weapon::Initialise(Renderer &renderer)
 {
     m_pRenderer = &renderer;
-    m_pSharedSprite = renderer.CreateSprite("sprites\\ball.png"); //default sprite //bullet sprite
+    m_pSharedSprite = renderer.CreateSprite("sprites\\ball.png"); // default sprite //bullet sprite
     m_pSharedSprite->SetScale(0.05f);
     return true;
 }
 
-void ParticleEmitter::Process(float deltaTime)
+void Weapon::Process(float deltaTime)
 {
     ButtonState mouse1State = (InputSystem::GetInstance().GetMouseButtonState(1));
 
-    if (mouse1State == BS_PRESSED) {
-        if (m_iWeaponType == GUN) {
+    if (mouse1State == BS_PRESSED)
+    {
+        if (m_iWeaponType == GUN)
+        {
             // Fire bullets
             for (int i = 0; i < m_iSpawnBatchSize; ++i)
             {
                 Spawn(); // spawn bullets
             }
         }
-        else if (m_iWeaponType == MELEE) {
+        else if (m_iWeaponType == MELEE)
+        {
             // Start the melee swing
-            if (m_particles.empty()) {
-                SpawnMeleeSwing();  // Spawn the melee weapon particle
+            if (m_particles.empty())
+            {
+                SpawnMeleeSwing(); // Spawn the melee weapon particle
             }
         }
     }
 
     // Process particles
-    for (auto it = m_particles.begin(); it != m_particles.end(); )
+    for (auto it = m_particles.begin(); it != m_particles.end();)
     {
-        Particle* particle = *it;
+        Particle *particle = *it;
         if (particle->IsAlive())
         {
             // Update the melee swing position if it's a melee weapon
-            if (m_iWeaponType == MELEE) {
+            if (m_iWeaponType == MELEE)
+            {
                 UpdateMeleeSwing(particle, deltaTime);
             }
-            else if (m_iWeaponType == GUN) {
+            else if (m_iWeaponType == GUN)
+            {
                 particle->Process(deltaTime);
-            }            
+            }
             ++it;
         }
         else
@@ -92,18 +89,19 @@ void ParticleEmitter::Process(float deltaTime)
         }
     }
 
-    if (m_iWeaponType == GUN && m_pSelfSprite) {
+    if (m_iWeaponType == GUN && m_pSelfSprite)
+    {
         // Draw the player's weapon (self sprite) if it's not melee
         m_pSelfSprite->SetPosition((int)m_fX, (int)m_fY);
         m_pSelfSprite->Process(deltaTime);
     }
 }
 
-
-void ParticleEmitter::Draw(Renderer& renderer)
+void Weapon::Draw(Renderer &renderer)
 {
-    if (m_bActive) {
-        for (Particle* particle : m_particles)
+    if (m_bActive)
+    {
+        for (Particle *particle : m_particles)
         {
             if (particle->IsAlive())
             {
@@ -112,16 +110,16 @@ void ParticleEmitter::Draw(Renderer& renderer)
         }
 
         // Only draw the self sprite (e.g., gun) if it's not a melee weapon
-        if (m_iWeaponType != MELEE && m_pSelfSprite) {
+        if (m_iWeaponType != MELEE && m_pSelfSprite)
+        {
             m_pSelfSprite->Draw(renderer);
         }
     }
 }
 
-
-void ParticleEmitter::Spawn()
+void Weapon::Spawn()
 {
-    Particle* particle = new Particle();
+    Particle *particle = new Particle();
 
     if (particle->Initialise(*m_pSharedSprite))
     {
@@ -145,7 +143,7 @@ void ParticleEmitter::Spawn()
     }
 }
 
-void ParticleEmitter::DebugDraw()
+void Weapon::DebugDraw()
 {
     ImGui::Text("Particle Emitter Settings");
 
@@ -161,106 +159,123 @@ void ParticleEmitter::DebugDraw()
     ImGui::ColorEdit3("Particle Color", m_fColour);
 }
 
-
-void ParticleEmitter::SetXY(float x, float y) {
+void Weapon::SetXY(float x, float y)
+{
     m_fX = x;
     m_fY = y;
 }
 
-void ParticleEmitter::SetTint(float red, float green, float blue) {
+void Weapon::SetTint(float red, float green, float blue)
+{
     m_fColour[0] = red;
     m_fColour[1] = green;
     m_fColour[2] = blue;
 }
 
-void ParticleEmitter::SetActive(bool active) {
+void Weapon::SetActive(bool active)
+{
     m_bActive = active;
 }
 
-void ParticleEmitter::SetAccelerationScalar(float scalar) {
+void Weapon::SetAccelerationScalar(float scalar)
+{
     m_fAccelerationScalar = scalar;
 }
 
-void ParticleEmitter::SetAngle(float playerAngle) {
+void Weapon::SetAngle(float playerAngle)
+{
     float spread = m_fMaxAngle - m_fMinAngle;
     float halfSpread = spread / 2;
     m_fMinAngle = playerAngle - halfSpread;
     m_fMaxAngle = playerAngle + halfSpread;
 }
 
+// for initialization
 
-//for initialization
-
-void ParticleEmitter::SetWeaponName(std::string name) {
+void Weapon::SetWeaponName(std::string name)
+{
     m_sName = name;
 }
 
-void ParticleEmitter::SetDamage(int value) {
+void Weapon::SetDamage(int value)
+{
     m_iDamage = value;
 }
 
-int ParticleEmitter::GetDamage(void){
+int Weapon::GetDamage(void)
+{
     return m_iDamage;
 }
 
-void ParticleEmitter::SetRange(float value) {
+void Weapon::SetRange(float value)
+{
     m_fMaxLifespan = value;
 }
 
-void ParticleEmitter::SetWeaponSprite(const char* spritePath) {
+void Weapon::SetWeaponSprite(const char *spritePath)
+{
     m_pSelfSprite = m_pRenderer->CreateSprite(spritePath);
     m_pSelfSprite->SetScale(0.1f);
 }
 
-void ParticleEmitter::SetBulletSprite(const char* spritePath) {
+void Weapon::SetBulletSprite(const char *spritePath)
+{
     m_pSharedSprite = m_pRenderer->CreateSprite(spritePath);
-    if (m_iWeaponType == GUN) {
+    if (m_iWeaponType == GUN)
+    {
         m_pSharedSprite->SetScale(0.05f);
     }
-    else if (m_iWeaponType == MELEE) {
+    else if (m_iWeaponType == MELEE)
+    {
         m_pSharedSprite->SetScale(0.5f);
     }
 }
 
-void ParticleEmitter::SetMinAngle(float minAngle) { 
+void Weapon::SetMinAngle(float minAngle)
+{
     m_fMinAngle = minAngle;
 }
 
-void ParticleEmitter::SetMaxAngle(float maxAngle) {
+void Weapon::SetMaxAngle(float maxAngle)
+{
     m_fMaxAngle = maxAngle;
 }
 
-void ParticleEmitter::SetBulletCount(int bulletCount) {
+void Weapon::SetBulletCount(int bulletCount)
+{
     m_iSpawnBatchSize = bulletCount;
 }
 
-//for using
-std::string ParticleEmitter::GetWeaponName() {
+// for using
+std::string Weapon::GetWeaponName()
+{
     return m_sName;
 }
 
-std::vector<Particle*> ParticleEmitter::GetParticles()
+std::vector<Particle *> Weapon::GetParticles()
 {
-   return m_particles;
+    return m_particles;
 }
 
-void ParticleEmitter::SetMelee() {
+void Weapon::SetMelee()
+{
     m_iWeaponType = MELEE;
 }
 
-void ParticleEmitter::SetGun() {
+void Weapon::SetGun()
+{
     m_iWeaponType = GUN;
 }
 
-void ParticleEmitter::SpawnMeleeSwing()
+void Weapon::SpawnMeleeSwing()
 {
-    Particle* particle = new Particle();
+    Particle *particle = new Particle();
 
     if (particle->Initialise(*m_pSharedSprite))
     {
         particle->SetEnabled();
-        particle->SetMaxLifespan(m_fMaxLifespan);  // Set lifespan as needed
-        particle->SetPosition(m_fX, m_fY); // Initial position is at the player
+        particle->SetMaxLifespan(m_fMaxLifespan); // Set lifespan as needed
+        particle->SetPosition(m_fX, m_fY);        // Initial position is at the player
 
         // Initialize swing angle
         particle->m_fCurrentAngle = (m_fMinAngle);
@@ -268,7 +283,7 @@ void ParticleEmitter::SpawnMeleeSwing()
         // Set melee weapon properties
         particle->SetColour(m_fColour);
 
-        m_particles.push_back(particle);  // Add this particle to the emitter
+        m_particles.push_back(particle); // Add this particle to the emitter
     }
     else
     {
@@ -277,14 +292,15 @@ void ParticleEmitter::SpawnMeleeSwing()
     }
 }
 
-void ParticleEmitter::UpdateMeleeSwing(Particle* particle, float deltaTime)
+void Weapon::UpdateMeleeSwing(Particle *particle, float deltaTime)
 {
     // Increment the angle over time to simulate the swinging motion
     float swingSpeed = 360.0f; // Degrees per second, tweak as needed
     particle->m_fCurrentAngle += swingSpeed * deltaTime;
 
     // Clamp angle between minAngle and maxAngle
-    if (particle->m_fCurrentAngle > m_fMaxAngle) {
+    if (particle->m_fCurrentAngle > m_fMaxAngle)
+    {
         particle->SetDisabled(); // End the swing when maxAngle is reached
         return;
     }
@@ -301,6 +317,7 @@ void ParticleEmitter::UpdateMeleeSwing(Particle* particle, float deltaTime)
     particle->SetPosition(x, y);
 }
 
-int ParticleEmitter::GetWeaponType() {
+int Weapon::GetWeaponType()
+{
     return m_iWeaponType;
 }

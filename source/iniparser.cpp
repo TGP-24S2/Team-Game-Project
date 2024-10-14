@@ -1,5 +1,5 @@
 #include "IniParser.h"
-#include "particleemitter.h"
+#include "weapon.h"
 #include "renderer.h"
 #include <fstream>
 #include <sstream>
@@ -149,9 +149,9 @@ WeaponData IniParser::GetWeaponData() {
 }
 
 
-std::vector<ParticleEmitter*> IniParser::GetWeapons(const std::string& filename) {
+std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
     // Vector to hold the dynamically created weapons
-    std::vector<ParticleEmitter*> weapons;
+    std::vector<Weapon*> weapons;
 
     // Load the INI file
     if (!LoadIniFile(filename)) {
@@ -166,7 +166,7 @@ std::vector<ParticleEmitter*> IniParser::GetWeapons(const std::string& filename)
         const std::string& section = weaponEntry.first;  // Get the section (weapon name)
         const std::map<std::string, std::string>& values = weaponEntry.second;  // Get key-value pairs for the section
 
-        ParticleEmitter* weapon = nullptr;
+        Weapon* weapon = nullptr;
 
         // Determine the weapon type from the "type" key
         std::string weaponType;
@@ -175,11 +175,11 @@ std::vector<ParticleEmitter*> IniParser::GetWeapons(const std::string& filename)
 
             // Dynamically create the correct type of weapon
             if (weaponType == "melee") {
-                weapon = new ParticleEmitter();
+                weapon = new Weapon();
                 weapon->Initialise(Renderer::GetInstance());
                 weapon->SetMelee();
             } else if (weaponType == "ranged") {
-                weapon = new ParticleEmitter();
+                weapon = new Weapon();
                 weapon->Initialise(Renderer::GetInstance());
                 weapon->SetGun();
             } else {

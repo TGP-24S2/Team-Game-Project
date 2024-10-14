@@ -13,16 +13,16 @@ class Sprite;
 class Particle;
 
 // Class declaration:
-class ParticleEmitter
+class Weapon
 {
     // Member methods:
 public:
-    ParticleEmitter();
-    ~ParticleEmitter();
+    Weapon();
+    ~Weapon();
 
-    bool Initialise(Renderer& renderer);
+    bool Initialise(Renderer &renderer);
     void Process(float deltaTime);
-    void Draw(Renderer& renderer);
+    void Draw(Renderer &renderer);
 
     void SetXY(float x, float y);
 
@@ -40,37 +40,36 @@ public:
     void SetDamage(int value);
     int GetDamage(void);
     void SetRange(float value);
-    void SetWeaponSprite(const char* spritePath);
-    void SetBulletSprite(const char* spritePath);
+    void SetWeaponSprite(const char *spritePath);
+    void SetBulletSprite(const char *spritePath);
     void SetMinAngle(float minAngle);
     void SetMaxAngle(float maxAngle);
     void SetBulletCount(int bulletCount);
-    std::vector<Particle*> GetParticles(void);
+    std::vector<Particle *> GetParticles(void);
 
     void SetMelee();
     void SetGun();
 
     void SpawnMeleeSwing();
-    void UpdateMeleeSwing(Particle* particle, float deltaTime);
+    void UpdateMeleeSwing(Particle *particle, float deltaTime);
 
     int GetWeaponType();
-protected:
 
+protected:
 private:
-    ParticleEmitter(const ParticleEmitter& particleemitter);
-    ParticleEmitter& operator=(const ParticleEmitter& particleemitter);
+    Weapon(const Weapon &weapon);
+    Weapon &operator=(const Weapon &weapon);
 
     // Member data:
 public:
-
 protected:
-    Sprite* m_pSharedSprite;
+    Sprite *m_pSharedSprite;
 
-    Sprite* m_pSelfSprite;
+    Sprite *m_pSelfSprite;
 
-    Renderer* m_pRenderer;
+    Renderer *m_pRenderer;
 
-    std::vector<Particle*> m_particles;
+    std::vector<Particle *> m_particles;
 
     float m_fTimeElapsed;
 
@@ -88,12 +87,12 @@ protected:
 
     int m_iDamage;
 
-    bool m_bOwned; //owned weapon
+    bool m_bOwned; // owned weapon
 
     int m_iWeaponType;
 
     std::string m_sName;
-private:
 
+private:
 };
 #endif //__PARTICLEEMITTER_H__

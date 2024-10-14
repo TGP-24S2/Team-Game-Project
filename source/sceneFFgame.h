@@ -16,7 +16,7 @@ class Enemy;
 class Player;
 class Rectangle;
 class SoundSystem;
-class ParticleEmitter;
+class Weapon;
 
 enum GameStatus
 {
@@ -66,7 +66,7 @@ public:
 
 	//TESTING remove later probs
 	Ball* m_pTestBall;
-	std::vector<ParticleEmitter*> weapons;
+	std::vector<Weapon*> weapons;
 	int m_iCurrentWeapon;
 
 	Rectangle* m_pRectangle;
