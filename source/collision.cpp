@@ -45,7 +45,7 @@ bool Collision::CheckSpriteCollision(Sprite* pSprite1, int size1, Sprite* pSprit
 
 bool Collision::CheckBallCollision(Sprite* sprite1, Sprite* sprite2)
 {
-	const double circleSquareRatio = M_PI / 4.0;
-	int ballSize = (int)(Entity::BALL_SIZE * circleSquareRatio) + 1;
-	return CheckSpriteCollision(sprite1, ballSize, sprite2, ballSize);
+	int sprite1size = (int)sprite1->GetWidth() + 1;
+	int sprite2size = (int)sprite2->GetWidth() + 1;
+	return CheckSpriteCollision(sprite1, sprite1size, sprite2, sprite2size);
 }
