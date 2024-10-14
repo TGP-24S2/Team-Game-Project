@@ -218,6 +218,19 @@ void Weapon::SetWeaponSprite(const char *spritePath)
     m_pSelfSprite->SetScale(0.1f);
 }
 
+void Weapon::SetIconSprite(const char* spritePath)
+{
+    m_pIconSprite = m_pRenderer->CreateSprite(spritePath);
+    m_pIconSprite->SetScale(0.4f);
+    m_pIconSprite->SetX(50);
+    m_pIconSprite->SetY(50);
+}
+
+Sprite *Weapon::GetIconSprite()
+{
+    return m_pIconSprite;
+}
+
 void Weapon::SetBulletSprite(const char *spritePath)
 {
     m_pSharedSprite = m_pRenderer->CreateSprite(spritePath);

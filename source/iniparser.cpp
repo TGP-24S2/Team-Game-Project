@@ -203,6 +203,8 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
                 weapon->SetRange(std::stof(value));
             } else if (key == "weaponSprite") {
                 weapon->SetWeaponSprite(value.c_str());
+            } else if (key == "iconSprite") {
+                weapon->SetIconSprite(value.c_str());
             }
             // gun properties
             else if (key == "bulletSprite") {

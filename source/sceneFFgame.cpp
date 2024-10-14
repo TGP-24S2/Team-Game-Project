@@ -82,21 +82,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_iCurrentWeapon = 0;
 	for (auto weapon : m_vpWeapons)
 	{
-		auto name = weapon->GetWeaponName();
-		const char* path;
-		if (name == "Melee")
-			path = "sprites\\melee.png";
-		else if (name == "Pistol")
-			path = "sprites\\bullet.png";
-		else if (name == "Shotgun")
-			path = "sprites\\shell.png";
-		else continue;
-		
-		Sprite* pSprite = renderer.CreateSprite(path);
-		pSprite->SetScale(0.4f);
-		pSprite->SetX(50);
-		pSprite->SetY(50);
-		m_vpWeaponSprites.push_back(pSprite);
+		m_vpWeaponIconSprites.push_back(weapon->GetIconSprite());
 	}
 
 	m_lpEnemies = new Enemy*[10];
@@ -240,7 +226,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	// Weapons:
 	m_pPlayer->SetWeaponType(m_vpWeapons[m_iCurrentWeapon]->GetWeaponType());
 	m_vpWeapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
-	m_vpWeaponSprites[m_iCurrentWeapon]->Process(deltaTime);
+	m_vpWeaponIconSprites[m_iCurrentWeapon]->Process(deltaTime);
 
 	// Hitbox processing
 	float playerX = m_pPlayer->GetX();
@@ -287,7 +273,7 @@ void SceneFFGame::Draw(Renderer& renderer)
 	m_pCursorSprite->Draw(renderer);
 
 	m_vpWeapons[m_iCurrentWeapon]->Draw(renderer);
-	m_vpWeaponSprites[m_iCurrentWeapon]->Draw(renderer);
+	m_vpWeaponIconSprites[m_iCurrentWeapon]->Draw(renderer);
 
 	if (m_eStatus == GS_WIN)
 		m_pYouWinSprite->Draw(renderer);

@@ -40,7 +40,9 @@ public:
     void SetDamage(int value);
     int GetDamage(void);
     void SetRange(float value);
-    void SetWeaponSprite(const char *spritePath);
+    void SetWeaponSprite(const char* spritePath);
+    void SetIconSprite(const char* spritePath);
+    Sprite *GetIconSprite();
     void SetBulletSprite(const char *spritePath);
     void SetMinAngle(float minAngle);
     void SetMaxAngle(float maxAngle);
@@ -64,8 +66,8 @@ private:
 public:
 protected:
     Sprite *m_pSharedSprite;
-
     Sprite *m_pSelfSprite;
+    Sprite* m_pIconSprite;
 
     Renderer *m_pRenderer;
 

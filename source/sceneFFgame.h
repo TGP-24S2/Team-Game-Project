@@ -71,7 +71,7 @@ public:
 	// weapons
 	int m_iCurrentWeapon;
 	std::vector<Weapon*> m_vpWeapons;
-	std::vector<Sprite*> m_vpWeaponSprites;
+	std::vector<Sprite*> m_vpWeaponIconSprites;
 
 	Rectangle* m_pRectangle;
 
