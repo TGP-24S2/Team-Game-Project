@@ -53,6 +53,8 @@ void SceneFFGame::WipeScene()
 	m_pCursorSprite = nullptr;
 	m_pGameOverSprite = nullptr;
 	m_pYouWinSprite = nullptr;
+
+	m_vpEnemies.clear();
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
