@@ -39,7 +39,11 @@ void Enemy::Process(float deltaTime)
 	Entity::Process(deltaTime); // super
 	m_pSprite->Process(deltaTime);
 
-	m_pSprite->SetScale((float)m_iHealth / m_iMaxHealth * m_fInitialScale);
+	// denote size as health
+	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
+	m_pSprite->SetScale(scale);
+	if (scale < 0.01f) 
+		Kill(); // kill if too small
 }
 
 void Enemy::SetPlayer(Player* pPlayer)
