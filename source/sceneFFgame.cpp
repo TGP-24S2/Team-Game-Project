@@ -84,11 +84,11 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	{
 		auto name = weapon->GetWeaponName();
 		const char* path;
-		if (name == "melee")
+		if (name == "Melee")
 			path = "sprites\\melee.png";
-		else if (name == "pistol")
+		else if (name == "Pistol")
 			path = "sprites\\bullet.png";
-		else if (name == "shotgun")
+		else if (name == "Shotgun")
 			path = "sprites\\shell.png";
 		else continue;
 		

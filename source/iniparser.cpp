@@ -196,12 +196,8 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
             const std::string& key = keyValue.first;
             const std::string& value = keyValue.second;
 
-            // general properties
-            if (key == "name") {
-                weapon->SetWeaponName(value);
-            }
             //common weapon properties
-            else if (key == "damage") {
+            if (key == "damage") {
                 weapon->SetDamage(std::stoi(value));
             } else if (key == "range") {
                 weapon->SetRange(std::stof(value));
