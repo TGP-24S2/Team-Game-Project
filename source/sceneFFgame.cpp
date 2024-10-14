@@ -27,8 +27,6 @@ SceneFFGame::SceneFFGame()
 	, m_pRenderer(nullptr)
 	, m_pSoundSystem(nullptr)
 	, m_pPlayer(nullptr)
-	, m_lpEnemies(nullptr)
-	, m_iNumEnemies(0)
 	, m_pCursorSprite(nullptr)
 	, m_pTestBall(nullptr)
 	, m_pGameOverSprite(nullptr)
@@ -50,20 +48,11 @@ void SceneFFGame::WipeScene()
 	delete m_pCursorSprite;
 	delete m_pGameOverSprite;
 	delete m_pYouWinSprite;
-	for (int i = 0; i < m_iNumEnemies; i++)
-	{
-		delete m_lpEnemies[i];
-	}
 
 	m_pPlayer = nullptr;
 	m_pCursorSprite = nullptr;
 	m_pGameOverSprite = nullptr;
 	m_pYouWinSprite = nullptr;
-	for (int i = 0; i < m_iNumEnemies; i++)
-	{
-		m_lpEnemies[i] = nullptr;
-	}
-	m_iNumEnemies = 0;
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
@@ -85,13 +74,10 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 		m_vpWeaponIconSprites.push_back(weapon->GetIconSprite());
 	}
 
-	m_lpEnemies = new Enemy*[10];
-	m_iNumEnemies = 0;
-
 	Enemy* pTestEnemy = new Enemy();
 	pTestEnemy->Initialise(renderer);
 	pTestEnemy->SetPlayer(m_pPlayer);
-	m_lpEnemies[m_iNumEnemies++] = pTestEnemy;
+	m_vpEnemies.push_back(pTestEnemy);
 
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
 	m_pCursorSprite->SetScale(1.0f);
@@ -133,8 +119,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (!m_pPlayer->IsAlive())
 		m_eStatus = GS_LOSS;
 	int numEnemies = 0;
-	for (int i = 0; i < m_iNumEnemies; i++)
-		if (m_lpEnemies[i]->IsAlive())
+	for (auto pEnemy : m_vpEnemies)
+		if (pEnemy->IsAlive())
 			numEnemies++;
 	if (numEnemies == 0)
 		m_eStatus = GS_WIN;
@@ -198,8 +184,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_fLocalDeltaTime = deltaTime * ratio;
 
 	// process entities
-	for (int i = 0; i < m_iNumEnemies; i++)
-		m_lpEnemies[i]->Process(m_fLocalDeltaTime);
+	for (auto pEnemy : m_vpEnemies)
+		pEnemy->Process(m_fLocalDeltaTime);
 	m_pPlayer->Process(m_fLocalDeltaTime, inputSystem);
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
 
@@ -232,10 +218,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	float playerX = m_pPlayer->GetX();
 	float playerY = m_pPlayer->GetY();
 	// process collision with enemies
-	for (int i = 0; i < m_iNumEnemies; i++)
+	for (auto pEnemy : m_vpEnemies)
 	{
-		Enemy* pEnemy = m_lpEnemies[i];
-
 		// check collision with player
 		if (Collision::CheckSpriteCollision(m_pPlayer->GetSprite(), pEnemy->GetSprite()))
 		{
@@ -264,9 +248,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 void SceneFFGame::Draw(Renderer& renderer)
 {
 	// draw all entities (order matters)
-	for (int i = 0; i < m_iNumEnemies; i++)
+	for (auto pEnemy : m_vpEnemies)
 	{
-		m_lpEnemies[i]->Draw(renderer);
+		pEnemy->Draw(renderer);
 	}
 
 	m_pPlayer->Draw(renderer);

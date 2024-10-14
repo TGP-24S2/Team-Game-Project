@@ -54,8 +54,7 @@ public:
 	Player* m_pPlayer;
 
 	// enemies
-	Enemy** m_lpEnemies;
-	int m_iNumEnemies;
+	std::vector<Enemy*> m_vpEnemies;
 
 	// text sprites
 	Sprite* m_pGameOverSprite;
