@@ -1,7 +1,7 @@
-#include "Entity.h"
-#include "Sprite.h"
+#include "entity.h"
+#include "sprite.h"
 #include "animatedsprite.h"
-#include "Renderer.h"
+#include "renderer.h"
 #include <cmath>  // for std::abs
 #include "iniparser.h"
 #include "inlinehelpers.h"
@@ -30,7 +30,8 @@ Entity::~Entity()
 bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSize)
 {
     m_pSprite = renderer.CreateAnimatedSprite(spritePath);  // Allow dynamic loading of sprites for different entities
-    m_pSprite->SetFrameDuration(0.2f);
+    m_pSprite->Animate();
+    m_pSprite->SetFrameDuration(1.0f);
     m_pSprite->SetLooping(true);
     m_pSprite->SetupFrames(spriteSize, spriteSize);
 
