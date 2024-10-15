@@ -6,6 +6,7 @@
 #include "scene.h"
 #include "vector2.h"
 #include "vector"
+#include "prop.h"
 
 #include <fmod.hpp>
 #include <map.>
@@ -39,9 +40,12 @@ public:
 	 void Draw(Renderer& renderer);
 	 void WipeScene();
 	 void DebugDraw();
+
 protected:
 
 private:
+	Prop* GetPropPoolObject();
+	void SpawnProps();
 
 	// Member data:
 public:
@@ -57,6 +61,13 @@ public:
 
 	// player
 	Player* m_pPlayer;
+
+	// prop templates
+	std::vector<PropTemplate*> m_PropTemplates;
+
+	// props
+	static constexpr int MAX_PROPS = 5;
+	Prop* m_Props[MAX_PROPS]; //prop object pool
 
 	// enemies
 	std::vector<Enemy*> m_vpEnemies;
@@ -78,7 +89,6 @@ public:
 	std::vector<Sprite*> m_vpWeaponIconSprites;
 
 	Rectangle* m_pRectangle;
-
 
 protected:
 

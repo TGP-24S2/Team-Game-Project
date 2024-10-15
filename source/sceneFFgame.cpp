@@ -16,6 +16,7 @@
 #include "inlinehelpers.h"
 #include "rectangle.h"
 #include "soundsystem.h"
+#include "PropTemplate.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -68,46 +69,46 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 	renderer.SetClearColour(255, 255, 255);
 
-	m_pLevel = new Level("levels\\examplelevel.txt");
-	std::vector<Rectangle*> hitboxes;
-	int nrow = 0;
-	for (std::vector<enum LevelCell> rowsvec : m_pLevel->GetLevelData())
-	{
-		int ncell = 0;
-		for (enum LevelCell cell : rowsvec)
-		{
-			switch (cell)
-			{
-				case LC_WALL:
-				{
-					int x = ncell * 40;
-					int y = nrow * 40;
-					Sprite* pSprite = renderer.CreateSprite("sprites\\box.png");
-					pSprite->SetScale(0.2f);
-					pSprite->SetX(x);
-					pSprite->SetY(y);
-					m_vpPropSprites.push_back(pSprite);
+	//m_pLevel = new Level("levels\\examplelevel.txt");
+	//std::vector<Rectangle*> hitboxes;
+	//int nrow = 0;
+	//for (std::vector<enum LevelCell> rowsvec : m_pLevel->GetLevelData())
+	//{
+	//	int ncell = 0;
+	//	for (enum LevelCell cell : rowsvec)
+	//	{
+	//		switch (cell)
+	//		{
+	//			case LC_WALL:
+	//			{
+	//				int x = ncell * 40;
+	//				int y = nrow * 40;
+	//				Sprite* pSprite = renderer.CreateSprite("sprites\\box.png");
+	//				pSprite->SetScale(0.2f);
+	//				pSprite->SetX(x);
+	//				pSprite->SetY(y);
+	//				m_vpPropSprites.push_back(pSprite);
 
-					Rectangle *rect = new Rectangle
-					(
-						(float)x, (float)y,
-						(float)pSprite->GetWidth(), (float)pSprite->GetHeight()
-					);
-					hitboxes.push_back(rect);
-				}
-				case LC_E:
-					//idk
-				case LC_P:
-					//idk
-				default:
-					break;
-			}
+	//				Rectangle *rect = new Rectangle
+	//				(
+	//					(float)x, (float)y,
+	//					(float)pSprite->GetWidth(), (float)pSprite->GetHeight()
+	//				);
+	//				hitboxes.push_back(rect);
+	//			}
+	//			case LC_E:
+	//				//idk
+	//			case LC_P:
+	//				//idk
+	//			default:
+	//				break;
+	//		}
 
-			ncell++;
-		}
-		nrow++;
-	}
-	Entity::SetEnvHitboxes(hitboxes);
+	//		ncell++;
+	//	}
+	//	nrow++;
+	//}
+	//Entity::SetEnvHitboxes(hitboxes);
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(renderer);
@@ -141,12 +142,33 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pYouWinSprite->SetX(600);
 	m_pYouWinSprite->SetY(200);
 
-	m_pRectangle = new Rectangle();
-	m_pRectangle->height = 10.0f;
-	m_pRectangle->width = 10.0f;
+	for (int i = 0; i < MAX_PROPS; i++)
+	{
+		m_Props[i] = new Prop();
+		m_Props[i]->Initialise(renderer);
+	}
 
-	m_pRectangle->setPosition(0.0f,0.0f);
-	m_pRectangle->setColor(1.0f, 0.0f, 0.0f);
+	PropTemplate* propTemplate1 = new PropTemplate();
+	propTemplate1->colour[0] = 0.5f;
+	propTemplate1->colour[1] = 0.75f;
+	propTemplate1->colour[2] = 0.25f;
+	propTemplate1->colour[3] = 1.0f;
+	propTemplate1->m_fAccelScale = 1.2f;
+	propTemplate1->m_fDecelScale = 0.5f;
+	propTemplate1->m_fMaxSpeedScale = 1.5f;
+
+	PropTemplate* propTemplate2 = new PropTemplate();
+	propTemplate2->colour[0] = 1.0f;
+	propTemplate2->colour[1] = 0.25f;
+	propTemplate2->colour[2] = 0.5f;
+	propTemplate2->colour[3] = 1.0f;
+	propTemplate2->m_fAccelScale = 0.4f;
+	propTemplate2->m_fDecelScale = 1.3f;
+	propTemplate2->m_fMaxSpeedScale = 0.9f;
+
+	m_PropTemplates.push_back(propTemplate1);
+	m_PropTemplates.push_back(propTemplate2);
+	SpawnProps();
 
 	//sounds
 	soundSystem->LoadSound("sounds\\BM_GameLoopMusic4.mp3", false, true);
@@ -181,8 +203,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	}
 
 	// Level environment
-	for (Sprite* pSprite : m_vpPropSprites)
-		pSprite->Process(deltaTime);
+	//for (Sprite* pSprite : m_vpPropSprites)
+	//	pSprite->Process(deltaTime);
 
 	//Player aim:
 	m_cursorPosition = inputSystem.GetMousePosition();
@@ -273,8 +295,13 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	// process collision with enemies
 	for (auto pEnemy : m_vpEnemies)
 	{
+		if (!pEnemy->IsAlive())
+		{
+			continue;
+		}
+
 		// check collision with player
-		if (Collision::CheckSpriteCollision(m_pPlayer->GetSprite(), pEnemy->GetSprite()))
+		if (Collision::CheckRectangleCollision(m_pPlayer->GetHitbox(), pEnemy->GetHitbox()))
 		{
 			m_pPlayer->TakeDamage(pEnemy->GetDamage());
 		}
@@ -287,7 +314,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			// check hitbox of each bullet
 			for (const auto bullet : bullets)
 			{
-				if (Collision::CheckSpriteCollision(bullet->GetSprite(), pEnemy->GetSprite()))
+				if (Collision::CheckRectangleCollision(bullet->GetHitbox(), pEnemy->GetHitbox()))
 				{
 					// enemy damage when hit
 					pEnemy->TakeDamage(damage);
@@ -303,8 +330,16 @@ void SceneFFGame::Draw(Renderer& renderer)
 	// draw all entities (order matters)
 
 	// Level environment
-	for (Sprite* pSprite : m_vpPropSprites)
-		pSprite->Draw(renderer);
+	//for (Sprite* pSprite : m_vpPropSprites)
+	//	pSprite->Draw(renderer);
+
+	for (int i = 0; i < MAX_PROPS; i++)
+	{
+		if (m_Props[i]->m_bIsAlive)
+		{
+			m_Props[i]->Draw(renderer);
+		}
+	}
 
 	for (Enemy* pEnemy : m_vpEnemies)
 		pEnemy->Draw(renderer);
@@ -322,8 +357,6 @@ void SceneFFGame::Draw(Renderer& renderer)
 		m_pYouWinSprite->Draw(renderer);
 	if (m_eStatus == GS_LOSS)
 		m_pGameOverSprite->Draw(renderer);
-
-	m_pRectangle->Draw(renderer);
 }
 
 void SceneFFGame::DebugDraw()
@@ -336,4 +369,35 @@ void SceneFFGame::DebugDraw()
 
 	m_pPlayer->DebugDraw();
 	m_vpWeapons[m_iCurrentWeapon]->DebugDraw();
+}
+
+Prop* SceneFFGame::GetPropPoolObject()
+{
+	for (int i = 0; i < MAX_PROPS; i++)
+	{
+		if (!m_Props[i]->m_bIsAlive)
+		{
+			return m_Props[i];
+		}
+	}
+
+	//if no available obstacle instances return null
+	return nullptr;
+}
+
+void SceneFFGame::SpawnProps()
+{
+	for (PropTemplate* prop : m_PropTemplates)
+	{
+		if (true)
+		{
+			Prop* p = GetPropPoolObject();
+			if (p != nullptr)
+			{
+				p->SetTemplate(prop);
+				p->m_bIsAlive = true;
+				p->Spawn();
+			}
+		}
+	}
 }

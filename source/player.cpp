@@ -22,6 +22,7 @@ bool Player::Initialise(Renderer& renderer)
 	Entity::Initialise(renderer, "sprites\\player.png", 300); // super();
 
 	m_pSprite->SetScale(m_fInitialScale);
+	m_hitbox.setDimensions(m_pSprite->GetWidth(), m_pSprite->GetHeight());
 
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
@@ -54,7 +55,7 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 	Decelerate();
 
 	// Player input:
-	float mvRate = m_fAccelerationRate * m_fSpeedScale;
+	float mvRate = m_fAccelerationRate * m_fAccelScale;
 	if (leftMoveState == BS_HELD)
 		m_velocity.x -= mvRate;
 	if (rightMoveState == BS_HELD)
@@ -82,7 +83,7 @@ void Player::Draw(Renderer& renderer)
 
 void Player::Decelerate()
 {
-	float decelRate = m_fDecelerationRate * m_fSpeedScale;
+	float decelRate = m_fDecelerationRate * m_fDecelScale;
 	if (m_velocity.x > 0)
 	{
 		m_velocity.x -= decelRate;

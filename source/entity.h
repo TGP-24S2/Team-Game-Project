@@ -5,6 +5,7 @@
 // Local includes:
 #include "entity.h" 
 #include "vector2.h"
+#include "rectangle.h"
 
 #include <vector>
 
@@ -43,6 +44,9 @@ public:
 	void CheckBounds();
 	bool IsInsideWall(Vector2);
 	void RandomStartPlace();
+
+	Rectangle GetHitbox();
+
 protected:
 
 private:
@@ -60,8 +64,10 @@ protected:
 	int m_iMaxHealth;
 	bool m_bAlive;
 
+	Rectangle m_hitbox;
 	Vector2 m_position; 
 	Vector2 m_velocity; 
+	float m_fSpeedScale;
 
 	Vector2 m_boundaryLow;
 	Vector2 m_boundaryHigh;

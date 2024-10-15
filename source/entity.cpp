@@ -63,6 +63,9 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSi
         RandomStartPlace();
     } while (IsInsideWall(m_position));
 
+    m_hitbox.setPosition(m_position);
+    m_hitbox.setDimensions(m_pSprite->GetWidth(), m_pSprite->GetHeight());
+
     return (m_pSprite != nullptr);
 }
 
@@ -161,7 +164,9 @@ bool Entity::IsInsideWall(Vector2 pos)
     for (Rectangle* hitbox : s_vpEnvHitboxes)
     {
         Vector2 entitySize = Vector2((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
-        Rectangle thisRect = Rectangle(m_position.x, m_position.y, entitySize.x, entitySize.y);
+        Rectangle thisRect = Rectangle();
+        thisRect.setPosition(m_position);
+        thisRect.setDimensions(entitySize.x, entitySize.y);
         bool colliding = Collision::CheckRectangleCollision(thisRect, *hitbox);
         if (colliding)
             return true;
@@ -216,4 +221,9 @@ void Entity::RandomStartPlace()
 
     m_velocity.x = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
     m_velocity.y = GetRandomPercentage() * MAX_SPEED * GetPositiveOrNegative();
+}
+
+Rectangle Entity::GetHitbox()
+{
+    return m_hitbox;
 }

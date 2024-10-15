@@ -45,9 +45,14 @@ protected:
 
 private:
 	float m_fAccelerationRate = 1.0f;
+	float m_fAccelScale = 1.0f;
+
 	float m_fDecelerationRate = 0.3f;
-	float m_fSpeedScale = 1.0f;
+	float m_fDecelScale = 1.0f;
+
 	float m_fMaxSpeed = 1000.0f;
+	float m_fMaxSpeedScale = 1.0f;
+
 	float m_fWallBounceDecay = 0.8f;
 	float m_fInitialScale = 0.3f;
 	float m_fAngle = 0.0f;
