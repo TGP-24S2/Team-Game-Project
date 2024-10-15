@@ -50,7 +50,7 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 	ButtonState mouse1State = (inputSystem.GetMouseButtonState(1));
 
 	//deceleration
-	float decelRate = m_fDecelerationRate * m_fSpeedScale;
+	float decelRate = m_fDecelerationRate * m_fDecelScale;
 	if (m_velocity.x > 0)
 	{
 		m_velocity.x -= decelRate;
@@ -77,7 +77,7 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 	}
 
 	// Player input:
-	float mvRate = m_fAccelerationRate * m_fSpeedScale;
+	float mvRate = m_fAccelerationRate * m_fAccelScale;
 	if (leftMoveState == BS_HELD)
 		m_velocity.x -= mvRate;
 	if (rightMoveState == BS_HELD)
@@ -105,18 +105,18 @@ void Player::Draw(Renderer& renderer)
 
 void Player::CapSpeed()
 {
-	if (m_velocity.x > m_fMaxSpeed)	{
+	if (m_velocity.x > m_fMaxSpeed * m_fMaxSpeedScale)	{
 		m_velocity.x = m_fMaxSpeed;
 	}
-	else if (m_velocity.x < (0 - m_fMaxSpeed)) {
-		m_velocity.x = (0 - m_fMaxSpeed);
+	else if (m_velocity.x < (0 - m_fMaxSpeed * m_fMaxSpeedScale)) {
+		m_velocity.x = (0 - m_fMaxSpeed * m_fMaxSpeedScale);
 	}
 
-	if (m_velocity.y > m_fMaxSpeed)	{
-		m_velocity.y = m_fMaxSpeed;
+	if (m_velocity.y > m_fMaxSpeed * m_fMaxSpeedScale)	{
+		m_velocity.y = m_fMaxSpeed * m_fMaxSpeedScale;
 	}
-	else if (m_velocity.y < (0 - m_fMaxSpeed)) {
-		m_velocity.y = (0 - m_fMaxSpeed);
+	else if (m_velocity.y < (0 - m_fMaxSpeed * m_fMaxSpeedScale)) {
+		m_velocity.y = (0 - m_fMaxSpeed * m_fMaxSpeedScale);
 	}
 }
 

@@ -1,28 +1,22 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
+#include "vector2.h"
+
 class Renderer;
 
 class Rectangle {
 public:
-    float width;
-    float height;
-    float x;
-    float y;
-    float r, g, b; // Color components: Red, Green, Blue
-
-    float alpha;
-
-public:
     // Constructors
     Rectangle();
-    Rectangle(float width, float height, float x, float y, float r, float g, float b);
 
-    void setPosition(float newX, float newY);
-    void setColor(float newR, float newG, float newB);
+    void setDimensions(float width, float height);
+    void setPosition(Vector2& position);
 
-    // Method to draw the rectangle
-    void Draw(Renderer& renderer);
+public:
+    Vector2* m_position; //will just reference position of owner
+    float width;
+    float height;
 };
 
 #endif
