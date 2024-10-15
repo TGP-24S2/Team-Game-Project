@@ -3,6 +3,7 @@
 #include "inlinehelpers.h"
 #include "renderer.h"
 #include "animatedsprite.h"
+#include "player.h"
 
 Enemy::Enemy()
 	: Entity()
@@ -39,8 +40,10 @@ void Enemy::Process(float deltaTime)
 	Entity::Process(deltaTime); // super
 	m_pSprite->Process(deltaTime);
 
-	m_velocity.x += (GetRandomPercentage() - 0.5f) * 1e5 * deltaTime;
-	m_velocity.y += (GetRandomPercentage() - 0.5f) * 1e5 * deltaTime;
+	// make bot somewhat follow player
+	Vector2 playerVel = m_pPlayer->GetVelocity();
+	m_velocity.x += playerVel.x * deltaTime;
+	m_velocity.y += playerVel.y * deltaTime;
 
 	// denote size as health
 	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
