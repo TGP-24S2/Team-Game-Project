@@ -231,6 +231,7 @@ void Weapon::SetWeaponSprite(const char *spritePath)
     m_pSelfSprite = m_pRenderer->CreateSprite(spritePath);
     if (m_iWeaponType == GUN)
     {
+        m_pSelfSprite->SetScale(0.1f);
         m_pSharedSprite->SetScale(0.08f);
     }
     else if (m_iWeaponType == MELEE)
