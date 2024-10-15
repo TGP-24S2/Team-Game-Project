@@ -119,10 +119,14 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 		m_vpWeaponIconSprites.push_back(weapon->GetIconSprite());
 	}
 
-	Enemy* pTestEnemy = new Enemy();
-	pTestEnemy->Initialise(renderer);
-	pTestEnemy->SetPlayer(m_pPlayer);
-	m_vpEnemies.push_back(pTestEnemy);
+	// random num of enemies
+	for (int i = 0; i < GetRandom(1, 5); i++)
+	{
+		Enemy* pTestEnemy = new Enemy();
+		pTestEnemy->Initialise(renderer);
+		pTestEnemy->SetPlayer(m_pPlayer);
+		m_vpEnemies.push_back(pTestEnemy);
+	}
 
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
 	m_pCursorSprite->SetScale(1.0f);

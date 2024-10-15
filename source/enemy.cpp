@@ -8,7 +8,7 @@
 Enemy::Enemy()
 	: Entity()
 	, m_iDamage(5)
-	, m_fInitialScale(0.5f)
+	, m_fInitialScale(0.25f)
 	, m_bTargetingPlayer(false)
 	, m_pPlayer(nullptr)
 {
@@ -48,6 +48,10 @@ void Enemy::Process(float deltaTime)
 	const float velocitydeweight = 0.25f;
 	m_velocity.x = deltaTime * 500 * (dx + m_pPlayer->GetVelocity().x * velocitydeweight);
 	m_velocity.y = deltaTime * 500 * (dy + m_pPlayer->GetVelocity().y * velocitydeweight);
+	if (m_velocity.x == 0.0f)
+		m_velocity.x = GetRandom(-100, 100);
+	if (m_velocity.y == 0.0f)
+		m_velocity.y = GetRandom(-100, 100);
 
 	// denote size as health
 	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
