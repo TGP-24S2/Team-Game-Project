@@ -49,32 +49,7 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 	ButtonState downMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_S));
 	ButtonState mouse1State = (inputSystem.GetMouseButtonState(1));
 
-	//deceleration
-	float decelRate = m_fDecelerationRate * m_fSpeedScale;
-	if (m_velocity.x > 0)
-	{
-		m_velocity.x -= decelRate;
-		if (m_velocity.x < 0) //do not decelerate past 0
-			m_velocity.x = 0;
-	}
-	else if (m_velocity.x < 0)
-	{
-		m_velocity.x += decelRate;
-		if (m_velocity.x > 0) //do not decelerate past 0
-			m_velocity.x = 0;
-	}
-	if (m_velocity.y > 0)
-	{
-		m_velocity.y -= decelRate;
-		if (m_velocity.y < 0) //do not decelerate past 0
-			m_velocity.y = 0;
-	}
-	else if (m_velocity.y < 0)
-	{
-		m_velocity.y += decelRate;
-		if (m_velocity.y > 0) //do not decelerate past 0
-			m_velocity.y = 0;
-	}
+	Decelerate();
 
 	// Player input:
 	float mvRate = m_fAccelerationRate * m_fSpeedScale;
@@ -101,6 +76,35 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 void Player::Draw(Renderer& renderer)
 {
 	Entity::Draw(renderer); //super()
+}
+
+void Player::Decelerate()
+{
+	float decelRate = m_fDecelerationRate * m_fSpeedScale;
+	if (m_velocity.x > 0)
+	{
+		m_velocity.x -= decelRate;
+		if (m_velocity.x < 0) //do not decelerate past 0
+			m_velocity.x = 0;
+	}
+	else if (m_velocity.x < 0)
+	{
+		m_velocity.x += decelRate;
+		if (m_velocity.x > 0) //do not decelerate past 0
+			m_velocity.x = 0;
+	}
+	if (m_velocity.y > 0)
+	{
+		m_velocity.y -= decelRate;
+		if (m_velocity.y < 0) //do not decelerate past 0
+			m_velocity.y = 0;
+	}
+	else if (m_velocity.y < 0)
+	{
+		m_velocity.y += decelRate;
+		if (m_velocity.y > 0) //do not decelerate past 0
+			m_velocity.y = 0;
+	}
 }
 
 void Player::CapSpeed()

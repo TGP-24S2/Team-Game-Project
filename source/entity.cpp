@@ -1,15 +1,21 @@
 #include "entity.h"
+
 #include "sprite.h"
 #include "animatedsprite.h"
 #include "renderer.h"
-#include <cmath>  // for std::abs
+#include "rectangle.h"
+#include "collision.h"
 #include "iniparser.h"
 #include "inlinehelpers.h"
 
+#include <cmath>
+#include <vector>
 
 // Static members:
 float Entity::sm_fBoundaryWidth = 0.0f;
 float Entity::sm_fBoundaryHeight = 0.0f;
+
+std::vector<Rectangle*> Entity::s_vpEnvHitboxes;
 
 Entity::Entity()
     : m_pSprite(nullptr)
@@ -25,6 +31,12 @@ Entity::~Entity()
 {
     delete m_pSprite;
     m_pSprite = nullptr;
+}
+
+//static
+void Entity::SetEnvHitboxes(std::vector<Rectangle*> hitboxes)
+{
+    s_vpEnvHitboxes = hitboxes;
 }
 
 bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSize)
@@ -46,7 +58,10 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSi
     sm_fBoundaryHeight = static_cast<float>(SCREEN_HEIGHT);
 
     ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
-    RandomStartPlace();
+    do
+    {
+        RandomStartPlace();
+    } while (IsInsideWall(m_position));
 
     return (m_pSprite != nullptr);
 }
@@ -56,10 +71,18 @@ void Entity::Process(float deltaTime)
     if (!m_bAlive)
         return;
 
-    // process movement
     CheckBounds();
 
     m_position += m_velocity * deltaTime;
+
+    // shove backward if inside wall
+    Vector2 curVel = m_velocity;
+    for (int i = 0; i < 100 && IsInsideWall(m_position); i++)
+    {
+        m_velocity = Vector2(0, 0);
+        m_position += Vector2(-curVel.x * deltaTime, -curVel.y * deltaTime);
+    }
+
     m_pSprite->SetPosition(static_cast<int>(m_position.x), static_cast<int>(m_position.y));  // Set grid-based position
     m_pSprite->Process(deltaTime);
 
@@ -131,6 +154,19 @@ bool Entity::IsAlive()
 void Entity::TakeDamage(int damage)
 {
     m_iHealth -= damage;
+}
+
+bool Entity::IsInsideWall(Vector2 pos)
+{
+    for (Rectangle* hitbox : s_vpEnvHitboxes)
+    {
+        Vector2 entitySize = Vector2((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
+        Rectangle thisRect = Rectangle(m_position.x, m_position.y, entitySize.x, entitySize.y);
+        bool colliding = Collision::CheckRectangleCollision(thisRect, *hitbox);
+        if (colliding)
+            return true;
+    }
+    return false;
 }
 
 void Entity::ComputeBounds(int width, int height)

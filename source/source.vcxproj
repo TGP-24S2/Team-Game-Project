@@ -34,6 +34,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="iniparser.cpp" />
     <ClCompile Include="inputsystem.cpp" />
+    <ClCompile Include="level.cpp" />
     <ClCompile Include="logmanager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="iniparser.h" />
     <ClInclude Include="inlinehelpers.h" />
     <ClInclude Include="inputsystem.h" />
+    <ClInclude Include="level.h" />
     <ClInclude Include="logmanager.h" />
     <ClInclude Include="matrix4.h" />
     <ClInclude Include="particle.h" />

@@ -6,9 +6,12 @@
 #include "entity.h" 
 #include "vector2.h"
 
+#include <vector>
+
 // Forward declarations:
 class Renderer; 
 class AnimatedSprite;
+class Rectangle;
 
 // Class declaration:
 class Entity
@@ -17,6 +20,8 @@ class Entity
 public:
 	Entity();
 	~Entity();
+
+	static void SetEnvHitboxes(std::vector<Rectangle*>);
 
 	bool Initialise(Renderer& renderer, const char* spritePath, int spriteSize); 
 	void Process(float deltaTime);
@@ -30,13 +35,13 @@ public:
 	void SetVelocity(int x, int y);
 	int GetHealth();
 	int GetMaxHealth();
-
 	bool IsCollidingWith(Entity* toCheck); 
 	bool IsAlive();
 	void Kill();
 	void TakeDamage(int);
 	void ComputeBounds(int width, int height);
 	void CheckBounds();
+	bool IsInsideWall(Vector2);
 	void RandomStartPlace();
 protected:
 
@@ -46,6 +51,7 @@ private:
 
 	// Member data: 
 public:
+	static std::vector<Rectangle*> s_vpEnvHitboxes;
 
 protected:
 	AnimatedSprite* m_pSprite; 

@@ -18,6 +18,7 @@ class Player;
 class Rectangle;
 class SoundSystem;
 class Weapon;
+class Level;
 
 enum GameStatus
 {
@@ -49,6 +50,10 @@ public:
 	float m_fLocalDeltaTime;
 	float m_fTimeSinceInput;
 	float m_fPostMovementTimeBuffer = 0.7f; //how long game processes after controls are released
+
+	// level
+	Level* m_pLevel;
+	std::vector<Sprite*> m_vpPropSprites;
 
 	// player
 	Player* m_pPlayer;

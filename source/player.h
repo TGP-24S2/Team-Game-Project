@@ -5,9 +5,12 @@
 #include "vector2.h"
 #include "entity.h"
 
+#include <vector>
+
 // Forward declarations:
 class Renderer;
 class InputSystem;
+class Rectangle;
 
 class Player : public Entity
 {
@@ -27,10 +30,11 @@ public:
 
 	void SetAimAngle(float angle);
 	void SetWeaponType(int weaponType);
+
 protected:
 
 private:
-
+	void Decelerate();
 
 	// Member data:
 public:

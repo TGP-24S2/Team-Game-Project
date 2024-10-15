@@ -6,9 +6,12 @@
 // Default constructor
 Rectangle::Rectangle() : width(1.0f), height(1.0f), x(0.0f), y(0.0f), r(0.0f), g(0.0f), b(0.0f), alpha(1.0f){}
 
-// Parameterized constructor
-Rectangle::Rectangle(float length, float height, float x, float y, float r, float g, float b)
-    : width(length), height(height), x(x), y(y), r(r), g(g), b(b) {}
+// Parameterized constructors
+Rectangle::Rectangle(float x, float y, float width, float height)
+    : width(width), height(height)
+    , x(x), y(y)
+    , r(0), g(0), b(0), alpha(0)
+{}
 
 void Rectangle::setPosition(float newX, float newY) {
     x = newX;

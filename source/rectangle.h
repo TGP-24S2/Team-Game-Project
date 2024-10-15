@@ -16,7 +16,7 @@ public:
 public:
     // Constructors
     Rectangle();
-    Rectangle(float width, float height, float x, float y, float r, float g, float b);
+    Rectangle(float x, float y, float width, float height);
 
     void setPosition(float newX, float newY);
     void setColor(float newR, float newG, float newB);

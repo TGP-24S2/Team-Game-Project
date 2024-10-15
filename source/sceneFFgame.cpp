@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "sprite.h"
 #include "animatedsprite.h"
+#include "level.h"
 #include "enemy.h"
 #include "player.h"
 #include "inputsystem.h"
@@ -26,6 +27,7 @@ SceneFFGame::SceneFFGame()
 	, m_fTimeSinceInput(0.0f)
 	, m_pRenderer(nullptr)
 	, m_pSoundSystem(nullptr)
+	, m_pLevel(nullptr)
 	, m_pPlayer(nullptr)
 	, m_pCursorSprite(nullptr)
 	, m_pTestBall(nullptr)
@@ -65,6 +67,47 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_eStatus = GS_RUNNING;
 
 	renderer.SetClearColour(255, 255, 255);
+
+	m_pLevel = new Level("levels\\examplelevel.txt");
+	std::vector<Rectangle*> hitboxes;
+	int nrow = 0;
+	for (std::vector<enum LevelCell> rowsvec : m_pLevel->GetLevelData())
+	{
+		int ncell = 0;
+		for (enum LevelCell cell : rowsvec)
+		{
+			switch (cell)
+			{
+				case LC_WALL:
+				{
+					int x = ncell * 40;
+					int y = nrow * 40;
+					Sprite* pSprite = renderer.CreateSprite("sprites\\box.png");
+					pSprite->SetScale(0.2f);
+					pSprite->SetX(x);
+					pSprite->SetY(y);
+					m_vpPropSprites.push_back(pSprite);
+
+					Rectangle *rect = new Rectangle
+					(
+						(float)x, (float)y,
+						(float)pSprite->GetWidth(), (float)pSprite->GetHeight()
+					);
+					hitboxes.push_back(rect);
+				}
+				case LC_E:
+					//idk
+				case LC_P:
+					//idk
+				default:
+					break;
+			}
+
+			ncell++;
+		}
+		nrow++;
+	}
+	Entity::SetEnvHitboxes(hitboxes);
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(renderer);
@@ -133,6 +176,10 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		m_pSoundSystem->PlaySound("sounds\\SE-EnemyExplosion.wav");
 	}
 
+	// Level environment
+	for (Sprite* pSprite : m_vpPropSprites)
+		pSprite->Process(deltaTime);
+
 	//Player aim:
 	m_cursorPosition = inputSystem.GetMousePosition();
 	m_pCursorSprite->SetX(static_cast<int>(m_cursorPosition.x));
@@ -188,7 +235,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	// process entities
 	for (auto pEnemy : m_vpEnemies)
 		pEnemy->Process(m_fLocalDeltaTime);
-	m_pPlayer->Process(m_fLocalDeltaTime, inputSystem);
+	m_pPlayer->Process(m_fLocalDeltaTime, inputSystem); // process user input too
 	m_pCursorSprite->Process(m_fLocalDeltaTime);
 
 	//calculate angle towards crosshair
@@ -250,16 +297,22 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 void SceneFFGame::Draw(Renderer& renderer)
 {
 	// draw all entities (order matters)
-	for (auto pEnemy : m_vpEnemies)
-	{
+
+	// Level environment
+	for (Sprite* pSprite : m_vpPropSprites)
+		pSprite->Draw(renderer);
+
+	for (Enemy* pEnemy : m_vpEnemies)
 		pEnemy->Draw(renderer);
-	}
 
 	m_pPlayer->Draw(renderer);
 	m_pCursorSprite->Draw(renderer);
 
-	m_vpWeapons[m_iCurrentWeapon]->Draw(renderer);
-	m_vpWeaponIconSprites[m_iCurrentWeapon]->Draw(renderer);
+	if (m_eStatus == GS_RUNNING)
+	{
+		m_vpWeapons[m_iCurrentWeapon]->Draw(renderer);
+		m_vpWeaponIconSprites[m_iCurrentWeapon]->Draw(renderer);
+	}
 
 	if (m_eStatus == GS_WIN)
 		m_pYouWinSprite->Draw(renderer);
