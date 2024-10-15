@@ -39,6 +39,9 @@ void Enemy::Process(float deltaTime)
 	Entity::Process(deltaTime); // super
 	m_pSprite->Process(deltaTime);
 
+	m_velocity.x += (GetRandomPercentage() - 0.5f) * 1e5 * deltaTime;
+	m_velocity.y += (GetRandomPercentage() - 0.5f) * 1e5 * deltaTime;
+
 	// denote size as health
 	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
 	m_pSprite->SetScale(scale);
