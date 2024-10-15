@@ -30,6 +30,8 @@ public:
 
 	void SetAimAngle(float angle);
 	void SetWeaponType(int weaponType);
+	
+	void DebugDraw();
 
 protected:
 

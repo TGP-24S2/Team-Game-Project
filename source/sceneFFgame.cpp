@@ -330,5 +330,6 @@ void SceneFFGame::DebugDraw()
 		ImGui::Text(weapon->GetWeaponName().c_str());
 	}
 
+	m_pPlayer->DebugDraw();
 	m_vpWeapons[m_iCurrentWeapon]->DebugDraw();
 }

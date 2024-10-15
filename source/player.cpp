@@ -6,6 +6,8 @@
 #include "animatedsprite.h"
 #include "inputsystem.h"
 
+#include "imgui.h"
+
 Player::Player()
 	: m_iWeaponType(0)
 {
@@ -137,4 +139,11 @@ void Player::SetAimAngle(float angle) {
 
 void Player::SetWeaponType(int weaponType) {
 	m_iWeaponType = weaponType;
+}
+
+void Player::DebugDraw()
+{
+	ImGui::Text("Player Settings");
+	ImGui::Text("Position: %f, %f", m_position.x, m_position.y);
+	ImGui::Text("Velocity: %f, %f", m_velocity.x, m_velocity.y);
 }
