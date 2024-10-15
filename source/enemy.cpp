@@ -40,10 +40,14 @@ void Enemy::Process(float deltaTime)
 	Entity::Process(deltaTime); // super
 	m_pSprite->Process(deltaTime);
 
-	// make bot somewhat follow player
-	Vector2 playerVel = m_pPlayer->GetVelocity();
-	m_velocity.x += playerVel.x * deltaTime;
-	m_velocity.y += playerVel.y * deltaTime;
+	// make bot follow player
+	float playerX = m_pPlayer->GetX();
+	float playerY = m_pPlayer->GetY();
+	float dx = playerX - m_position.x;
+	float dy = playerY - m_position.y;
+	const float velocitydeweight = 0.25f;
+	m_velocity.x = deltaTime * 500 * (dx + m_pPlayer->GetVelocity().x * velocitydeweight);
+	m_velocity.y = deltaTime * 500 * (dy + m_pPlayer->GetVelocity().y * velocitydeweight);
 
 	// denote size as health
 	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
