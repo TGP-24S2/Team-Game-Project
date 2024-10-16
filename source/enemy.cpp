@@ -78,27 +78,6 @@ void Enemy::Process(float deltaTime)
 		Kill(); // kill if too small
 }
 
-bool Enemy::RaycastHits(float dx, float dy)
-{
-	float dist = sqrtf(dx * dx + dy * dy);
-	//raycast check:
-	dx /= dist;
-	dy /= dist;
-	float step = 10.0f;
-	for (float i = 0; i < dist; i += step)
-	{
-		Vector2 pos(m_position.x + dx * i, m_position.y + dy * i);
-		for (auto wallrect : s_vpEnvHitboxes)
-		{
-			if (Collision::CheckPointInRectangle(pos, *wallrect))
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
 void Enemy::SetPlayer(Player* pPlayer)
 {
 	m_pPlayer = pPlayer;

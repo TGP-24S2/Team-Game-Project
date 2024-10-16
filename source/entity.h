@@ -37,7 +37,8 @@ public:
 	void SetSpeedScale(float scale);
 	int GetHealth();
 	int GetMaxHealth();
-	bool IsCollidingWith(Entity* toCheck); 
+	bool RaycastHits(float dx, float dy);
+	bool IsCollidingWith(Entity* toCheck);
 	bool IsAlive();
 	void Kill();
 	void TakeDamage(int);
