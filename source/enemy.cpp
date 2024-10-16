@@ -38,20 +38,15 @@ void Enemy::Initialise(Renderer& renderer)
 		m_pSprite->SetGreenTint(0.5f);
 	}
 
-	/*
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
-	Vector2 pos;
-	do 
-	{	// spawn position of enemy must NOT be within the player's hitbox
-		pos.x = (float)GetRandom(0, SCREEN_WIDTH);
-		pos.y = (float)GetRandom(0, SCREEN_HEIGHT);
-	} while (
-		Collision::CheckPointInRectangle(pos, m_pPlayer->GetHitbox())
-		|| IsInsideWall(pos)
-		);
-	m_position = pos;
-	*/
+ 	// spawn position of enemy - put them near edge of screen
+	m_position.x = GetRandomPercentage() < 0.5f
+		? (float)GetRandom(100, SCREEN_WIDTH * 0.4f)
+		: (float)GetRandom(SCREEN_WIDTH * 0.6f, SCREEN_WIDTH - 100);
+	m_position.y = GetRandomPercentage() < 0.5f
+		? (float)GetRandom(100, SCREEN_HEIGHT * 0.4f)
+		: (float)GetRandom(SCREEN_HEIGHT * 0.6f, SCREEN_HEIGHT - 100);
 }
 
 void Enemy::Process(float deltaTime)
