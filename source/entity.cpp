@@ -131,7 +131,8 @@ void Entity::SetSpeedScale(float scale)
 
 bool Entity::IsCollidingWith(Entity* toCheck)
 {
-    return Collision::CheckSpriteCollision(m_pSprite, toCheck->GetSprite());
+    return false; // temp as doesnt work
+    return Collision::CheckSpriteCollision(GetSprite(), toCheck->GetSprite());
 }
 
 bool Entity::RaycastHits(float dx, float dy)
