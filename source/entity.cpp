@@ -43,7 +43,6 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSi
 {
     m_pSprite = renderer.CreateAnimatedSprite(spritePath);  // Allow dynamic loading of sprites for different entities
     m_pSprite->Animate();
-    m_pSprite->SetFrameDuration(1.0f);
     m_pSprite->SetLooping(true);
     m_pSprite->SetupFrames(spriteSize, spriteSize);
 

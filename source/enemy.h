@@ -17,11 +17,12 @@ public:
 	void Initialise(Renderer& renderer);
 	void Process(float deltaTime);
 
+	bool RaycastHits(float dx, float dy);
+
 	void SetPlayer(Player* pPlayer);
 	int GetHealth();
 	int GetDamage();
 	void SetDamage(int damage);
-
 	void SetToAngry();
 	void SetToNotAngry();
 	bool IsTargetingPlayer();

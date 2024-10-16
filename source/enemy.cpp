@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "animatedsprite.h"
 #include "player.h"
+#include "collision.h"
 
 Enemy::Enemy()
 	: Entity()
@@ -12,6 +13,7 @@ Enemy::Enemy()
 	, m_bTargetingPlayer(false)
 	, m_pPlayer(nullptr)
 {
+	m_fSpeedScale /= 2; // enemy is half speed of player
 }
 
 Enemy::Enemy(int health, int damage)
@@ -45,13 +47,20 @@ void Enemy::Process(float deltaTime)
 	float playerY = m_pPlayer->GetY();
 	float dx = playerX - m_position.x;
 	float dy = playerY - m_position.y;
-	const float velocitydeweight = 0.25f;
-	m_velocity.x = deltaTime * 500 * (dx + m_pPlayer->GetVelocity().x * velocitydeweight);
-	m_velocity.y = deltaTime * 500 * (dy + m_pPlayer->GetVelocity().y * velocitydeweight);
-	if (m_velocity.x == 0.0f)
-		m_velocity.x = (float)GetRandom(-100, 100);
-	if (m_velocity.y == 0.0f)
-		m_velocity.y = (float)GetRandom(-100, 100);
+	bool canSeePlayer = !RaycastHits(dx, dy);
+	if (canSeePlayer)
+	{ // beeline to player
+		const float velocitydeweight = 0.25f;
+		m_velocity.x = deltaTime * 100 * (dx + m_pPlayer->GetVelocity().x * velocitydeweight);
+		m_velocity.y = deltaTime * 100 * (dy + m_pPlayer->GetVelocity().y * velocitydeweight);
+		m_pSprite->SetFrameDuration(2.0f);
+	}
+	else
+	{// otherwise wander aimlessly
+		m_velocity.x += (float)GetRandom(-10, 10);
+		m_velocity.y += (float)GetRandom(-10, 10);
+		m_pSprite->SetFrameDuration(0.2f);
+	}
 
 	// denote size as health
 	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
@@ -59,6 +68,27 @@ void Enemy::Process(float deltaTime)
 	m_hitbox.setDimensions((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
 	if (scale < 0.01f) 
 		Kill(); // kill if too small
+}
+
+bool Enemy::RaycastHits(float dx, float dy)
+{
+	float dist = sqrtf(dx * dx + dy * dy);
+	//raycast check:
+	dx /= dist;
+	dy /= dist;
+	float step = 10.0f;
+	for (float i = 0; i < dist; i += step)
+	{
+		Vector2 pos(m_position.x + dx * i, m_position.y + dy * i);
+		for (auto wallrect : s_vpEnvHitboxes)
+		{
+			if (Collision::CheckPointInRectangle(pos, *wallrect))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void Enemy::SetPlayer(Player* pPlayer)
