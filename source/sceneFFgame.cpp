@@ -174,7 +174,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	propTemplate2->colour[1] = 0.9f;
 	propTemplate2->colour[2] = 0.35f;
 	propTemplate2->colour[3] = 1.0f;
-	propTemplate2->m_fAccelScale = 0.4f;
+	propTemplate2->m_fAccelScale = 0.6f;
 	propTemplate2->m_fDecelScale = 1.3f;
 	propTemplate2->m_fMaxSpeedScale = 0.8f;
 
