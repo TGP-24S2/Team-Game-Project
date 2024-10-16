@@ -70,46 +70,46 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 	renderer.SetClearColour(255, 255, 255);
 
-	//m_pLevel = new Level("levels\\examplelevel.txt");
-	//std::vector<Rectangle*> hitboxes;
-	//int nrow = 0;
-	//for (std::vector<enum LevelCell> rowsvec : m_pLevel->GetLevelData())
-	//{
-	//	int ncell = 0;
-	//	for (enum LevelCell cell : rowsvec)
-	//	{
-	//		switch (cell)
-	//		{
-	//			case LC_WALL:
-	//			{
-	//				int x = ncell * 40;
-	//				int y = nrow * 40;
-	//				Sprite* pSprite = renderer.CreateSprite("sprites\\box.png");
-	//				pSprite->SetScale(0.2f);
-	//				pSprite->SetX(x);
-	//				pSprite->SetY(y);
-	//				m_vpPropSprites.push_back(pSprite);
+	m_pLevel = new Level("levels\\examplelevel.txt");
+	std::vector<Rectangle *> hitboxes;
+	int nrow = 0;
+	for (std::vector<enum LevelCell> rowsvec : m_pLevel->GetLevelData())
+	{
+		int ncell = 0;
+		for (enum LevelCell cell : rowsvec)
+		{
+			switch (cell)
+			{
+				case LC_WALL:
+				{
+					int x = ncell * 40;
+					int y = nrow * 40;
+					Sprite *pSprite = renderer.CreateSprite("sprites\\box.png");
+					pSprite->SetScale(0.2f);
+					pSprite->SetX(x);
+					pSprite->SetY(y);
+					m_vpPropSprites.push_back(pSprite);
 
-	//				Rectangle *rect = new Rectangle
-	//				(
-	//					(float)x, (float)y,
-	//					(float)pSprite->GetWidth(), (float)pSprite->GetHeight()
-	//				);
-	//				hitboxes.push_back(rect);
-	//			}
-	//			case LC_E:
-	//				//idk
-	//			case LC_P:
-	//				//idk
-	//			default:
-	//				break;
-	//		}
+					Rectangle* rect = new Rectangle();
+					Vector2* pos = new Vector2(x, y);
+					rect->setPosition(*pos);
+					rect->width = (float)pSprite->GetWidth();
+					rect->height = (float)pSprite->GetHeight();
+					hitboxes.push_back(rect);
+				}
+				case LC_E:
+					// idk
+				case LC_P:
+					// idk
+				default:
+					break;
+			}
 
-	//		ncell++;
-	//	}
-	//	nrow++;
-	//}
-	//Entity::SetEnvHitboxes(hitboxes);
+			ncell++;
+		}
+		nrow++;
+	}
+	Entity::SetEnvHitboxes(hitboxes);
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(renderer);
@@ -206,8 +206,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	}
 
 	// Level environment
-	//for (Sprite* pSprite : m_vpPropSprites)
-	//	pSprite->Process(deltaTime);
+	for (Sprite* pSprite : m_vpPropSprites)
+		pSprite->Process(deltaTime);
 
 	//Player aim:
 	m_cursorPosition = inputSystem.GetMousePosition();
@@ -369,11 +369,6 @@ void SceneFFGame::Draw(Renderer& renderer)
 {
 	// draw all entities (order matters)
 
-	// Level environment
-	//for (Sprite* pSprite : m_vpPropSprites)
-	//	pSprite->Draw(renderer);
-
-
 	// drawing in reverse:
 	// prop collisions will detect first in the array,
 	// so earlier props are drawn later to better reflect collision
@@ -384,6 +379,10 @@ void SceneFFGame::Draw(Renderer& renderer)
 			m_Props[i]->Draw(renderer);
 		}
 	}
+
+	// Level environment
+	for (Sprite* pSprite : m_vpPropSprites)
+		pSprite->Draw(renderer);
 
 	for (Enemy* pEnemy : m_vpEnemies)
 		pEnemy->Draw(renderer);
