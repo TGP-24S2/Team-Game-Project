@@ -83,10 +83,11 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 			{
 				case LC_WALL:
 				{
-					int x = ncell * 40;
-					int y = nrow * 40;
+					const int CELL_SIZE = 20;
+					int x = ncell * CELL_SIZE;
+					int y = nrow * CELL_SIZE;
 					Sprite *pSprite = renderer.CreateSprite("sprites\\box.png");
-					pSprite->SetScale(0.2f);
+					pSprite->SetScale(0.1f);
 					pSprite->SetX(x);
 					pSprite->SetY(y);
 					m_vpPropSprites.push_back(pSprite);
