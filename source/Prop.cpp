@@ -26,8 +26,6 @@ bool Prop::Initialise(Renderer& renderer)
         m_spritePaths.push_back("rect7");
     }
     m_hitbox.setPosition(m_position);
-    
-    ChangeSprite();
 
     return true;
 }
@@ -48,7 +46,10 @@ void Prop::Draw(Renderer& renderer)
 void Prop::SetTemplate(PropTemplate* propTemplate)
 {
     m_pTemplate = propTemplate;
-    UpdateColor();
+    if (m_pSprite != nullptr)
+    {
+        UpdateColor();
+    }
 }
 
 void Prop::ChangeSprite()
@@ -56,6 +57,7 @@ void Prop::ChangeSprite()
     std::string spriteName = m_spritePaths[GetRandom(0, m_spritePaths.size() - 1)];
 
     m_pSprite = m_pRenderer->CreateSprite(("sprites\\props\\" + spriteName + ".png").c_str());
+    UpdateColor();
 
     m_hitbox.setDimensions(m_pSprite->GetWidth(), m_pSprite->GetHeight());
     ComputeBounds();
@@ -63,10 +65,6 @@ void Prop::ChangeSprite()
 
 void Prop::UpdateColor()
 {
-    std::cout << m_pTemplate->colour[0];
-    std::cout << m_pTemplate->colour[1];
-    std::cout << m_pTemplate->colour[2];
-    std::cout << m_pTemplate->colour[3];
     m_pSprite->SetRedTint(m_pTemplate->colour[0]);
     m_pSprite->SetGreenTint(m_pTemplate->colour[1]);
     m_pSprite->SetBlueTint(m_pTemplate->colour[2]);
@@ -83,8 +81,11 @@ void Prop::ComputeBounds()
 
 void Prop::Spawn()
 {
-    ChangeSprite();
-    m_position.x = static_cast<float>(GetRandom(static_cast<int>(m_boundaryLow.x), static_cast<int>(m_boundaryHigh.x)));
-    m_position.y = static_cast<float>(GetRandom(static_cast<int>(m_boundaryLow.y), static_cast<int>(m_boundaryHigh.y)));
-    m_pSprite->SetPosition(m_position.x, m_position.y);
+    if (m_pTemplate != nullptr)
+    {
+        ChangeSprite();
+        m_position.x = static_cast<float>(GetRandom(static_cast<int>(m_boundaryLow.x), static_cast<int>(m_boundaryHigh.x)));
+        m_position.y = static_cast<float>(GetRandom(static_cast<int>(m_boundaryLow.y), static_cast<int>(m_boundaryHigh.y)));
+        m_pSprite->SetPosition(m_position.x, m_position.y);
+    }
 }

@@ -25,17 +25,17 @@ public:
 
 	void SetTemplate(PropTemplate* propTemplate);
 
-	void ChangeSprite();
-	void UpdateColor();
-
 	void ComputeBounds();
 	void Spawn();
 
 	static void setPlayer(Player* player);
 	static void setEnemies(std::vector<Enemy*> m_vpEnemies);
-private:
 
 protected:
+
+private:
+	void ChangeSprite();
+	void UpdateColor();
 
 	// Member data:
 public:
