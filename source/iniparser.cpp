@@ -1,6 +1,7 @@
 #include "IniParser.h"
 #include "weapon.h"
 #include "renderer.h"
+#include "PropTemplate.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -239,4 +240,55 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
     
 
     return weapons;
+}
+
+bool IniParser::IsPropSection(const std::string& section) {
+    try {
+        // Check for some common prop-related keys to classify a section as a prop
+        std::string colorRed = GetValueAsString(section, "colorRed");
+        std::string accelScale = GetValueAsString(section, "accelScale");
+        return true;  // If these keys exist, it's a prop section
+    }
+    catch (const std::exception&) {
+        // If the section doesn't have prop-related keys, it's not a prop section
+        return false;
+    }
+}
+
+std::vector<PropTemplate*> IniParser::GetPropTemplates(const std::string& filename) {
+    std::vector<PropTemplate*> props;
+
+    // Load the INI file
+    if (!LoadIniFile(filename)) {
+        throw std::runtime_error("Failed to load INI file");
+    }
+
+    // Iterate through all the key-value pairs stored in the data map
+    for (const auto& entry : data) {
+        // Extract the section from the "section|key" format
+        std::size_t delimiterPos = entry.first.find('|');
+        if (delimiterPos != std::string::npos) {
+            std::string section = entry.first.substr(0, delimiterPos);
+
+            // Check if the section is a prop section
+            if (IsPropSection(section)) {
+                PropTemplate* prop = new PropTemplate();
+
+                // Set prop properties based on the key-value pairs in the section
+
+                prop->colour[0] = GetValueAsFloat(section, "colorRed");
+                prop->colour[1] = GetValueAsFloat(section, "colorGreen");
+                prop->colour[2] = GetValueAsFloat(section, "colorBlue");
+                prop->colour[3] = GetValueAsFloat(section, "colorAlpha");
+                prop->m_fAccelScale = GetValueAsFloat(section, "accelScale");
+                prop->m_fDecelScale = GetValueAsFloat(section, "decelScale");
+                prop->m_fMaxSpeedScale = GetValueAsFloat(section, "maxSpeedScale");
+
+                // Add the created prop to the vector
+                props.push_back(prop);
+            }
+        }
+    }
+
+    return props;
 }

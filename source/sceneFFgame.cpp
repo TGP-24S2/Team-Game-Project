@@ -158,28 +158,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 		m_Props[i]->Initialise(renderer);
 	}
 
-	//ice or smth lol
-	PropTemplate* propTemplate1 = new PropTemplate();
-	propTemplate1->colour[0] = 0.7f;
-	propTemplate1->colour[1] = 1.0f;
-	propTemplate1->colour[2] = 1.0f;
-	propTemplate1->colour[3] = 1.0f;
-	propTemplate1->m_fAccelScale = 1.2f;
-	propTemplate1->m_fDecelScale = 0.5f;
-	propTemplate1->m_fMaxSpeedScale = 1.5f;
-
-	//slime or smth
-	PropTemplate* propTemplate2 = new PropTemplate();
-	propTemplate2->colour[0] = 0.75f;
-	propTemplate2->colour[1] = 0.9f;
-	propTemplate2->colour[2] = 0.35f;
-	propTemplate2->colour[3] = 1.0f;
-	propTemplate2->m_fAccelScale = 0.6f;
-	propTemplate2->m_fDecelScale = 1.3f;
-	propTemplate2->m_fMaxSpeedScale = 0.8f;
-
-	m_PropTemplates.push_back(propTemplate1);
-	m_PropTemplates.push_back(propTemplate2);
+	m_PropTemplates = IniParser::GetInstance().GetPropTemplates("config.ini");
 	SpawnProps();
 
 	//sounds
