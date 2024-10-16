@@ -33,6 +33,18 @@ void Enemy::Initialise(Renderer& renderer)
 	
 	m_pSprite->SetScale(m_fInitialScale);
 
+	if (GetRandomPercentage() < 0.5f)
+	{
+		SetToAngry();
+	}
+	else
+	{
+		m_pSprite->SetFrameDuration(0.1f);
+		SetToNotAngry();
+		m_pSprite->SetBlueTint(0.5f);
+		m_pSprite->SetGreenTint(0.5f);
+	}
+
 	RandomStartPlace();
 
 }
@@ -48,11 +60,12 @@ void Enemy::Process(float deltaTime)
 	float dx = playerX - m_position.x;
 	float dy = playerY - m_position.y;
 	bool canSeePlayer = !RaycastHits(dx, dy);
-	if (canSeePlayer)
+	if (m_bTargetingPlayer && canSeePlayer) // if aggroable and can see playable
 	{ // beeline to player
 		const float velocitydeweight = 0.25f;
-		m_velocity.x = deltaTime * 100 * (dx + m_pPlayer->GetVelocity().x * velocitydeweight);
-		m_velocity.y = deltaTime * 100 * (dy + m_pPlayer->GetVelocity().y * velocitydeweight);
+		const int botSpeed = 200;
+		m_velocity.x = deltaTime * botSpeed * (dx + m_pPlayer->GetVelocity().x * velocitydeweight);
+		m_velocity.y = deltaTime * botSpeed * (dy + m_pPlayer->GetVelocity().y * velocitydeweight);
 		m_pSprite->SetFrameDuration(2.0f);
 	}
 	else
