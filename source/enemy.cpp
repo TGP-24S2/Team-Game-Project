@@ -49,14 +49,14 @@ void Enemy::Process(float deltaTime)
 	m_velocity.x = deltaTime * 500 * (dx + m_pPlayer->GetVelocity().x * velocitydeweight);
 	m_velocity.y = deltaTime * 500 * (dy + m_pPlayer->GetVelocity().y * velocitydeweight);
 	if (m_velocity.x == 0.0f)
-		m_velocity.x = GetRandom(-100, 100);
+		m_velocity.x = (float)GetRandom(-100, 100);
 	if (m_velocity.y == 0.0f)
-		m_velocity.y = GetRandom(-100, 100);
+		m_velocity.y = (float)GetRandom(-100, 100);
 
 	// denote size as health
 	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
 	m_pSprite->SetScale(scale);
-	m_hitbox.setDimensions(m_pSprite->GetWidth(), m_pSprite->GetHeight());
+	m_hitbox.setDimensions((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
 	if (scale < 0.01f) 
 		Kill(); // kill if too small
 }

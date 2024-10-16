@@ -33,6 +33,7 @@ SceneFFGame::SceneFFGame()
 	, m_pPlayer(nullptr)
 	, m_pCursorSprite(nullptr)
 	, m_pTestBall(nullptr)
+	, m_Props{0,0,0,0,0}
 	, m_pGameOverSprite(nullptr)
 	, m_pYouWinSprite(nullptr)
 	, m_pRectangle(nullptr)
@@ -91,7 +92,7 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 					m_vpPropSprites.push_back(pSprite);
 
 					Rectangle* rect = new Rectangle();
-					Vector2* pos = new Vector2(x, y);
+					Vector2* pos = new Vector2((float)x, (float)y);
 					rect->setPosition(*pos);
 					rect->width = (float)pSprite->GetWidth();
 					rect->height = (float)pSprite->GetHeight();

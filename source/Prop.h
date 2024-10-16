@@ -19,6 +19,7 @@ class Prop
 {
 	// Member methods:
 public:
+	Prop();
 	bool Initialise(Renderer& renderer);
 	void Process(float deltaTime);
 	void Draw(Renderer& renderer);

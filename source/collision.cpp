@@ -46,14 +46,14 @@ bool Collision::CheckSpriteCollision(Sprite* pSprite1, Sprite* pSprite2)
 	v1.x = (float)pSprite1->GetX();
 	v1.y = (float)pSprite1->GetY();
 	r1.setPosition(v1);
-	r1.setDimensions(pSprite1->GetWidth(), pSprite1->GetHeight());
+	r1.setDimensions((float)pSprite1->GetWidth(), (float)pSprite1->GetHeight());
 
 	int size2 = pSprite2->GetHeight();
 	Rectangle r2 = Rectangle();
 	Vector2 v2 = Vector2();
 	v2.x = (float)pSprite1->GetX();
 	v2.y = (float)pSprite1->GetY();
-	r2.setDimensions(pSprite2->GetWidth(), pSprite2->GetHeight());
+	r2.setDimensions((float)pSprite2->GetWidth(), (float)pSprite2->GetHeight());
 
 	return CheckRectangleCollision(r1, r2);
 }

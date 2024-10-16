@@ -27,7 +27,7 @@ Particle::Initialise(Sprite& sprite)
 {
     m_pSprite = &sprite;
     m_hitbox.setPosition(m_position);
-    m_hitbox.setDimensions(m_pSprite->GetWidth(), m_pSprite->GetHeight());
+    m_hitbox.setDimensions((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
     return true;
 }
 

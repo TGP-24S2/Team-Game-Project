@@ -4,6 +4,7 @@
 
 
 Rectangle::Rectangle()
+    : width(0), height(0), m_position(nullptr)
 {
 
 }

@@ -11,6 +11,9 @@ std::vector<std::string> Prop::m_spritePaths;
 Player* Prop::m_pPlayer = nullptr;
 std::vector<Enemy*> Prop::m_vpEnemies;
 
+Prop::Prop()
+    {}
+
 bool Prop::Initialise(Renderer& renderer)
 {
     m_pRenderer = &renderer;
@@ -59,7 +62,7 @@ void Prop::ChangeSprite()
     m_pSprite = m_pRenderer->CreateSprite(("sprites\\props\\" + spriteName + ".png").c_str());
     UpdateColor();
 
-    m_hitbox.setDimensions(m_pSprite->GetWidth(), m_pSprite->GetHeight());
+    m_hitbox.setDimensions((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
     ComputeBounds();
 }
 
@@ -86,6 +89,6 @@ void Prop::Spawn()
         ChangeSprite();
         m_position.x = static_cast<float>(GetRandom(static_cast<int>(m_boundaryLow.x), static_cast<int>(m_boundaryHigh.x)));
         m_position.y = static_cast<float>(GetRandom(static_cast<int>(m_boundaryLow.y), static_cast<int>(m_boundaryHigh.y)));
-        m_pSprite->SetPosition(m_position.x, m_position.y);
+        m_pSprite->SetPosition((int)m_position.x, (int)m_position.y);
     }
 }
