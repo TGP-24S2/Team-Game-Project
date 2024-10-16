@@ -8,8 +8,6 @@
 #include <iostream>
 
 std::vector<std::string> Prop::m_spritePaths;
-Player* Prop::m_pPlayer = nullptr;
-std::vector<Enemy*> Prop::m_vpEnemies;
 
 Prop::Prop()
     {}
