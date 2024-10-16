@@ -31,7 +31,10 @@ bool Player::Initialise(Renderer& renderer)
 
 	ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	RandomStartPlace();
+	do
+	{
+		RandomStartPlace();
+	} while (IsInsideWall(m_position));
 
 	return true;
 }

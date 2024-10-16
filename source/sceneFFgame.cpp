@@ -111,6 +111,14 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 		nrow++;
 	}
 	Entity::SetEnvHitboxes(hitboxes);
+	// remove any enemies that spawn inside player
+	for (auto pEnemy : m_vpEnemies)
+	{
+		if (Collision::CheckRectangleCollision(pEnemy->GetHitbox(), m_pPlayer->GetHitbox()))
+		{
+			pEnemy->Kill();
+		}
+	}
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(renderer);

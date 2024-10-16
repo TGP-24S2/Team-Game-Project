@@ -58,6 +58,7 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSi
     sm_fBoundaryHeight = static_cast<float>(SCREEN_HEIGHT);
 
     ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
+
     do
     {
         RandomStartPlace();
