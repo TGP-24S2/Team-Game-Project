@@ -10,8 +10,7 @@ class Enemy : public Entity {
 
 	// methods:
 public:
-	Enemy();
-	Enemy(int health, int dmg);
+	Enemy(Player*);
 	~Enemy();
 
 	void Initialise(Renderer& renderer);

@@ -134,9 +134,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	// random num of enemies
 	for (int i = 0; i < GetRandom(1, 5); i++)
 	{
-		Enemy* pTestEnemy = new Enemy();
+		Enemy* pTestEnemy = new Enemy(m_pPlayer);
 		pTestEnemy->Initialise(renderer);
-		pTestEnemy->SetPlayer(m_pPlayer);
 		m_vpEnemies.push_back(pTestEnemy);
 	}
 

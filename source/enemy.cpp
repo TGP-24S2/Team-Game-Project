@@ -6,21 +6,14 @@
 #include "player.h"
 #include "collision.h"
 
-Enemy::Enemy()
+Enemy::Enemy(Player *pPlayer)
 	: Entity()
 	, m_iDamage(5)
 	, m_fInitialScale(0.25f)
 	, m_bAngry(false)
-	, m_pPlayer(nullptr)
+	, m_pPlayer(pPlayer)
 {
 	m_fSpeedScale /= 2; // enemy is half speed of player
-}
-
-Enemy::Enemy(int health, int damage)
-	: Enemy() // call default constructor
-{
-	m_iHealth = health;
-	m_iDamage = damage;
 }
 
 Enemy::~Enemy()
@@ -45,7 +38,9 @@ void Enemy::Initialise(Renderer& renderer)
 		m_pSprite->SetGreenTint(0.5f);
 	}
 
-	RandomStartPlace();
+	do {
+		RandomStartPlace();
+	} while (IsCollidingWith(m_pPlayer));
 
 }
 
