@@ -42,11 +42,11 @@ void Enemy::Initialise(Renderer& renderer)
 	const int SCREEN_HEIGHT = renderer.GetHeight();
  	// spawn position of enemy - put them near edge of screen
 	m_position.x = GetRandomPercentage() < 0.5f
-		? (float)GetRandom(100, SCREEN_WIDTH * 0.4f)
-		: (float)GetRandom(SCREEN_WIDTH * 0.6f, SCREEN_WIDTH - 100);
+		? (float)GetRandom(100, SCREEN_WIDTH * 2/5)
+		: (float)GetRandom(SCREEN_WIDTH * 3/5, SCREEN_WIDTH - 100);
 	m_position.y = GetRandomPercentage() < 0.5f
-		? (float)GetRandom(100, SCREEN_HEIGHT * 0.4f)
-		: (float)GetRandom(SCREEN_HEIGHT * 0.6f, SCREEN_HEIGHT - 100);
+		? (float)GetRandom(100, SCREEN_HEIGHT * 2/5)
+		: (float)GetRandom(SCREEN_HEIGHT * 3/5, SCREEN_HEIGHT - 100);
 }
 
 void Enemy::Process(float deltaTime)
