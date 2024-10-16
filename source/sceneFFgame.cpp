@@ -371,7 +371,11 @@ void SceneFFGame::Draw(Renderer& renderer)
 	//for (Sprite* pSprite : m_vpPropSprites)
 	//	pSprite->Draw(renderer);
 
-	for (int i = 0; i < MAX_PROPS; i++)
+
+	// drawing in reverse:
+	// prop collisions will detect first in the array,
+	// so earlier props are drawn later to better reflect collision
+	for (int i = MAX_PROPS - 1; i >= 0; i--)
 	{
 		if (m_Props[i]->m_bIsAlive)
 		{
