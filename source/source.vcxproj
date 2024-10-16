@@ -40,7 +40,6 @@
     <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="Prop.cpp" />
-    <ClCompile Include="PropTemplate.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="rectangle.cpp" />
