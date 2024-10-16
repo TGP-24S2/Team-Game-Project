@@ -231,6 +231,12 @@ std::vector<Weapon*> IniParser::GetWeapons(const std::string& filename) {
         // Add the created weapon to the vector
         weapons.push_back(weapon);
     }
+    for (int i = 0; i < weapons.size(); i++) {
+        if (weapons[i]->GetWeaponType() == 1) { //melee
+            weapons[i]->SpawnMeleeSwing();
+        }
+    }
+    
 
     return weapons;
 }

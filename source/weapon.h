@@ -12,6 +12,8 @@ class Renderer;
 class Sprite;
 class Particle;
 
+static std::vector<Particle*> m_particles;
+
 // Class declaration:
 class Weapon
 {
@@ -77,7 +79,6 @@ protected:
 
     Renderer *m_pRenderer;
 
-    std::vector<Particle *> m_particles;
 
     float m_fTimeElapsed;
 

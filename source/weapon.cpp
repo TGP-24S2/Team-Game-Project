@@ -60,9 +60,16 @@ void Weapon::Process(float deltaTime)
         }
         else if (m_iWeaponType == MELEE) {
             // Start the melee swing
-            if (m_particles.empty())
+            if (!m_particles.empty())
             {
-                SpawnMeleeSwing(); // Spawn the melee weapon particle
+                //SpawnMeleeSwing(); // Spawn the melee weapon particle
+                m_particles[0]->SetEnabled();
+                m_particles[0]->SetMaxLifespan(m_fMaxLifespan); // Set lifespan as needed
+                m_particles[0]->SetPosition(m_fX, m_fY);        // Initial position is at the player
+                m_particles[0]->SetColour(m_fColour);
+
+                // Initialize swing angle
+                m_particles[0]->m_fCurrentAngle = (m_fMinAngle);
             }
         }
     }
@@ -73,30 +80,27 @@ void Weapon::Process(float deltaTime)
         }
     }
     
+    if (m_particles[0]->IsAlive()) {
+        UpdateMeleeSwing(m_particles[0], deltaTime);
+    }
+
     // Process particles
-    for (auto it = m_particles.begin(); it != m_particles.end();)
+    for (int i = 1; i < m_particles.size();)
     {
-        Particle *particle = *it;
+        Particle* particle = m_particles[i];
         if (particle->IsAlive())
         {
-            // Update the melee swing position if it's a melee weapon
-            if (m_iWeaponType == MELEE)
-            {
-                UpdateMeleeSwing(particle, deltaTime);
-            }
-            else if (m_iWeaponType == GUN)
-            {
-                particle->Process(deltaTime);
-            }
-            ++it;
+            particle->Process(deltaTime);
+            i++; // Increment only if particle is still alive
         }
         else
         {
             delete particle;
             particle = nullptr;
-            it = m_particles.erase(it);
+            m_particles.erase(m_particles.begin() + i); // Erase the particle and don't increment i
         }
     }
+
 
     if (m_iWeaponType == GUN && m_pSelfSprite)
     {
@@ -308,16 +312,6 @@ void Weapon::SpawnMeleeSwing()
 
     if (particle->Initialise(*m_pSelfSprite))
     {
-        particle->SetEnabled();
-        particle->SetMaxLifespan(m_fMaxLifespan); // Set lifespan as needed
-        particle->SetPosition(m_fX, m_fY);        // Initial position is at the player
-
-        // Initialize swing angle
-        particle->m_fCurrentAngle = (m_fMinAngle);
-
-        // Set melee weapon properties
-        particle->SetColour(m_fColour);
-
         m_particles.push_back(particle); // Add this particle to the emitter
     }
     else
