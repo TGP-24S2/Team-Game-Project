@@ -30,6 +30,7 @@ public:
 
 	void SetAimAngle(float angle);
 	void SetWeaponType(int weaponType);
+	void SetSpeedProfile(float accelScale, float decelScale, float speedScale);
 	
 	void DebugDraw();
 

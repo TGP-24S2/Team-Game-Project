@@ -5,6 +5,8 @@
 #include "inlinehelpers.h"
 #include "PropTemplate.h"
 
+#include <iostream>
+
 std::vector<std::string> Prop::m_spritePaths;
 Player* Prop::m_pPlayer = nullptr;
 std::vector<Enemy*> Prop::m_vpEnemies;
@@ -28,6 +30,11 @@ bool Prop::Initialise(Renderer& renderer)
     ChangeSprite();
 
     return true;
+}
+
+void Prop::Process(float deltaTime)
+{
+    m_pSprite->Process(deltaTime);
 }
 
 void Prop::Draw(Renderer& renderer)
@@ -56,10 +63,13 @@ void Prop::ChangeSprite()
 
 void Prop::UpdateColor()
 {
+    std::cout << m_pTemplate->colour[0];
+    std::cout << m_pTemplate->colour[1];
+    std::cout << m_pTemplate->colour[2];
+    std::cout << m_pTemplate->colour[3];
     m_pSprite->SetRedTint(m_pTemplate->colour[0]);
     m_pSprite->SetGreenTint(m_pTemplate->colour[1]);
     m_pSprite->SetBlueTint(m_pTemplate->colour[2]);
-    m_pSprite->SetAlpha(m_pTemplate->colour[3]);
 }
 
 void Prop::ComputeBounds()

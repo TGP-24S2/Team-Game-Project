@@ -34,6 +34,7 @@ public:
 	Vector2& GetPosition(); 
 	Vector2& GetVelocity();
 	void SetVelocity(int x, int y);
+	void SetSpeedScale(float scale);
 	int GetHealth();
 	int GetMaxHealth();
 	bool IsCollidingWith(Entity* toCheck); 
@@ -67,7 +68,7 @@ protected:
 	Rectangle m_hitbox;
 	Vector2 m_position; 
 	Vector2 m_velocity; 
-	float m_fSpeedScale;
+	float m_fSpeedScale = 1.0f;
 
 	Vector2 m_boundaryLow;
 	Vector2 m_boundaryHigh;

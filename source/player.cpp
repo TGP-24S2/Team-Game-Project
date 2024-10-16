@@ -8,6 +8,8 @@
 
 #include "imgui.h"
 
+#include <iostream>
+
 Player::Player()
 	: m_iWeaponType(0)
 {
@@ -112,18 +114,19 @@ void Player::Decelerate()
 
 void Player::CapSpeed()
 {
-	if (m_velocity.x > m_fMaxSpeed)	{
-		m_velocity.x = m_fMaxSpeed;
+	float scaledMaxSpeed = m_fMaxSpeed * m_fMaxSpeedScale;
+	if (m_velocity.x > scaledMaxSpeed)	{
+		m_velocity.x = scaledMaxSpeed;
 	}
-	else if (m_velocity.x < (0 - m_fMaxSpeed)) {
-		m_velocity.x = (0 - m_fMaxSpeed);
+	else if (m_velocity.x < (0 - scaledMaxSpeed)) {
+		m_velocity.x = (0 - scaledMaxSpeed);
 	}
 
-	if (m_velocity.y > m_fMaxSpeed)	{
-		m_velocity.y = m_fMaxSpeed;
+	if (m_velocity.y > scaledMaxSpeed)	{
+		m_velocity.y = scaledMaxSpeed;
 	}
-	else if (m_velocity.y < (0 - m_fMaxSpeed)) {
-		m_velocity.y = (0 - m_fMaxSpeed);
+	else if (m_velocity.y < (0 - scaledMaxSpeed)) {
+		m_velocity.y = (0 - scaledMaxSpeed);
 	}
 }
 
@@ -140,6 +143,13 @@ void Player::SetAimAngle(float angle) {
 
 void Player::SetWeaponType(int weaponType) {
 	m_iWeaponType = weaponType;
+}
+
+void Player::SetSpeedProfile(float accelScale, float decelScale, float speedScale)
+{
+	m_fAccelScale = accelScale;
+	m_fDecelScale = decelScale;
+	m_fMaxSpeedScale = speedScale;
 }
 
 void Player::DebugDraw()

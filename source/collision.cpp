@@ -5,7 +5,6 @@
 #include "sprite.h"
 #include "rectangle.h"
 #include "entity.h"
-
 bool Collision::CheckRectangleCollision(Rectangle r1, Rectangle r2)
 {
 	float r1Left = (float)(r1.m_position->x) - (r1.width / 2.0f);
@@ -23,6 +22,18 @@ bool Collision::CheckRectangleCollision(Rectangle r1, Rectangle r2)
 	if (r1Bottom < r2Top) return false;
 	if (r1Top > r2Bottom) return false;
 	return true;
+}
+
+bool Collision::CheckPointInRectangle(Vector2 point, Rectangle rect)
+{
+	float rectLeft = (float)(rect.m_position->x) - (rect.width / 2.0f);
+	float rectRight = (float)(rect.m_position->x) + (rect.width / 2.0f);
+	float rectTop = (float)(rect.m_position->y) - (rect.height / 2.0f);
+	float rectBottom = (float)(rect.m_position->y) + (rect.height / 2.0f);
+
+	// Check if point is within rectangle's bounds
+	return (point.x >= rectLeft && point.x <= rectRight &&
+		point.y >= rectTop && point.y <= rectBottom);
 }
 
 /// Checks if the first sprite is within the second sprite.

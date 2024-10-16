@@ -76,7 +76,7 @@ void Entity::Process(float deltaTime)
 
     CheckBounds();
 
-    m_position += m_velocity * deltaTime;
+    m_position += m_velocity * m_fSpeedScale * deltaTime;
 
     // shove backward if inside wall
     Vector2 curVel = m_velocity;
@@ -122,6 +122,11 @@ void Entity::SetVelocity(int x, int y)
 {
     m_velocity.x = (float)x;
     m_velocity.y = (float)y;
+}
+
+void Entity::SetSpeedScale(float scale)
+{
+    m_fSpeedScale = scale;
 }
 
 bool Entity::IsCollidingWith(Entity* toCheck)

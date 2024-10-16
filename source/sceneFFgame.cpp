@@ -16,6 +16,7 @@
 #include "inlinehelpers.h"
 #include "rectangle.h"
 #include "soundsystem.h"
+#include "Prop.h"
 #include "PropTemplate.h"
 
 #include <typeinfo>
@@ -154,8 +155,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	propTemplate1->colour[2] = 0.25f;
 	propTemplate1->colour[3] = 1.0f;
 	propTemplate1->m_fAccelScale = 1.2f;
-	propTemplate1->m_fDecelScale = 0.5f;
-	propTemplate1->m_fMaxSpeedScale = 1.5f;
+	propTemplate1->m_fDecelScale = 1.5f;
+	propTemplate1->m_fMaxSpeedScale = 0.8f;
 
 	PropTemplate* propTemplate2 = new PropTemplate();
 	propTemplate2->colour[0] = 1.0f;
@@ -320,6 +321,43 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 					pEnemy->TakeDamage(damage);
 				}
 			}
+		}
+
+		pEnemy->SetSpeedScale(1.0f); // default if no collision
+		for (auto prop : m_Props)
+		{
+			if (!prop->m_bIsAlive)
+			{
+				continue;
+			}
+
+			// Check for collision
+			if (Collision::CheckPointInRectangle(pEnemy->GetPosition(), prop->m_hitbox))
+			{
+				pEnemy->SetSpeedScale(prop->m_pTemplate->m_fMaxSpeedScale);
+				break; //checking point in rectangle, will only ever collide with one
+			}
+		}
+	}
+
+	// prop / player collision
+	m_pPlayer->SetSpeedProfile(1.0f, 1.0f, 1.0f); // default if no collision
+	for (auto prop : m_Props)
+	{
+		if (!prop->m_bIsAlive)
+		{
+			continue;
+		}
+
+		// Check for collision
+		if (Collision::CheckPointInRectangle(m_pPlayer->GetPosition(), prop->m_hitbox))
+		{
+			m_pPlayer->SetSpeedProfile(
+				prop->m_pTemplate->m_fAccelScale,
+				prop->m_pTemplate->m_fDecelScale,
+				prop->m_pTemplate->m_fMaxSpeedScale
+			);
+			break; //checking point in rectangle, will only ever collide with one
 		}
 	}
 
