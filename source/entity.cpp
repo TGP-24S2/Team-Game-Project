@@ -131,8 +131,7 @@ void Entity::SetSpeedScale(float scale)
 
 bool Entity::IsCollidingWith(Entity* toCheck)
 {
-    // For grid-based movement, collision occurs when both entities are on the same tile
-    return (m_position.x == toCheck->m_position.x && m_position.y == toCheck->m_position.y);
+    return Collision::CheckSpriteCollision(m_pSprite, toCheck->GetSprite());
 }
 
 AnimatedSprite* Entity::GetSprite() {

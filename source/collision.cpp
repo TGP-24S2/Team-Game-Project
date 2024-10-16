@@ -39,8 +39,6 @@ bool Collision::CheckPointInRectangle(Vector2 point, Rectangle rect)
 /// Checks if the first sprite is within the second sprite.
 bool Collision::CheckSpriteCollision(Sprite* pSprite1, Sprite* pSprite2)
 {
-	// const float factor = 1 + (float)M_PI / 4.0f;
-
 	Rectangle r1 = Rectangle();
 	Vector2 v1 = Vector2();
 	v1.x = (float)pSprite1->GetX();
@@ -48,11 +46,11 @@ bool Collision::CheckSpriteCollision(Sprite* pSprite1, Sprite* pSprite2)
 	r1.setPosition(v1);
 	r1.setDimensions((float)pSprite1->GetWidth(), (float)pSprite1->GetHeight());
 
-	int size2 = pSprite2->GetHeight();
 	Rectangle r2 = Rectangle();
 	Vector2 v2 = Vector2();
-	v2.x = (float)pSprite1->GetX();
-	v2.y = (float)pSprite1->GetY();
+	v2.x = (float)pSprite2->GetX();
+	v2.y = (float)pSprite2->GetY();
+	r2.setPosition(v2);
 	r2.setDimensions((float)pSprite2->GetWidth(), (float)pSprite2->GetHeight());
 
 	return CheckRectangleCollision(r1, r2);
