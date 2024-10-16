@@ -37,6 +37,16 @@ void Enemy::Initialise(Renderer& renderer)
 		m_pSprite->SetBlueTint(0.5f);
 		m_pSprite->SetGreenTint(0.5f);
 	}
+
+	const int SCREEN_WIDTH = renderer.GetWidth();
+	const int SCREEN_HEIGHT = renderer.GetHeight();
+	Vector2 pos;
+	do 
+	{	// spawn position of enemy must NOT be within the player's hitbox
+		pos.x = (float)GetRandom(0, SCREEN_WIDTH);
+		pos.y = (float)GetRandom(0, SCREEN_HEIGHT);
+	} while (Collision::CheckPointInRectangle(pos, m_pPlayer->GetHitbox()));
+	m_position = pos;
 }
 
 void Enemy::Process(float deltaTime)
