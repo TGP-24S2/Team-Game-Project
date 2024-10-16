@@ -29,9 +29,6 @@ public:
 	void ComputeBounds();
 	void Spawn();
 
-	static void setPlayer(Player* player);
-	static void setEnemies(std::vector<Enemy*> m_vpEnemies);
-
 protected:
 
 private:
@@ -54,8 +51,6 @@ public:
 
 	Vector2 m_boundaryLow;
 	Vector2 m_boundaryHigh;
-	static Player* m_pPlayer;
-	static std::vector<Enemy*> m_vpEnemies;
 
 private:
 
