@@ -10,7 +10,7 @@ Enemy::Enemy()
 	: Entity()
 	, m_iDamage(5)
 	, m_fInitialScale(0.25f)
-	, m_bTargetingPlayer(false)
+	, m_bAngry(false)
 	, m_pPlayer(nullptr)
 {
 	m_fSpeedScale /= 2; // enemy is half speed of player
@@ -35,12 +35,12 @@ void Enemy::Initialise(Renderer& renderer)
 
 	if (GetRandomPercentage() < 0.5f)
 	{
-		SetToAngry();
+		m_bAngry = true;
 	}
 	else
 	{
+		m_bAngry = false;
 		m_pSprite->SetFrameDuration(0.1f);
-		SetToNotAngry();
 		m_pSprite->SetBlueTint(0.5f);
 		m_pSprite->SetGreenTint(0.5f);
 	}
@@ -60,7 +60,7 @@ void Enemy::Process(float deltaTime)
 	float dx = playerX - m_position.x;
 	float dy = playerY - m_position.y;
 	bool canSeePlayer = !RaycastHits(dx, dy);
-	if (m_bTargetingPlayer && canSeePlayer) // if aggroable and can see playable
+	if (m_bAngry && (canSeePlayer))
 	{ // beeline to player
 		const float velocitydeweight = 0.25f;
 		const int botSpeed = 200;
@@ -126,15 +126,15 @@ int Enemy::GetDamage()
 
 void Enemy::SetToAngry()
 {
-	m_bTargetingPlayer = true;
+	m_bAngry = true;
 }
 
 void Enemy::SetToNotAngry()
 {
-	m_bTargetingPlayer = false;
+	m_bAngry = false;
 }
 
 bool Enemy::IsTargetingPlayer()
 {
-	return m_bTargetingPlayer;
+	return m_bAngry;
 }
