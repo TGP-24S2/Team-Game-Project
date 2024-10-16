@@ -180,11 +180,7 @@ bool Entity::IsInsideWall(Vector2 pos)
 {
     for (Rectangle* hitbox : s_vpEnvHitboxes)
     {
-        Vector2 entitySize = Vector2((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
-        Rectangle thisRect = Rectangle();
-        thisRect.setPosition(m_position);
-        thisRect.setDimensions(entitySize.x, entitySize.y);
-        bool colliding = Collision::CheckRectangleCollision(thisRect, *hitbox);
+        bool colliding = Collision::CheckPointInRectangle(pos, *hitbox);
         if (colliding)
             return true;
     }
