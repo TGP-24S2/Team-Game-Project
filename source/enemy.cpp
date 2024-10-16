@@ -37,11 +37,6 @@ void Enemy::Initialise(Renderer& renderer)
 		m_pSprite->SetBlueTint(0.5f);
 		m_pSprite->SetGreenTint(0.5f);
 	}
-
-	do {
-		RandomStartPlace();
-	} while (IsCollidingWith(m_pPlayer));
-
 }
 
 void Enemy::Process(float deltaTime)

@@ -58,10 +58,7 @@ bool Entity::Initialise(Renderer& renderer, const char* spritePath, int spriteSi
 
     ComputeBounds(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    do
-    {
-        RandomStartPlace();
-    } while (IsInsideWall(m_position));
+    RandomStartPlace();
 
     m_hitbox.setPosition(m_position);
     m_hitbox.setDimensions((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
@@ -127,12 +124,6 @@ void Entity::SetVelocity(int x, int y)
 void Entity::SetSpeedScale(float scale)
 {
     m_fSpeedScale = scale;
-}
-
-bool Entity::IsCollidingWith(Entity* toCheck)
-{
-    return false; // temp as doesnt work
-    return Collision::CheckSpriteCollision(GetSprite(), toCheck->GetSprite());
 }
 
 bool Entity::RaycastHits(float dx, float dy)

@@ -29,7 +29,6 @@ public:
 	void Draw(Renderer& renderer);
 
 	AnimatedSprite* GetSprite();
-
 	void SetPosition(int x, int y);
 	Vector2& GetPosition(); 
 	Vector2& GetVelocity();
