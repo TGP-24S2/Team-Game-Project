@@ -10,7 +10,7 @@ class AmmoPickup : public Entity
 {
 	// Methods:
 public:
-	AmmoPickup(Renderer& renderer, int weaponType);
+	AmmoPickup(Renderer& renderer);
 	~AmmoPickup();
 	Sprite* GetSprite();
 protected:

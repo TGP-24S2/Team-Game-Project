@@ -300,6 +300,12 @@ void Weapon::SetGun()
     m_iWeaponType = GUN;
 }
 
+void Weapon::AddAmmo(int amount) {
+    m_iAmmoCount += amount;
+    if (m_iAmmoCount > m_iMagSize)
+        m_iAmmoCount = m_iMagSize;
+}
+
 void Weapon::SpawnMeleeSwing()
 {
     Particle *particle = new Particle();

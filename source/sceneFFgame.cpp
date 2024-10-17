@@ -352,9 +352,9 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 	}
 
-	if (GetRandomPercentage() < 0.001f * deltaTime)
+	if (GetRandom(1,10000) == 1)
 	{
-		AmmoPickup* ammopickup =new AmmoPickup(*m_pRenderer, GUN);
+		AmmoPickup* ammopickup =new AmmoPickup(*m_pRenderer);
 		m_vpAmmoPickups.push_back(ammopickup);
 	}
 
@@ -365,7 +365,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 			ammopickup->GetSprite()->Process(deltaTime);
 			if (Collision::CheckSpriteCollision(m_pPlayer->GetSprite(), ammopickup->GetSprite()))
 			{
-				m_vpWeapons[m_iCurrentWeapon]->SetBulletCount(m_vpWeapons[m_iCurrentWeapon]->GetAmmoCount() + ammopickup->m_iAmmoCount);
+				m_vpWeapons[m_iCurrentWeapon]->AddAmmo(ammopickup->m_iAmmoCount);
 				ammopickup->Kill();
 			}
 		}

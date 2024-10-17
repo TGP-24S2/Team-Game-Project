@@ -58,7 +58,7 @@ public:
 
     void SpawnMeleeSwing();
     void UpdateMeleeSwing(Particle *particle, float deltaTime);
-
+    void AddAmmo(int);
     int GetWeaponType();
     void SetMagSize(int magSize);
     int GetMagSize();

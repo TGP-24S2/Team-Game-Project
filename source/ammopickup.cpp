@@ -5,9 +5,9 @@
 #include "renderer.h"
 #include "weapon.h"
 
-AmmoPickup::AmmoPickup(Renderer& renderer, int weaponType)
+AmmoPickup::AmmoPickup(Renderer& renderer)
 	: m_pSprite(nullptr)
-	, m_iWeaponType(weaponType)
+	, m_iWeaponType(GUN)
 	, m_iAmmoCount(GetRandom(0,5))
 {
 	m_pSprite = renderer.CreateSprite("sprites\\bullet.png");
