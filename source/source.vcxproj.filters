@@ -132,7 +132,7 @@
     <ClCompile Include="Prop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PropTemplate.cpp">
+    <ClCompile Include="ammopickup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -255,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PropTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ammopickup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

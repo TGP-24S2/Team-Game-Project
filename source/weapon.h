@@ -1,4 +1,3 @@
-#pragma once
 // COMP710 GP Framework
 #ifndef __PARTICLEEMITTER_H__
 #define __PARTICLEEMITTER_H__
@@ -11,6 +10,9 @@
 class Renderer;
 class Sprite;
 class Particle;
+
+#define GUN 0
+#define MELEE 1
 
 static std::vector<Particle*> m_particles;
 

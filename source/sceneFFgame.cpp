@@ -18,6 +18,7 @@
 #include "soundsystem.h"
 #include "Prop.h"
 #include "PropTemplate.h"
+#include "ammopickup.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -351,6 +352,25 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 	}
 
+	if (GetRandomPercentage() < 0.1f)
+	{
+		AmmoPickup* ammopickup =new AmmoPickup(*m_pRenderer, GUN);
+		m_vpAmmoPickups.push_back(ammopickup);
+	}
+
+	for (AmmoPickup* ammopickup : m_vpAmmoPickups)
+	{
+		if (ammopickup->IsAlive())
+		{
+			ammopickup->GetSprite()->Process(deltaTime);
+			if (Collision::CheckSpriteCollision(m_pPlayer->GetSprite(), ammopickup->GetSprite()))
+			{
+				m_vpWeapons[m_iCurrentWeapon]->SetBulletCount(m_vpWeapons[m_iCurrentWeapon]->GetAmmoCount() + ammopickup->m_iAmmoCount);
+				ammopickup->Kill();
+			}
+		}
+	}
+
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
@@ -382,6 +402,14 @@ void SceneFFGame::Draw(Renderer& renderer)
 	{
 		m_vpWeapons[m_iCurrentWeapon]->Draw(renderer);
 		m_vpWeaponIconSprites[m_iCurrentWeapon]->Draw(renderer);
+	}
+
+	for (AmmoPickup* ammopickup : m_vpAmmoPickups)
+	{
+		if (ammopickup->IsAlive())
+		{
+			ammopickup->GetSprite()->Draw(renderer);
+		}
 	}
 
 	if (m_eStatus == GS_WIN)
