@@ -352,7 +352,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 	}
 
-	if (GetRandomPercentage() < 0.1f)
+	if (GetRandomPercentage() < 0.001f * deltaTime)
 	{
 		AmmoPickup* ammopickup =new AmmoPickup(*m_pRenderer, GUN);
 		m_vpAmmoPickups.push_back(ammopickup);

@@ -14,7 +14,7 @@ AmmoPickup::AmmoPickup(Renderer& renderer, int weaponType)
 
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();
-	m_pSprite->SetScale(1.1f);
+	m_pSprite->SetScale(0.25f);
 	m_pSprite->SetX(GetRandom(0, SCREEN_WIDTH));
 	m_pSprite->SetY(GetRandom(0, SCREEN_HEIGHT));
 }
