@@ -162,6 +162,10 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_PropTemplates = IniParser::GetInstance().GetPropTemplates("config.ini");
 	SpawnProps();
 
+	// HUD
+	m_pHud.Initialise(renderer);
+	m_pHud.SetPlayer(m_pPlayer);
+
 	//sounds
 	soundSystem->LoadSound("sounds\\BM_GameLoopMusic4.mp3", false, true);
 	soundSystem->PlaySound("sounds\\BM_GameLoopMusic4.mp3");
@@ -279,7 +283,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	// Weapons:
 	m_pPlayer->SetWeaponType(m_vpWeapons[m_iCurrentWeapon]->GetWeaponType());
 	m_vpWeapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
-	m_vpWeaponIconSprites[m_iCurrentWeapon]->Process(deltaTime);
+	m_vpWeaponIconSprites[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 
 	// Hitbox processing
 	float playerX = m_pPlayer->GetX();
@@ -371,6 +375,8 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 		}
 	}
 
+	// hud
+	m_pHud.Process(m_fLocalDeltaTime);
 }
 
 void SceneFFGame::Draw(Renderer& renderer)
@@ -416,6 +422,8 @@ void SceneFFGame::Draw(Renderer& renderer)
 		m_pYouWinSprite->Draw(renderer);
 	if (m_eStatus == GS_LOSS)
 		m_pGameOverSprite->Draw(renderer);
+
+	m_pHud.Draw(renderer);
 }
 
 void SceneFFGame::DebugDraw()
@@ -470,8 +478,8 @@ float SceneFFGame::UpdateDifficultyModifier()
 
 	float playerHealthRatio = 0.3 * (m_pPlayer->GetHealthRatio());
 	float levelProgress = 0.5 * (m_iCompletedLevels / m_iTotalLevels);
-	int numMags = 0;
 
+	int numMags = 0;
 	for (auto weapon : m_vpWeapons)
 	{
 		if (weapon->GetWeaponType() == weaponType(GUN))
@@ -479,7 +487,6 @@ float SceneFFGame::UpdateDifficultyModifier()
 			numMags += (weapon->GetMagCount());
 		}
 	}
-
 	float ammoRatio = 0.2 * std::min((float)numMags, (float)MAGAZINE_DIFFICULTY_CAP) / (float)MAGAZINE_DIFFICULTY_CAP;
 
 	return 1 + playerHealthRatio + levelProgress + ammoRatio;

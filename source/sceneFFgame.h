@@ -7,6 +7,7 @@
 #include "vector2.h"
 #include "vector"
 #include "prop.h"
+#include "HUD.h"
 
 #include <fmod.hpp>
 #include <map.>
@@ -63,6 +64,9 @@ public:
 	// the lower the number, the more ammo count will increase difficulty 
 	// eg. ammo-derived difficulty is at its highest when the player has 5 magazines
 	int MAGAZINE_DIFFICULTY_CAP = 5; 
+
+	// hud
+	HUD m_pHud;
 
 	// level
 	Level* m_pLevel;

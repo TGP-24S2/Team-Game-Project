@@ -8,11 +8,13 @@
 
 // Library includes:
 #include <vector>
+#include <string>
 
 //Forward declarations:
 class Renderer;
 class Sprite;
 class AnimatedSprite;
+class Player;
 
 class HUD
 {
@@ -27,25 +29,30 @@ public:
 
 	void DebugDraw();
 
-	void SetMaxHealth(int hp);
-	void UpdateCurrentHealth(int hp);
-	void UpdateWeapon(Weapon weapon);
+	void SetPlayer(Player* player);
+	void SetLevelGoal(int level);
+	void UpdateWeapon(Weapon* weapon);
 
 protected:
 
 private:
+	void UpdateHealth();
 
 	// Member data:
 public:
 	Sprite* m_pLevelText;
+	int m_iCurrentLevels;
+	int m_iLevelGoal;
 	
-	Sprite* m_pHealthIcon;
+	Player* m_pPlayer;
+	AnimatedSprite* m_pHealthBar;
 	Sprite* m_pHealthText;
 
+	Weapon* m_pWeapon;
 	Sprite* m_pWeaponIcon;
 
-	Sprite* m_pMagazineCapacity;
 	weaponType m_eCurrentWeaponType;
+	Sprite* m_pMagazineCapacity;
 	Sprite* m_pMagazineCount;
 	Sprite* m_pTotalAmmo;
 
