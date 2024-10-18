@@ -6,12 +6,6 @@
 #include "imgui.h"
 #include "inputsystem.h"
 
-enum
-{
-    GUN,
-    MELEE
-} weaponType;
-
 Weapon::Weapon()
     : m_pSharedSprite(nullptr), m_pSelfSprite(nullptr), m_fTimeElapsed(0.0f), m_iSpawnBatchSize(10), m_fEmitRate(1.0f), m_fMaxLifespan(5.0f), m_fAccelerationScalar(1000.0f), m_fX(0.0f), m_fY(0.0f), m_fMinAngle(0.0f), m_fMaxAngle(360.0f), m_bActive(true)
 {

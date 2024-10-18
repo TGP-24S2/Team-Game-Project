@@ -14,6 +14,12 @@ class Particle;
 
 static std::vector<Particle*> m_particles;
 
+enum weaponType
+{
+    GUN,
+    MELEE
+};
+
 // Class declaration:
 class Weapon
 {
@@ -79,7 +85,6 @@ protected:
 
     Renderer *m_pRenderer;
 
-
     float m_fTimeElapsed;
 
     int m_iSpawnBatchSize;
@@ -98,6 +103,7 @@ protected:
 
     bool m_bOwned; // owned weapon
 
+    //see enum
     int m_iWeaponType;
 
     int m_iMagSize; //constant size of mag/clip of weapon. irrelevant for melee

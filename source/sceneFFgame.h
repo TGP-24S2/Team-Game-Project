@@ -47,6 +47,8 @@ private:
 	Prop* GetPropPoolObject();
 	void SpawnProps();
 
+	float UpdateDifficultyModifier();
+
 	// Member data:
 public:
 	// game
@@ -54,6 +56,12 @@ public:
 	float m_fLocalDeltaTime;
 	float m_fTimeSinceInput;
 	float m_fPostMovementTimeBuffer = 0.7f; //how long game processes after controls are released
+	float m_fDifficultyModifier = 1.0f;
+	int m_iCompletedLevels = 0;
+	int m_iTotalLevels; //required amount of level completions before victory
+	// the lower the number, the more ammo count will increase difficulty 
+	// eg. ammo-derived difficulty is at its highest when the player has 5 magazines
+	int MAGAZINE_DIFFICULTY_CAP = 5; 
 
 	// level
 	Level* m_pLevel;

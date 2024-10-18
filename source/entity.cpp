@@ -161,6 +161,11 @@ int Entity::GetMaxHealth()
     return m_iMaxHealth;
 }
 
+float Entity::GetHealthRatio()
+{
+    return (float)m_iHealth / (float)m_iMaxHealth;
+}
+
 void Entity::Kill()
 {
     m_bAlive = false;
