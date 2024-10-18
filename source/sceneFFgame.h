@@ -20,6 +20,7 @@ class Rectangle;
 class SoundSystem;
 class Weapon;
 class Level;
+class AmmoPickup;
 
 enum GameStatus
 {
@@ -95,6 +96,8 @@ public:
 	int m_iCurrentWeapon;
 	std::vector<Weapon*> m_vpWeapons;
 	std::vector<Sprite*> m_vpWeaponIconSprites;
+
+	std::vector<AmmoPickup*> m_vpAmmoPickups;
 
 	Rectangle* m_pRectangle;
 

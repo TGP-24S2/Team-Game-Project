@@ -79,7 +79,7 @@ void Weapon::Process(float deltaTime)
     }
 
     // Process particles
-    for (int i = 1; i < m_particles.size();)
+    for (size_t i = 1; i < m_particles.size();)
     {
         Particle* particle = m_particles[i];
         if (particle->IsAlive())
@@ -298,6 +298,12 @@ void Weapon::SetMelee()
 void Weapon::SetGun()
 {
     m_iWeaponType = GUN;
+}
+
+void Weapon::AddAmmo(int amount) {
+    m_iAmmoCount += amount;
+    if (m_iAmmoCount > m_iMagSize)
+        m_iAmmoCount = m_iMagSize;
 }
 
 void Weapon::SpawnMeleeSwing()
