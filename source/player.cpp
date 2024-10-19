@@ -41,11 +41,8 @@ void Player::Process(float deltaTime, InputSystem& inputSystem)
 	Entity::Process(deltaTime); // super()
 	m_pSprite->Process(deltaTime);
 
-	// denote size as health
-	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
-	m_pSprite->SetScale(scale);
-	if (scale < 0.01f)
-		Kill(); // kill if too small
+	if (m_iHealth <= 0.0f)
+		Kill();
 
 	//Player self:
 	ButtonState leftMoveState = (inputSystem.GetKeyState(SDL_SCANCODE_A));
