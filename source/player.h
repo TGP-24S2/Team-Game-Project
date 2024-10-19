@@ -30,6 +30,7 @@ public:
 
 	void SetAimAngle(float angle);
 	void SetWeaponType(int weaponType);
+	void SetCurrentAmmo(int ammo);
 	void SetSpeedProfile(float accelScale, float decelScale, float speedScale);
 	
 	void DebugDraw();
@@ -59,6 +60,7 @@ private:
 	float m_fAngle = 0.0f;
 
 	int m_iWeaponType;
+	int m_iWeaponAmmo;
 };
 
 #endif // __PLAYER_H__

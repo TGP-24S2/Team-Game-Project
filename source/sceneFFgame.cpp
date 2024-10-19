@@ -283,6 +283,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 
 	// Weapons:
 	m_pPlayer->SetWeaponType(m_vpWeapons[m_iCurrentWeapon]->GetWeaponType());
+	m_pPlayer->SetCurrentAmmo(m_vpWeapons[m_iCurrentWeapon]->GetAmmoCount());
 	m_vpWeapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 	m_vpWeaponIconSprites[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 	m_pHud.UpdateWeapon(m_vpWeapons[m_iCurrentWeapon]);
