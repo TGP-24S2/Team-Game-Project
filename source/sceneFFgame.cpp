@@ -61,6 +61,7 @@ void SceneFFGame::WipeScene()
 	m_pYouWinSprite = nullptr;
 
 	m_vpEnemies.clear();
+	m_vpAmmoPickups.clear();
 }
 
 bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
