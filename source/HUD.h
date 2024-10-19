@@ -31,11 +31,14 @@ public:
 
 	void SetPlayer(Player* player);
 	void SetLevelGoal(int level);
+	void ProgressOneLevel();
+	void ResetLevelProgress();
 	void UpdateWeapon(Weapon* weapon);
 
 protected:
 
 private:
+	void UpdateLevels();
 	void UpdateHealth();	
 	void UpdateAmmo();
 
@@ -44,8 +47,8 @@ public:
 	Renderer* m_pRenderer;
 
 	Sprite* m_pLevelText;
-	int m_iCurrentLevels;
-	int m_iLevelGoal;
+	int m_iCurrentLevels = 0;
+	int m_iLevelGoal = 10;
 	
 	Player* m_pPlayer;
 	AnimatedSprite* m_pHealthBar;
@@ -55,6 +58,8 @@ public:
 
 	weaponType m_eCurrentWeaponType;
 
+	// this one done with pre-initialised digit sprites
+	// instead of static text because ammo changes frequently
 	Sprite* m_pMagazineCapacity[3];
 	Sprite* m_pAmmoCross;
 	Sprite* m_pMagazineCount[3];

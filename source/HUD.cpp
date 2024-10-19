@@ -52,6 +52,7 @@ void HUD::Process(float deltaTime)
 	{
 		UpdateAmmo();
 	}
+	UpdateLevels();
 }
 
 void HUD::Draw(Renderer& renderer)
@@ -75,6 +76,7 @@ void HUD::Draw(Renderer& renderer)
 			m_pMagazineCapacity[i]->Draw(renderer);
 		}
 	}
+	m_pLevelText->Draw(renderer);
 }
 
 void HUD::DebugDraw()
@@ -86,12 +88,36 @@ void HUD::SetPlayer(Player* player)
 	m_pPlayer = player;
 }
 
+void HUD::SetLevelGoal(int level)
+{
+	m_iLevelGoal = level;
+}
+
+void HUD::ProgressOneLevel()
+{
+	m_iCurrentLevels++;
+}
+
+void HUD::ResetLevelProgress()
+{
+	m_iCurrentLevels = 0;
+}
+
 void HUD::UpdateWeapon(Weapon* weapon)
 {
 	m_pWeapon = weapon;
 	m_pWeaponIcon = m_pWeapon->GetIconSprite();
 	m_eCurrentWeaponType = m_pWeapon->GetWeaponType();
 	UpdateAmmo();
+}
+
+void HUD::UpdateLevels()
+{
+	std::string text = std::to_string(m_iCurrentLevels) + " / " + std::to_string(m_iLevelGoal);
+	m_pRenderer->CreateStaticText(text.c_str(), 30);
+	m_pLevelText = m_pRenderer->CreateSprite(text.c_str());
+	m_pLevelText->SetY(m_pHealthBar->GetY());
+	m_pLevelText->SetX(m_pRenderer->GetWidth() - ((m_pLevelText->GetWidth() / 2.0f) + 10 /*extra offset from edge*/));
 }
 
 void HUD::UpdateHealth()
@@ -138,7 +164,7 @@ void HUD::UpdateAmmo()
 		{
 			if (m_pMagazineCount[i] == nullptr) continue;
 
-			m_pMagazineCount[i]->SetX(m_pWeaponIcon->GetX() + m_pWeaponIcon->GetWidth() + (i * 10));
+			m_pMagazineCount[i]->SetX(m_pWeaponIcon->GetX() + m_pWeaponIcon->GetWidth() + (i * 15));
 			m_pMagazineCount[i]->SetY(y);
 		}
 
@@ -159,7 +185,7 @@ void HUD::UpdateAmmo()
 		{
 			if (m_pMagazineCapacity[i] == nullptr) continue;
 
-			m_pMagazineCapacity[i]->SetX(m_pAmmoCross->GetX() + m_pAmmoCross->GetWidth() + (i * 10));
+			m_pMagazineCapacity[i]->SetX(m_pAmmoCross->GetX() + m_pAmmoCross->GetWidth() + (i * 15));
 			m_pMagazineCapacity[i]->SetY(y);
 		}
 	}
