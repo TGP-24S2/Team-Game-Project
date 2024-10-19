@@ -62,7 +62,7 @@ public:
     void SpawnMeleeSwing();
     void UpdateMeleeSwing(Particle *particle, float deltaTime);
     void AddAmmo(int);
-    int GetWeaponType();
+    weaponType GetWeaponType();
     void SetMagSize(int magSize);
     int GetMagSize();
     int GetAmmoCount();
@@ -103,7 +103,7 @@ protected:
     bool m_bOwned; // owned weapon
 
     //see enum
-    int m_iWeaponType;
+    weaponType m_iWeaponType;
 
     int m_iMagSize; //constant size of mag/clip of weapon. irrelevant for melee
     int m_iAmmoCount; //variable ammo count. min 0, max magsize * bulletcount(spawnbatchsize).

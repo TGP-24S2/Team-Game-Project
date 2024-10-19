@@ -346,7 +346,7 @@ void Weapon::UpdateMeleeSwing(Particle *particle, float deltaTime)
     particle->SetPosition(x, y);
 }
 
-int Weapon::GetWeaponType()
+weaponType Weapon::GetWeaponType()
 {
     return m_iWeaponType;
 }

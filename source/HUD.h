@@ -36,25 +36,28 @@ public:
 protected:
 
 private:
-	void UpdateHealth();
+	void UpdateHealth();	
+	void UpdateAmmo();
 
 	// Member data:
 public:
+	Renderer* m_pRenderer;
+
 	Sprite* m_pLevelText;
 	int m_iCurrentLevels;
 	int m_iLevelGoal;
 	
 	Player* m_pPlayer;
 	AnimatedSprite* m_pHealthBar;
-	Sprite* m_pHealthText;
 
 	Weapon* m_pWeapon;
 	Sprite* m_pWeaponIcon;
 
 	weaponType m_eCurrentWeaponType;
-	Sprite* m_pMagazineCapacity;
-	Sprite* m_pMagazineCount;
-	Sprite* m_pTotalAmmo;
+
+	Sprite* m_pMagazineCapacity[3];
+	Sprite* m_pAmmoCross;
+	Sprite* m_pMagazineCount[3];
 
 protected:
 

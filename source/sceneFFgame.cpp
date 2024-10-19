@@ -273,10 +273,10 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_vpWeapons[m_iCurrentWeapon]->SetAngle(angle * 180.0f / (float)M_PI);
 	
 	//ensures the weapon is attached to player location with offset towards cursor
-	if (m_vpWeapons[m_iCurrentWeapon]->GetWeaponType() == 0) { //gun
+	if (m_vpWeapons[m_iCurrentWeapon]->GetWeaponType() == GUN) { //gun
 		m_vpWeapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX() + offsetX, m_pPlayer->GetY() + offsetY);
 	}
-	else if (m_vpWeapons[m_iCurrentWeapon]->GetWeaponType() == 1) { //melee
+	else if (m_vpWeapons[m_iCurrentWeapon]->GetWeaponType() == MELEE) { //melee
 		m_vpWeapons[m_iCurrentWeapon]->SetXY(m_pPlayer->GetX(), m_pPlayer->GetY());
 	}
 
@@ -284,6 +284,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	m_pPlayer->SetWeaponType(m_vpWeapons[m_iCurrentWeapon]->GetWeaponType());
 	m_vpWeapons[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
 	m_vpWeaponIconSprites[m_iCurrentWeapon]->Process(m_fLocalDeltaTime);
+	m_pHud.UpdateWeapon(m_vpWeapons[m_iCurrentWeapon]);
 
 	// Hitbox processing
 	float playerX = m_pPlayer->GetX();
