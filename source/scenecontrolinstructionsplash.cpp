@@ -4,7 +4,7 @@
 
 // Local includes:
 #include "renderer.h" 
-#include "sprite.h"
+#include "animatedsprite.h"
 #include "imgui.h"
 #include "soundsystem.h"
 
@@ -28,7 +28,11 @@ SceneControlInstructionSplash::~SceneControlInstructionSplash()
 bool
 SceneControlInstructionSplash::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 {
-	m_pSplash = renderer.CreateSprite("sprites\\controlsplash.png");
+	m_pSplash = renderer.CreateAnimatedSprite("sprites\\controlsplash.png");
+	m_pSplash->SetupFrames(704, 200);
+	m_pSplash->SetFrameDuration(1.0f);
+	m_pSplash->SetLooping(true);
+	m_pSplash->Animate();
 
 	const int SCREEN_WIDTH = renderer.GetWidth();
 	const int SCREEN_HEIGHT = renderer.GetHeight();

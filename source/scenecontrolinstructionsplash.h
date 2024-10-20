@@ -7,7 +7,7 @@
 #include "scene.h"
 // Forward declarations: 
 class Renderer;
-class Sprite;
+class AnimatedSprite;
 class InputSystem;
 class SoundSystem;
 // Class declaration:
@@ -30,7 +30,7 @@ private:
 public:
 
 protected:
-	Sprite* m_pSplash;
+	AnimatedSprite* m_pSplash;
 	float m_fadeSpeed;
 	float m_alpha;
 	bool m_fadeIn;

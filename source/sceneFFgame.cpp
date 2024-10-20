@@ -209,7 +209,11 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 	//sounds
 	soundSystem->LoadSound("sounds\\BM_GameLoopMusic4.mp3", false, true);
-	soundSystem->PlaySound("sounds\\BM_GameLoopMusic4.mp3");
+	if (!m_bMusicStarted)
+	{
+		soundSystem->PlaySound("sounds\\BM_GameLoopMusic4.mp3");
+		m_bMusicStarted = true;
+	}
 	soundSystem->LoadSound("sounds\\SE-LaserHit.wav");
 	soundSystem->LoadSound("sounds\\SE-EnemyExplosion.wav");
 

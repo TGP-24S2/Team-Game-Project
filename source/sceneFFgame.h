@@ -72,6 +72,7 @@ public:
 	// level
 	Level* m_pLevel;
 	std::vector<Sprite*> m_vpPropSprites;
+	bool m_bMusicStarted = false;
 
 	// player
 	Player* m_pPlayer;

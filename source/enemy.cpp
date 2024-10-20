@@ -79,7 +79,7 @@ void Enemy::Process(float deltaTime)
 	float scale = (float)m_iHealth / m_iMaxHealth * m_fInitialScale;
 	m_pSprite->SetScale(scale);
 	m_hitbox.setDimensions((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
-	if (scale < 0.01f) 
+	if (scale < 0.05f) 
 		Kill(); // kill if too small
 }
 
