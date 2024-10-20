@@ -52,7 +52,8 @@ SceneControlInstructionSplash::Process(float deltaTime, InputSystem& inputSystem
 		}
 		m_pSplash->SetAlpha(m_alpha);
 	}
-	if (!m_fadeIn) {
+	else
+	{
 		m_alpha -= m_fadeSpeed * deltaTime;
 		m_pSplash->SetAlpha(m_alpha);
 	}

@@ -573,8 +573,8 @@ float SceneFFGame::UpdateDifficultyModifier()
 	// 50% : Amount of Cleared Levels
 	// 20% : Player's Current Amount of Ammo Mags
 
-	float playerHealthRatio = 0.3 * (m_pPlayer->GetHealthRatio());
-	float levelProgress = 0.5 * (m_iCompletedLevels / m_iTotalLevels);
+	float playerHealthRatio = 0.3f * (m_pPlayer->GetHealthRatio());
+	float levelProgress = 0.5f * (m_iCompletedLevels / m_iTotalLevels);
 
 	int numMags = 0;
 	for (auto weapon : m_vpWeapons)
@@ -584,7 +584,7 @@ float SceneFFGame::UpdateDifficultyModifier()
 			numMags += (weapon->GetMagCount());
 		}
 	}
-	float ammoRatio = 0.2 * std::min((float)numMags, (float)MAGAZINE_DIFFICULTY_CAP) / (float)MAGAZINE_DIFFICULTY_CAP;
+	float ammoRatio = 0.2f * std::min((float)numMags, (float)MAGAZINE_DIFFICULTY_CAP) / (float)MAGAZINE_DIFFICULTY_CAP;
 
 	return 1 + playerHealthRatio + levelProgress + ammoRatio;
 }
