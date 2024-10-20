@@ -41,6 +41,7 @@
     <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="Prop.cpp" />
+    <ClCompile Include="scenecontrolinstructionsplash.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="rectangle.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="particle.h" />
     <ClInclude Include="Prop.h" />
     <ClInclude Include="PropTemplate.h" />
+    <ClInclude Include="scenecontrolinstructionsplash.h" />
     <ClInclude Include="weapon.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="rectangle.h" />

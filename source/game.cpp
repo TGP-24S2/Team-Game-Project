@@ -7,6 +7,7 @@
 #include "sprite.h"
 #include "scenesplashaut.h"
 #include "scenefmodsplash.h"
+#include "scenecontrolinstructionsplash.h"
 #include "imgui_impl_sdl2.h"
 #include "inputsystem.h"
 #include "xboxcontroller.h"
@@ -107,9 +108,14 @@ Game::Initialise()
 	m_scenes.push_back(pScene1);
 
 	Scene* pScene2 = 0;
-	pScene2 = new SceneFFGame();
+	pScene2 = new SceneControlInstructionSplash();
 	pScene2->Initialise(*m_pRenderer, m_pSoundSystem);
 	m_scenes.push_back(pScene2);
+
+	Scene* pScene3 = 0;
+	pScene3 = new SceneFFGame();
+	pScene3->Initialise(*m_pRenderer, m_pSoundSystem);
+	m_scenes.push_back(pScene3);
 
 	m_iCurrentScene = 0;
 
