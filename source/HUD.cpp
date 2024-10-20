@@ -9,6 +9,16 @@
 #include <iostream>
 
 HUD::HUD()
+	: m_eCurrentWeaponType(MELEE)
+	, m_pAmmoCross(nullptr)
+	, m_pHealthBar(nullptr)
+	, m_pLevelText(nullptr)
+	, m_pMagazineCapacity{0,0,0}
+	, m_pMagazineCount{0,0,0}
+	, m_pPlayer(nullptr)
+	, m_pRenderer(nullptr)
+	, m_pWeapon(nullptr)
+	, m_pWeaponIcon(nullptr)
 {
 }
 
@@ -26,8 +36,8 @@ bool HUD::Initialise(Renderer& renderer)
 	m_pHealthBar->SetLooping(false);
 
 	m_pHealthBar->SetScale(4.0f);
-	m_pHealthBar->SetX((float)renderer.GetWidth() / 2.0f);
-	m_pHealthBar->SetY((float)renderer.GetHeight() - m_pHealthBar->GetHeight() * 1.5f);
+	m_pHealthBar->SetX(renderer.GetWidth() / 2);
+	m_pHealthBar->SetY((int)(renderer.GetHeight() - m_pHealthBar->GetHeight() * 1.5f));
 
 
 	//initialise text sprites
@@ -117,7 +127,7 @@ void HUD::UpdateLevels()
 	m_pRenderer->CreateStaticText(text.c_str(), 30);
 	m_pLevelText = m_pRenderer->CreateSprite(text.c_str());
 	m_pLevelText->SetY(m_pHealthBar->GetY());
-	m_pLevelText->SetX(m_pRenderer->GetWidth() - ((m_pLevelText->GetWidth() / 2.0f) + 10 /*extra offset from edge*/));
+	m_pLevelText->SetX(m_pRenderer->GetWidth() - ((m_pLevelText->GetWidth() / 2) + 10 /*extra offset from edge*/));
 }
 
 void HUD::UpdateHealth()
