@@ -58,17 +58,17 @@ private:
 	// Member data: 
 public:
 	static std::vector<Rectangle*> s_vpEnvHitboxes;
+	bool m_bAlive;
+	Vector2 m_position;
+	Vector2 m_velocity;
 
 protected:
 	AnimatedSprite* m_pSprite; 
 
 	int m_iHealth;
 	int m_iMaxHealth;
-	bool m_bAlive;
 
 	Rectangle m_hitbox;
-	Vector2 m_position; 
-	Vector2 m_velocity; 
 	float m_fSpeedScale = 1.0f;
 
 	Vector2 m_boundaryLow;

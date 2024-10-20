@@ -24,6 +24,7 @@ bool Player::Initialise(Renderer& renderer)
 	Entity::Initialise(renderer, "sprites\\player.png", 300); // super();
 
 	m_pSprite->SetScale(m_fInitialScale);
+	m_pSprite->SetupFrames(300,300);
 	m_hitbox.setDimensions((float)m_pSprite->GetWidth(), (float)m_pSprite->GetHeight());
 
 	const int SCREEN_WIDTH = renderer.GetWidth();

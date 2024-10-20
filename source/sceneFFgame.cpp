@@ -19,6 +19,8 @@
 #include "Prop.h"
 #include "PropTemplate.h"
 #include "ammopickup.h"
+#include "game.h"
+#include "particleemitter.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -142,15 +144,53 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pCursorSprite = renderer.CreateSprite("sprites\\crosshair.png");
 	m_pCursorSprite->SetScale(1.0f);
 
+	int screen_width = renderer.GetWidth();
+	int screen_height = renderer.GetHeight();
+
+	m_pBlackSquare = renderer.CreateSprite("sprites\\blacksquare.png");
+	m_pBlackSquare->SetX(screen_width / 2);
+	m_pBlackSquare->SetY(screen_width / 2);
+	m_pBlackSquare->SetScale(2.0f);
+	m_pBlackSquare->SetAlpha(0.75f);
+
 	m_pGameOverSprite = renderer.CreateSprite("sprites\\gameover.png");
 	m_pGameOverSprite->SetScale(0.5f);
-	m_pGameOverSprite->SetX(600);
-	m_pGameOverSprite->SetY(200);
+	m_pGameOverSprite->SetX(screen_width/2);
+	m_pGameOverSprite->SetY(screen_height/2);
 
 	m_pYouWinSprite = renderer.CreateSprite("sprites\\victory.png");
 	m_pYouWinSprite->SetScale(0.5f);
-	m_pYouWinSprite->SetX(600);
-	m_pYouWinSprite->SetY(200);
+	m_pYouWinSprite->SetX(screen_width / 2);
+	m_pYouWinSprite->SetY(screen_height / 2);
+
+	// Load static text textures into the Texture Manager... 
+	const char* restartprompt = "Press ENTER to Restart";
+	renderer.CreateStaticText(restartprompt, 60);
+	// Generate sprites that use the static text textures... 
+	m_pRestartPromptText = renderer.CreateSprite(restartprompt);
+	m_pRestartPromptText->SetX((int)(screen_width / 2));
+	m_pRestartPromptText->SetY((int)((screen_height / 2) + (m_pGameOverSprite->GetHeight() / 2) + (m_pRestartPromptText->GetHeight())));
+
+	// Load static text textures into the Texture Manager... 
+	const char* quitprompt = "Press X to Quit";
+	renderer.CreateStaticText(quitprompt, 60);
+	// Generate sprites that use the static text textures... 
+	m_pQuitPromptText = renderer.CreateSprite(quitprompt);
+	m_pQuitPromptText->SetX((int)(screen_width / 2));
+	m_pQuitPromptText->SetY((int)((screen_height / 2) + (m_pGameOverSprite->GetHeight() / 2) + (m_pQuitPromptText->GetHeight()) + (m_pRestartPromptText->GetHeight())));
+
+	m_pLeftVictoryEmitter = new ParticleEmitter();
+	m_pRightVictoryEmitter = new ParticleEmitter();
+
+	m_pLeftVictoryEmitter->Initialise(renderer);
+	m_pRightVictoryEmitter->Initialise(renderer);
+	m_pLeftVictoryEmitter->SetXY((float)(screen_width / 3), (float)(screen_height / 2));
+	m_pRightVictoryEmitter->SetXY((float)((screen_width / 3) * 2), (float)(screen_height / 2));
+	m_pLeftVictoryEmitter->SetAccelerationScalar(100.0f);
+	m_pRightVictoryEmitter->SetAccelerationScalar(100.0f);
+
+	m_pLeftVictoryEmitter->SetActive(false);
+	m_pRightVictoryEmitter->SetActive(false);
 
 	for (int i = 0; i < MAX_PROPS; i++)
 	{
@@ -164,6 +204,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	// HUD
 	m_pHud.Initialise(renderer);
 	m_pHud.SetPlayer(m_pPlayer);
+	m_iTotalLevels = 10; //default 10 levels
+	m_pHud.SetLevelGoal(m_iTotalLevels);
 
 	//sounds
 	soundSystem->LoadSound("sounds\\BM_GameLoopMusic4.mp3", false, true);
@@ -188,8 +230,12 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	for (auto pEnemy : m_vpEnemies)
 		if (pEnemy->IsAlive())
 			numEnemies++;
-	if (numEnemies == 0)
-		m_eStatus = GS_WIN;
+	if (numEnemies == 0) {
+		//m_eStatus = GS_WIN;
+		m_pHud.ProgressOneLevel();
+		WipeScene();
+		Initialise(*m_pRenderer, m_pSoundSystem);
+	}		
 
 	if ((m_eStatus == GS_WIN || m_eStatus == GS_LOSS)
 		&&lastStatus == GS_RUNNING)
@@ -216,6 +262,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	ButtonState weaponOneState = (inputSystem.GetKeyState(SDL_SCANCODE_1));
 	ButtonState weaponTwoState = (inputSystem.GetKeyState(SDL_SCANCODE_2));
 	ButtonState weaponThreeState = (inputSystem.GetKeyState(SDL_SCANCODE_3));
+	ButtonState gameQuitState = (inputSystem.GetKeyState(SDL_SCANCODE_X));
 
 	// Check input for time buffer:
 	// 
@@ -231,11 +278,37 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	if (weaponTwoState == BS_PRESSED) m_iCurrentWeapon = 1;
 	if (weaponThreeState == BS_PRESSED) m_iCurrentWeapon = 2;
 
-	// restart on keypress
-	if (gameRestartState == BS_RELEASED)
+	// restart on keypress at game end
+	if (gameRestartState == BS_PRESSED && (m_eStatus == GS_LOSS || m_eStatus == GS_WIN))
 	{
 		WipeScene();
 		Initialise(*m_pRenderer, m_pSoundSystem);
+		m_pHud.ResetLevelProgress();
+	}
+
+	if ((m_eStatus == GS_LOSS || m_eStatus == GS_WIN) && gameQuitState == BS_PRESSED) { //quit game 
+		Game::GetInstance().Quit();
+	}
+
+	if (m_eStatus == GS_LOSS || m_eStatus == GS_WIN) {
+		m_pLeftVictoryEmitter->SetActive(true);
+		m_pRightVictoryEmitter->SetActive(true);
+		m_pRestartPromptText->Process(deltaTime);
+		m_pQuitPromptText->Process(deltaTime);
+	}
+
+	if (m_eStatus == GS_WIN) {
+		m_pLeftVictoryEmitter->SetTint(0.0f, 0.0f, 1.0f);
+		m_pLeftVictoryEmitter->Process(deltaTime);
+		m_pRightVictoryEmitter->SetTint(0.0f, 0.0f, 1.0f);
+		m_pRightVictoryEmitter->Process(deltaTime);
+	}
+
+	if (m_eStatus == GS_LOSS) {
+		m_pLeftVictoryEmitter->SetTint(1.0f, 0.0f, 0.0f);
+		m_pLeftVictoryEmitter->Process(deltaTime);
+		m_pRightVictoryEmitter->SetTint(1.0f, 0.0f, 0.0f);
+		m_pRightVictoryEmitter->Process(deltaTime);
 	}
 
 	//Exit here if game is complete
@@ -377,6 +450,12 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 	}
 
 	// hud
+	m_iCompletedLevels = m_pHud.m_iCurrentLevels;
+
+	if (m_iCompletedLevels >= m_iTotalLevels) { //completed all levels so game should win and be completed.
+		m_eStatus = GS_WIN;
+	}
+
 	m_pHud.Process(m_fLocalDeltaTime);
 }
 
@@ -420,12 +499,24 @@ void SceneFFGame::Draw(Renderer& renderer)
 		}
 	}
 
-	if (m_eStatus == GS_WIN)
-		m_pYouWinSprite->Draw(renderer);
-	if (m_eStatus == GS_LOSS)
-		m_pGameOverSprite->Draw(renderer);
-
 	m_pHud.Draw(renderer);
+
+	if (m_eStatus == GS_WIN) {
+		m_pBlackSquare->Draw(renderer);
+		m_pLeftVictoryEmitter->Draw(renderer);
+		m_pRightVictoryEmitter->Draw(renderer);
+		m_pYouWinSprite->Draw(renderer);
+		m_pRestartPromptText->Draw(renderer);
+		m_pQuitPromptText->Draw(renderer);
+	}
+	if (m_eStatus == GS_LOSS) {
+		m_pBlackSquare->Draw(renderer);
+		m_pLeftVictoryEmitter->Draw(renderer);
+		m_pRightVictoryEmitter->Draw(renderer);
+		m_pGameOverSprite->Draw(renderer);
+		m_pRestartPromptText->Draw(renderer);
+		m_pQuitPromptText->Draw(renderer);
+	}
 }
 
 void SceneFFGame::DebugDraw()

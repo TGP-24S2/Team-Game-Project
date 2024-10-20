@@ -24,9 +24,9 @@ HUD::HUD()
 
 HUD::~HUD()
 {
-	delete m_pRenderer;
+	//delete m_pRenderer;
 	delete m_pLevelText;
-	delete m_pPlayer;
+	//delete m_pPlayer;
 	delete m_pHealthBar;
 	delete m_pWeapon;
 	delete m_pWeaponIcon;

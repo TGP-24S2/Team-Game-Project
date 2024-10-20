@@ -22,6 +22,7 @@ class SoundSystem;
 class Weapon;
 class Level;
 class AmmoPickup;
+class ParticleEmitter;
 
 enum GameStatus
 {
@@ -88,6 +89,13 @@ public:
 	// text sprites
 	Sprite* m_pGameOverSprite;
 	Sprite* m_pYouWinSprite;
+	Sprite* m_pRestartPromptText;
+	Sprite* m_pQuitPromptText;
+	Sprite* m_pBlackSquare;
+
+	//firework things for victory
+	ParticleEmitter* m_pLeftVictoryEmitter;
+	ParticleEmitter* m_pRightVictoryEmitter;
 
 	// cursor
 	Sprite* m_pCursorSprite;

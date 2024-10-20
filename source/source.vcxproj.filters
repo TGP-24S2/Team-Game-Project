@@ -138,6 +138,9 @@
     <ClCompile Include="scenecontrolinstructionsplash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="particleemitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -264,6 +267,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scenecontrolinstructionsplash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="particleemitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

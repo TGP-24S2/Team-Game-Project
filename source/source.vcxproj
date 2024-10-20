@@ -40,6 +40,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="particle.cpp" />
+    <ClCompile Include="particleemitter.cpp" />
     <ClCompile Include="Prop.cpp" />
     <ClCompile Include="scenecontrolinstructionsplash.cpp" />
     <ClCompile Include="weapon.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="logmanager.h" />
     <ClInclude Include="matrix4.h" />
     <ClInclude Include="particle.h" />
+    <ClInclude Include="particleemitter.h" />
     <ClInclude Include="Prop.h" />
     <ClInclude Include="PropTemplate.h" />
     <ClInclude Include="scenecontrolinstructionsplash.h" />

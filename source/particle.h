@@ -39,12 +39,12 @@ private:
     // Member data:
 public:
     float m_fCurrentAngle;
+    float m_fColour[3];
+    float m_fMaxLifespan;
 
 protected:
     Sprite* m_pSprite;
-    float m_fMaxLifespan;
     float m_fCurrentAge;
-    float m_fColour[3];
     Vector2 m_acceleration;
 
 private:

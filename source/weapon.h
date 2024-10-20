@@ -1,6 +1,6 @@
 // COMP710 GP Framework
-#ifndef __PARTICLEEMITTER_H__
-#define __PARTICLEEMITTER_H__
+#ifndef __WEAPON_H__
+#define __WEAPON_H__
 
 // Library includes:
 #include <vector>
