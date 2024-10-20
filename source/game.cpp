@@ -117,7 +117,11 @@ Game::Initialise()
 	pScene3->Initialise(*m_pRenderer, m_pSoundSystem);
 	m_scenes.push_back(pScene3);
 
+#if _DEBUG
+	m_iCurrentScene = 3;
+#else
 	m_iCurrentScene = 0;
+#endif
 
 	return true;
 }
