@@ -86,7 +86,9 @@ void HUD::Draw(Renderer& renderer)
 			m_pMagazineCapacity[i]->Draw(renderer);
 		}
 	}
-	m_pLevelText->Draw(renderer);
+	if (m_pLevelText != nullptr) {
+		m_pLevelText->Draw(renderer);
+	}
 }
 
 void HUD::DebugDraw()

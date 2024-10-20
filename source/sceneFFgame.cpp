@@ -40,7 +40,6 @@ SceneFFGame::SceneFFGame()
 	, m_pRectangle(nullptr)
 	, m_eStatus()
 	, m_iCurrentWeapon(0)
-	, m_iTotalLevels(0)
 {
 }
 
@@ -71,8 +70,6 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 	m_pSoundSystem = soundSystem;
 
 	m_eStatus = GS_RUNNING;
-
-	renderer.SetClearColour(255, 255, 255);
 
 	m_pLevel = new Level("levels\\examplelevel.txt");
 	std::vector<Rectangle *> hitboxes;
@@ -386,6 +383,7 @@ void SceneFFGame::Process(float deltaTime, InputSystem& inputSystem)
 void SceneFFGame::Draw(Renderer& renderer)
 {
 	// draw all entities (order matters)
+	renderer.SetClearColour(255, 255, 255);
 
 	// drawing in reverse:
 	// prop collisions will detect first in the array,
@@ -480,8 +478,8 @@ float SceneFFGame::UpdateDifficultyModifier()
 	// 50% : Amount of Cleared Levels
 	// 20% : Player's Current Amount of Ammo Mags
 
-	float playerHealthRatio = 0.3f * (m_pPlayer->GetHealthRatio());
-	float levelProgress = 0.5f * (m_iCompletedLevels / m_iTotalLevels);
+	float playerHealthRatio = 0.3 * (m_pPlayer->GetHealthRatio());
+	float levelProgress = 0.5 * (m_iCompletedLevels / m_iTotalLevels);
 
 	int numMags = 0;
 	for (auto weapon : m_vpWeapons)
@@ -491,7 +489,7 @@ float SceneFFGame::UpdateDifficultyModifier()
 			numMags += (weapon->GetMagCount());
 		}
 	}
-	float ammoRatio = 0.2f * std::min((float)numMags, (float)MAGAZINE_DIFFICULTY_CAP) / (float)MAGAZINE_DIFFICULTY_CAP;
+	float ammoRatio = 0.2 * std::min((float)numMags, (float)MAGAZINE_DIFFICULTY_CAP) / (float)MAGAZINE_DIFFICULTY_CAP;
 
 	return 1 + playerHealthRatio + levelProgress + ammoRatio;
 }

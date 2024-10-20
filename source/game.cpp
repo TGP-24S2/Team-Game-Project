@@ -111,7 +111,7 @@ Game::Initialise()
 	pScene2->Initialise(*m_pRenderer, m_pSoundSystem);
 	m_scenes.push_back(pScene2);
 
-	m_iCurrentScene = 2;
+	m_iCurrentScene = 0;
 
 	return true;
 }
