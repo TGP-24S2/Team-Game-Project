@@ -27,6 +27,19 @@
 #include <math.h>
 #include <map>
 
+std::string SceneFFGame::m_vsLevelNames [] = {
+	"levels\\examplelevel.txt",//0
+	"levels\\examplelevel.txt",//1
+	"levels\\examplelevel.txt",//2
+	"levels\\examplelevel.txt",//3
+	"levels\\examplelevel.txt",//4
+	"levels\\examplelevel.txt",//5
+	"levels\\examplelevel.txt",//6
+	"levels\\examplelevel.txt",//7
+	"levels\\examplelevel.txt",//8
+	"levels\\examplelevel.txt",//9
+};
+
 SceneFFGame::SceneFFGame()
 	: m_fLocalDeltaTime(0.0f)
 	, m_fTimeSinceInput(0.0f)
@@ -42,6 +55,7 @@ SceneFFGame::SceneFFGame()
 	, m_pRectangle(nullptr)
 	, m_eStatus()
 	, m_iCurrentWeapon(0)
+	, m_iTotalLevels(10) // length of m_vsLevelNames
 {
 }
 
@@ -73,7 +87,8 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 	m_eStatus = GS_RUNNING;
 
-	m_pLevel = new Level("levels\\examplelevel.txt");
+	std::string levelPath = m_vsLevelNames[m_iCompletedLevels];
+	m_pLevel = new Level(levelPath);
 	std::vector<Rectangle *> hitboxes;
 	int nrow = 0;
 	for (std::vector<enum LevelCell> rowsvec : m_pLevel->GetLevelData())

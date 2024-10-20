@@ -115,6 +115,7 @@ public:
 	Rectangle* m_pRectangle;
 
 protected:
+	static std::string m_vsLevelNames[10];
 
 private:
 	Renderer* m_pRenderer;
