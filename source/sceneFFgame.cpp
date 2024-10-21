@@ -28,16 +28,16 @@
 #include <map>
 
 std::string SceneFFGame::m_vsLevelNames [] = {
-	"levels\\examplelevel.txt",//0
-	"levels\\examplelevel.txt",//1
-	"levels\\examplelevel.txt",//2
-	"levels\\examplelevel.txt",//3
-	"levels\\examplelevel.txt",//4
-	"levels\\examplelevel.txt",//5
-	"levels\\examplelevel.txt",//6
-	"levels\\examplelevel.txt",//7
-	"levels\\examplelevel.txt",//8
-	"levels\\examplelevel.txt",//9
+	"levels\\level1.txt",//0
+	"levels\\level2.txt",//1
+	"levels\\level3.txt",//2
+	"levels\\level4.txt",//3
+	"levels\\level5.txt",//4
+	"levels\\level6.txt",//5
+	"levels\\level7.txt",//6
+	"levels\\level8.txt",//7
+	"levels\\level9.txt",//8
+	"levels\\level10.txt",//9
 };
 
 SceneFFGame::SceneFFGame()
