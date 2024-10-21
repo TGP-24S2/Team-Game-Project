@@ -37,8 +37,7 @@ bool Level::LoadLevelFile(const std::string& filename)
             switch (ch)
             {
                 case 'W': cell = LC_WALL; break;
-                case 'P': cell = LC_P; break;
-                case 'E': cell = LC_E; break;
+                case 'P': cell = LC_PLAYER; break;
                 default: cell = LC_NONE; break;
             }
             lineVec.push_back(cell);

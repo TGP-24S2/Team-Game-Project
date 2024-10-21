@@ -108,6 +108,8 @@ void Entity::SetPosition(int x, int y)
 {
     m_position.x = (float)x;
     m_position.y = (float)y;
+    m_pSprite->SetX(x);
+    m_pSprite->SetY(y);
 }
 
 Vector2& Entity::GetVelocity()

@@ -87,22 +87,27 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 
 	m_eStatus = GS_RUNNING;
 
-	std::string levelPath = m_vsLevelNames[m_iCompletedLevels];
+	// Create player
+	m_pPlayer = new Player();
+	m_pPlayer->Initialise(renderer);
+
+	// Load and parse random level
+	std::string levelPath = m_vsLevelNames[GetRandom(0, m_iTotalLevels-1)];
 	m_pLevel = new Level(levelPath);
 	std::vector<Rectangle *> hitboxes;
 	int nrow = 0;
 	for (std::vector<enum LevelCell> rowsvec : m_pLevel->GetLevelData())
 	{
 		int ncell = 0;
+		const int CELL_SIZE = 20;
 		for (enum LevelCell cell : rowsvec)
 		{
+			int x = ncell * CELL_SIZE;
+			int y = nrow * CELL_SIZE;
 			switch (cell)
 			{
 				case LC_WALL:
 				{
-					const int CELL_SIZE = 20;
-					int x = ncell * CELL_SIZE;
-					int y = nrow * CELL_SIZE;
 					Sprite *pSprite = renderer.CreateSprite("sprites\\box.png");
 					pSprite->SetScale(0.1f);
 					pSprite->SetX(x);
@@ -115,13 +120,18 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 					rect->width = (float)pSprite->GetWidth();
 					rect->height = (float)pSprite->GetHeight();
 					hitboxes.push_back(rect);
-				}
-				case LC_E:
-					// idk
-				case LC_P:
-					// idk
-				default:
 					break;
+				}
+				case LC_PLAYER:
+				{
+					m_pPlayer->SetPosition(x, y);
+					break;
+				}
+				default:
+				{
+					// do nothing
+					break;
+				}
 			}
 
 			ncell++;
@@ -137,9 +147,6 @@ bool SceneFFGame::Initialise(Renderer& renderer, SoundSystem* soundSystem)
 			pEnemy->Kill();
 		}
 	}
-
-	m_pPlayer = new Player();
-	m_pPlayer->Initialise(renderer);
 
 	m_vpWeapons = IniParser::GetInstance().GetWeapons("config.ini"); //weapon vector
 	m_iCurrentWeapon = 0;

@@ -8,8 +8,7 @@ enum LevelCell
 {
 	LC_NONE, // blank or other
 	LC_WALL, // W
-	LC_P, // P
-	LC_E // E
+	LC_PLAYER, // P
 };
 
 class Level
